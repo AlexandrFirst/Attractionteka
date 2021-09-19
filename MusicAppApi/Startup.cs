@@ -12,7 +12,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MusicAppApi.IServices;
 using MusicAppApi.Models;
+using MusicAppApi.Services;
 
 namespace MusicAppApi
 {
@@ -30,7 +32,7 @@ namespace MusicAppApi
         {
 
             services.AddControllers();
-
+            services.AddScoped<IAuthService, AuthService>();
             services.AddDbContext<MyDataContext>(options => options.UseSqlServer("Server=DESKTOP-8TSERGH;Database=MusicApp;Trusted_Connection=True;"));
 
             services.AddSwaggerGen(c =>

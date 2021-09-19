@@ -1,6 +1,8 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MusicAppApi.IServices;
 using MusicAppApi.Models;
+
 
 namespace MusicAppApi.Controllers
 {
@@ -8,28 +10,19 @@ namespace MusicAppApi.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly MyDataContext myDataConetex;
+        private readonly IAuthService authService;
 
-        public AuthController(MyDataContext myDataConetx)
+        public AuthController(IAuthService authService)
         {
-            this.myDataConetex = myDataConetx;
+            this.authService = authService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetName()
         {
-            User newUser = new User()
-            {
-                Mail = "kek@mail.com",
-                Name = "Alex",
-                Password = "1234",
-                Surname = "OverTheTop"
-            };
+            User newUser = await authService.GetName();
 
-            await myDataConetex.Users.AddAsync(newUser);
-            await myDataConetex.SaveChangesAsync();
-
-            return Ok(newUser);
+            return BadRequest(newUser);
         }
     }
 }
