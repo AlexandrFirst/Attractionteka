@@ -33,7 +33,7 @@ namespace MusicAppApi
 
             services.AddControllers();
             services.AddScoped<IAuthService, AuthService>();
-            services.AddDbContext<MyDataContext>(options => options.UseSqlServer("Server=DESKTOP-8TSERGH;Database=MusicApp;Trusted_Connection=True;"));
+            services.AddDbContext<MyDataContext>(options => options.UseSqlServer("Server=DESKTOP-JIAU65U;Database=MusicApp;Trusted_Connection=True;"));
 
             services.AddSwaggerGen(c =>
             {
