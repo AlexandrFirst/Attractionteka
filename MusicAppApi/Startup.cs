@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MusicAppApi.HelperDtos;
+using MusicAppApi.Helpers;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 using MusicAppApi.Services;
@@ -30,10 +32,24 @@ namespace MusicAppApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+             services.AddCors(options =>
+            {
+                options.AddPolicy("AnyHeadersAllowed", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                });
+            });
+
 
             services.AddControllers();
             services.AddScoped<IAuthService, AuthService>();
             services.AddDbContext<MyDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MusicAppDB")));
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen(c =>
             {
@@ -52,6 +68,14 @@ namespace MusicAppApi
             }
 
             app.UseRouting();
+
+
+            app.UseCors("AnyHeadersAllowed");
+
+
+            app.UseRouting();
+
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

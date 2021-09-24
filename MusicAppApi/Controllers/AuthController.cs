@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MusicAppApi.DTOs;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 
@@ -17,12 +18,22 @@ namespace MusicAppApi.Controllers
             this.authService = authService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetName()
-        {
-            User newUser = await authService.GetName();
 
-            return BadRequest(newUser);
+        [HttpPost("nativeRegister")]
+        public async Task<IActionResult> RegisterUsers([FromBody] NativeUserRegisterDto userRegisterData){
+            
+            User newUser = await authService.NativeRegister(userRegisterData);
+            
+            return Ok(newUser);
+        }
+
+
+        [HttpGet("nativeLogin")]
+        public async Task<IActionResult> LoginUser([FromBody] UserLoginInputDto userRegisterData){
+            
+            UserLoginOutputDto registerResult = await authService.NativeLogin(userRegisterData);
+            
+            return Ok(registerResult);
         }
     }
 }
