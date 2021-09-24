@@ -5,12 +5,14 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MusicAppApi.DTOs;
 using MusicAppApi.HelperDtos;
+using MusicAppApi.Helpers.ExceptionHandler.CustomExceptions;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 
@@ -53,8 +55,16 @@ namespace MusicAppApi.Services
         {
             var newUser = mapper.Map<User>(userData);
 
-            await myDataContext.Users.AddAsync(newUser);
-            await myDataContext.SaveChangesAsync();
+            try
+            {
+                await myDataContext.Users.AddAsync(newUser);
+                await myDataContext.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new InsertUserException();
+            }
+            
             return newUser;
         }
 

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using MusicAppApi.HelperDtos;
 using MusicAppApi.Helpers;
+using MusicAppApi.Helpers.ExceptionHandler;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 using MusicAppApi.Services;
@@ -69,7 +70,7 @@ namespace MusicAppApi
 
             app.UseRouting();
 
-
+            app.ConfigureExceptionHandler();
             app.UseCors("AnyHeadersAllowed");
 
 

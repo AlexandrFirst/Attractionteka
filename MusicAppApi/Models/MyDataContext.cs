@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MusicAppApi.Models.ModelConfiguration;
 
 namespace MusicAppApi.Models
 {
@@ -11,6 +12,10 @@ namespace MusicAppApi.Models
             Database.Migrate();
             this.ChangeTracker.LazyLoadingEnabled = false;
         }
+
+         protected override void OnModelCreating(ModelBuilder modelBuilder){
+             modelBuilder.ApplyConfiguration(new UserConfiguration());
+         }
 
 
     }

@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicAppApi.Models;
 
 namespace MusicAppApi.Migrations
 {
     [DbContext(typeof(MyDataContext))]
-    partial class MyDataContextModelSnapshot : ModelSnapshot
+    [Migration("20210924155438_User mail constraint added")]
+    partial class Usermailconstraintadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
