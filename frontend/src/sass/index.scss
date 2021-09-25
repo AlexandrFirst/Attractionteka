@@ -1,5 +1,10 @@
 @import "~normalize.css";
 @import "fonts/fonts";
+@import "helpers";
+
+:root {
+  --main-front-color: rgb(241, 196, 15);
+}
 
 * {
   box-sizing: border-box;

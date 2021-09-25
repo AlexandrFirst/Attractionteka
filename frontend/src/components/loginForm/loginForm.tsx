@@ -2,9 +2,12 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import cn from 'classnames';
 import {AccountContext} from "../accountContext";
-
-import styles from './loginForm.module.scss';
 import useInput from "../../hooks/useInput";
+import Input from "../input/input";
+import Button from "../button/button";
+import FormContainer from "../formContainer/formContainer";
+import MutedLink from "../mutedLink/mutedLink";
+import styles from './loginForm.module.scss';
 
 const LoginForm = () => {
     const { switchToRegister } = React.useContext(AccountContext);
@@ -13,30 +16,28 @@ const LoginForm = () => {
 
     const submitLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        console.log(email, password);
         ///TODO: запрос на логин на сервер (добавить в action-creator в redux)
     }
 
     return (
         <div className={styles.boxContainer}>
-            <div className={styles.formContainer}>
-                <input {...email} type="email" placeholder={"Email"} className={cn(styles.loginInput, styles.pt10)}/>
-                <input {...password} type="password" placeholder={"Password"} className={styles.loginInput}/>
-            </div>
-            <Link
-                className={cn(styles.mutedLink, styles.mt40per)}
+            <FormContainer>
+                <Input {...email} type="email" placeholder={"Email"}/>
+                <Input {...password} type="password" placeholder={"Password"}/>
+            </FormContainer>
+            <MutedLink
                 to={'#'}
-            >Forget your password?</Link>
-            <button
-                className={styles.submitBtn}
-                onClick={submitLogin}
-            >Login</button>
-            <Link className={cn(styles.mutedLink, styles.mt1em)} to={'#'}>
+                classes="mt40per"
+            >Forget your password?</MutedLink>
+            <Button onClick={submitLogin}>Login</Button>
+            <MutedLink to={'#'} classes="mt10">
                 Don't have an account?
                 <div
                     className={styles.boldLink}
                     onClick={switchToRegister}
                 >Signup</div>
-            </Link>
+            </MutedLink>
         </div>
     );
 };
