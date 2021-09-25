@@ -8,11 +8,13 @@ import Button from "../button/button";
 import FormContainer from "../formContainer/formContainer";
 import MutedLink from "../mutedLink/mutedLink";
 import styles from './loginForm.module.scss';
+import {useActions} from "../../hooks/useActions";
 
 const LoginForm = () => {
     const { switchToRegister } = React.useContext(AccountContext);
     const email = useInput('');
     const password = useInput('');
+    const {login} = useActions();
 
     const submitLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
