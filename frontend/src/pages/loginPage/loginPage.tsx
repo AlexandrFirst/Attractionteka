@@ -1,11 +1,11 @@
 import React from 'react';
-import AccountBox from "../../components/accountBox/accountBox";
+import LoginRegistrationBox from "../../components/loginRegistrationBox/loginRegistrationBox";
 import styles from "./loginPage.module.scss";
 
 const LoginPage = () => {
     return (
         <div className={styles.boxContainer}>
-            <AccountBox />
+            <LoginRegistrationBox />
         </div>
     );
 };

@@ -1,12 +1,12 @@
-import React, {RefAttributes} from 'react';
+import React from 'react';
 import {AccountContext} from "../accountContext";
 import { motion } from "framer-motion";
 
 import LoginForm from "../loginForm/loginForm";
 import RegisterForm from "../registerForm/registerForm";
 
-import styles from './accountBox.module.scss';
-const AccountBox = () => {
+import styles from './loginRegistrationBox.module.scss';
+const LoginRegistrationBox = () => {
 
     const backdropVariants = {
         expanded: {
@@ -39,14 +39,14 @@ const AccountBox = () => {
         }, expandingTransition.duration * 1000 - 1500);
     };
 
-    const switchToRegister = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const switchToRegister = (e: React.MouseEvent<HTMLDivElement>) => {
         playExpandingAnimation();
         setTimeout(() => {
             setActive("register");
         }, 400);
     };
 
-    const switchToLogin = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const switchToLogin = (e: React.MouseEvent<HTMLDivElement>) => {
         playExpandingAnimation();
         setTimeout(() => {
             setActive("login");
@@ -90,4 +90,4 @@ const AccountBox = () => {
     );
 };
 
-export default AccountBox;
+export default LoginRegistrationBox;
