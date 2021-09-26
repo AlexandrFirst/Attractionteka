@@ -8,11 +8,11 @@ using MusicAppApi.DTOs;
 
 namespace MusicAppApi.MediaContentHelpers.Entities
 {
-    public abstract class MediaContent
+    public abstract class MediaContentUploader
     {
         private readonly Cloudinary cloudinary;
 
-        public MediaContent(Cloudinary cloudinary)
+        public MediaContentUploader(Cloudinary cloudinary)
         {
             this.cloudinary = cloudinary;
         }

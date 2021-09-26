@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace MusicAppApi.MediaContentHelpers.Entities
 {
-    public class VideoContent : MediaContent
+    public class VideoContentUploader : MediaContentUploader
     {
-        public VideoContent(Cloudinary cloudinary) : base(cloudinary)
+        public VideoContentUploader(Cloudinary cloudinary) : base(cloudinary)
         {
         }
 

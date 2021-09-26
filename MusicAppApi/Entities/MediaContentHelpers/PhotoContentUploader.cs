@@ -4,9 +4,9 @@ using CloudinaryDotNet.Actions;
 
 namespace MusicAppApi.MediaContentHelpers.Entities
 {
-    public class PhotoContent : MediaContent
+    public class PhotoContentUploader: MediaContentUploader
     {
-        public PhotoContent(Cloudinary cloudinary) : base(cloudinary)
+        public PhotoContentUploader(Cloudinary cloudinary) : base(cloudinary)
         {
         }
 

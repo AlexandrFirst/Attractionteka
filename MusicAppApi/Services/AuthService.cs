@@ -82,7 +82,9 @@ namespace MusicAppApi.Services
             return new UserLoginOutputDto()
             {
                 UserId = user.Id,
-                UserToken = token
+                UserToken = token,
+                Name = user.Name,
+                Surname = user.Surname
             };
         }
 
