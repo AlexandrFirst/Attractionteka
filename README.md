@@ -1,2 +1,2 @@
 # Astalavista
-The best music app ever
+The best place app ever
