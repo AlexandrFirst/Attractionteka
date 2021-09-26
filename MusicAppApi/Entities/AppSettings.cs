@@ -1,4 +1,4 @@
-namespace MusicAppApi.HelperDtos
+namespace MusicAppApi.Entities
 {
     public class AppSettings
     {

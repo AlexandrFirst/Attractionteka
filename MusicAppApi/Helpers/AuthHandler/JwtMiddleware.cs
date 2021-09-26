@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using MusicAppApi.HelperDtos;
+using MusicAppApi.Entities;
 using MusicAppApi.IServices;
 
 namespace MusicAppApi.Helpers

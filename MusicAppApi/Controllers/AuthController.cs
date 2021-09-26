@@ -28,7 +28,7 @@ namespace MusicAppApi.Controllers
         }
 
 
-        [HttpGet("nativeLogin")]
+        [HttpPost("nativeLogin")]
         public async Task<IActionResult> LoginUser([FromBody] UserLoginInputDto userRegisterData){
             
             UserLoginOutputDto registerResult = await authService.NativeLogin(userRegisterData);

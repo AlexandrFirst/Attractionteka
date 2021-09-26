@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using MusicAppApi.HelperDtos;
+using MusicAppApi.Entities;
 using MusicAppApi.Helpers;
 using MusicAppApi.Helpers.ExceptionHandler;
 using MusicAppApi.IServices;
@@ -46,9 +39,11 @@ namespace MusicAppApi
 
             services.AddControllers();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ICloudinaryService, CloudinaryService>();
             services.AddDbContext<MyDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MusicAppDB")));
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
 
             services.AddAutoMapper(typeof(Startup));
 

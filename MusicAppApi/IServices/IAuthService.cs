@@ -1,9 +1,7 @@
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using MusicAppApi.DTOs;
-using MusicAppApi.HelperDtos;
 using MusicAppApi.Models;
-
+using MusicAppApi.Entities;
 namespace MusicAppApi.IServices
 {
     public interface IAuthService

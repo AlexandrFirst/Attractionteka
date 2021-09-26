@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using MusicAppApi.DTOs;
-using MusicAppApi.HelperDtos;
+using MusicAppApi.Entities;
 using MusicAppApi.Helpers.ExceptionHandler.CustomExceptions;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
