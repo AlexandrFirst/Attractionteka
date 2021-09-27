@@ -43,14 +43,14 @@ const LoginRegistrationBox = () => {
         playExpandingAnimation();
         setTimeout(() => {
             setActive("register");
-        }, 400);
+        }, 700);
     };
 
     const switchToLogin = (e: React.MouseEvent<HTMLDivElement>) => {
         playExpandingAnimation();
         setTimeout(() => {
             setActive("login");
-        }, 400);
+        }, 700);
     };
 
     const contextValue = { switchToRegister, switchToLogin };

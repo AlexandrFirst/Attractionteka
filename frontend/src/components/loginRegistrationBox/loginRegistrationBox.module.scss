@@ -1,6 +1,6 @@
 .boxContainer {
   width: 280px;
-  min-height: 550px;
+  min-height: 620px;
   display: flex;
   flex-direction: column;
   border-radius: 19px;
@@ -8,6 +8,7 @@
   box-shadow: 0 0 2px rgba(15, 15, 15, 0.28);
   position: relative;
   overflow: hidden;
+  transition: .4s all;
 }
 
 .topContainer {
@@ -22,7 +23,7 @@
 
 .backDrop {
   width: 160%;
-  height: 550px;
+  height: 650px;
   position: absolute;
   display: flex;
   flex-direction: column;
@@ -36,6 +37,7 @@
                   rgba(241, 196, 15, 1) 20%,
                   rgba(243, 172, 18, 1) 100%
   );
+  z-index: 10;
 }
 
 .headerContainer {

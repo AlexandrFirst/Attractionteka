@@ -1,6 +1,5 @@
 import Main from "../pages/main/main";
 import LoginPage from "../pages/loginPage/loginPage";
-import RegisterPage from "../pages/registerPage/registerPage";
 
 export interface IRoute {
     path: string;

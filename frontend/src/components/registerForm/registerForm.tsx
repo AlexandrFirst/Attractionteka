@@ -9,32 +9,38 @@ import Input from "../input/input";
 import Button from "../button/button";
 import FormContainer from "../formContainer/formContainer";
 import MutedLink from "../mutedLink/mutedLink";
+import Marginer from "../marginer/marginer";
+import {emailIcon, invisiblePass, nameIcon} from "./inputIconsData/inputIcons";
 
 const RegisterForm = () => {
     const { switchToLogin } = React.useContext(AccountContext);
-    const username = useInput('');
+    const firstName = useInput('');
+    const lastName = useInput('');
     const email = useInput('');
     const password = useInput('');
     const confirmPass = useInput('');
 
     const submitRegistration = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        console.log(username, email, password, confirmPass);
+        console.log(firstName, email, password, confirmPass);
     }
 
     return (
         <div className={styles.boxContainer}>
             <FormContainer>
-                <Input {...username} type="text" placeholder={"Full name"}/>
-                <Input {...email} type="email" placeholder={"Email"}/>
-                <Input {...password} type="password" placeholder={"Password"}/>
+                <Input {...firstName} type="text" placeholder={"First name"} icon={nameIcon}/>
+                <Input {...lastName} type="text" placeholder={"Last name"} icon={nameIcon}/>
+                <Input {...email} type="email" placeholder={"Email"} icon={emailIcon}/>
+                <Input {...password} type="password" placeholder={"Password"} icon={invisiblePass}/>
                 <Input {...confirmPass} type="password" placeholder={"Confirm password"}/>
             </FormContainer>
+            <Marginer margin={"10px"} direction={"vertical"}/>
             <MutedLink
-                classes="mt25"
+                // classes="mt25"
                 to={'#'}>Forget your password?</MutedLink>
             <Button onClick={submitRegistration}>Register</Button>
-            <MutedLink to={'#'} classes="mt10">
+            <Marginer margin={"15px"} direction={"vertical"} />
+            <MutedLink to={'#'}>
                 Already have an account?
                 <div
                     className={styles.boldLink}
