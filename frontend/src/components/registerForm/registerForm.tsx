@@ -11,9 +11,12 @@ import FormContainer from "../formContainer/formContainer";
 import MutedLink from "../mutedLink/mutedLink";
 import Marginer from "../marginer/marginer";
 import {emailIcon, invisiblePass, nameIcon} from "./inputIconsData/inputIcons";
+import {useActions} from "../../hooks/useActions";
 
 const RegisterForm = () => {
     const { switchToLogin } = React.useContext(AccountContext);
+    const {registration} = useActions();
+
     const firstName = useInput('');
     const lastName = useInput('');
     const email = useInput('');
@@ -22,7 +25,7 @@ const RegisterForm = () => {
 
     const submitRegistration = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        console.log(firstName, email, password, confirmPass);
+        registration(firstName.value, lastName.value, email.value, password.value);
     }
 
     return (

@@ -20,8 +20,7 @@ const LoginForm = () => {
 
     const submitLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        console.log(email, password);
-        ///TODO: запрос на логин на сервер (добавить в action-creator в redux)
+        login(email.value, password.value);
     }
 
     return (
