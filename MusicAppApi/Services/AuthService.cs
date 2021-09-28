@@ -18,6 +18,13 @@ using MusicAppApi.Models;
 
 namespace MusicAppApi.Services
 {
+    public static class UserRoles
+    {
+        public const string User = "User";
+        public const string Admin = "Admin";
+    }
+
+
     public class AuthService : IAuthService
     {
         private readonly MyDataContext myDataContext;
@@ -54,6 +61,7 @@ namespace MusicAppApi.Services
         public async Task<User> NativeRegister(NativeUserRegisterDto userData)
         {
             var newUser = mapper.Map<User>(userData);
+            newUser.Role = UserRoles.User;
 
             try
             {
@@ -64,7 +72,7 @@ namespace MusicAppApi.Services
             {
                 throw new InsertUserException();
             }
-            
+
             return newUser;
         }
 
@@ -98,7 +106,7 @@ namespace MusicAppApi.Services
                 Subject = new ClaimsIdentity(new[]
                 {
                      new Claim("id", user.Id.ToString()),
-                     new Claim(ClaimTypes.Role, "User")
+                     new Claim(ClaimTypes.Role, user.Role)
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
