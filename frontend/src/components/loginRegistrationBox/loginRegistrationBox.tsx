@@ -6,6 +6,7 @@ import LoginForm from "../loginForm/loginForm";
 import RegisterForm from "../registerForm/registerForm";
 
 import styles from './loginRegistrationBox.module.scss';
+import {LocalStorageKey} from "../../models/LocalStorageKey";
 const LoginRegistrationBox = () => {
 
     const backdropVariants = {
@@ -32,6 +33,14 @@ const LoginRegistrationBox = () => {
     const [isExpanded, setExpanded] = React.useState(false);
     const [active, setActive] = React.useState("login");
 
+    React.useEffect(() => {
+        const nowForm = localStorage.getItem(LocalStorageKey.nowLoginForm);
+        setActive(nowForm || "login");
+        return () => {
+            localStorage.removeItem(LocalStorageKey.nowLoginForm);
+        }
+    }, []);
+
     const playExpandingAnimation = () => {
         setExpanded(true);
         setTimeout(() => {
@@ -40,6 +49,7 @@ const LoginRegistrationBox = () => {
     };
 
     const switchToRegister = (e: React.MouseEvent<HTMLDivElement>) => {
+        localStorage.setItem(LocalStorageKey.nowLoginForm, "register");
         playExpandingAnimation();
         setTimeout(() => {
             setActive("register");
@@ -47,6 +57,7 @@ const LoginRegistrationBox = () => {
     };
 
     const switchToLogin = (e: React.MouseEvent<HTMLDivElement>) => {
+        localStorage.setItem(LocalStorageKey.nowLoginForm, "login");
         playExpandingAnimation();
         setTimeout(() => {
             setActive("login");

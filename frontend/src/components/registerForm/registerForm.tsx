@@ -41,6 +41,7 @@ const RegisterForm = () => {
             <MutedLink
                 // classes="mt25"
                 to={'#'}>Forget your password?</MutedLink>
+            <Marginer margin={"6px"} direction={"vertical"}/>
             <Button onClick={submitRegistration}>Register</Button>
             <Marginer margin={"15px"} direction={"vertical"} />
             <MutedLink to={'#'}>

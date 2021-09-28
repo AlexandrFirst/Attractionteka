@@ -2,7 +2,7 @@ import {IUser} from "../../../models/IUser";
 import {AuthActionsEnum, SetAuthAction, SetErrorAction, SetIsLoadingAction, SetUserAction} from "./types";
 import {AppDispatch} from "../../index";
 import {AuthService} from "../../../services/auth-service";
-import {AuthData} from "../../../models/AuthData";
+import {LocalStorageKey} from "../../../models/LocalStorageKey";
 
 
 export const AuthActionCreators = {
@@ -14,11 +14,8 @@ export const AuthActionCreators = {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
             const response = await AuthService.login(email, password);
-            localStorage.setItem(AuthData.token, response.data.token);
-            AuthActionCreators.setIsAuth(true);
-                // .then(res => localStorage.setItem(AuthData.token, res.data.token));
-            // localStorage.setItem(AuthData.token, response.data.token);
-            ///TODO: сделать логин через правильный метод на бекэнде
+            localStorage.setItem(LocalStorageKey.token, response.data.userToken);
+            dispatch(AuthActionCreators.setIsAuth(true));
         } catch (e: any) {
             dispatch(AuthActionCreators.setError(e))
         } finally {
@@ -29,10 +26,8 @@ export const AuthActionCreators = {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
             const response = await AuthService.registration(name, surname, email, password);
-            localStorage.setItem(AuthData.token, response.data.token);
-            AuthActionCreators.setIsAuth(true);
-            // .then(res => localStorage.setItem(AuthData.token, res.data.token));
-
+            console.log(response.data);
+            dispatch(AuthActionCreators.setIsAuth(true));
         } catch (e: any) {
             dispatch(AuthActionCreators.setError(e))
         } finally {
