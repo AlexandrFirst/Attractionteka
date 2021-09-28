@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using MusicAppApi.Entities;
+using MusicAppApi.Helpers;
+using MusicAppApi.Helpers.ExceptionHandler;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 using MusicAppApi.Services;
@@ -30,10 +26,26 @@ namespace MusicAppApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+             services.AddCors(options =>
+            {
+                options.AddPolicy("AnyHeadersAllowed", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                });
+            });
+
 
             services.AddControllers();
             services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<ICloudinaryService, CloudinaryService>();
             services.AddDbContext<MyDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MusicAppDB")));
+
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddSwaggerGen(c =>
             {
@@ -52,6 +64,14 @@ namespace MusicAppApi
             }
 
             app.UseRouting();
+
+            app.ConfigureExceptionHandler();
+            app.UseCors("AnyHeadersAllowed");
+
+
+            app.UseRouting();
+
+            app.UseMiddleware<JwtMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {
