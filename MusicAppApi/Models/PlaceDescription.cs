@@ -16,6 +16,7 @@ namespace MusicAppApi.Models
         public string Content { get; set; }
         public string Name { get; set; }
         public string ShortDescription { get; set; }
+        public string KeyWords { get; set; }
         public User Author { get; set; }
         public DateTime UploadTime { get; set; }
         public HashSet<PhotoFile> Photos { get; set; }
