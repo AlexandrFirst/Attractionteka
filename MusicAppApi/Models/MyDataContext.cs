@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using MusicAppApi.Models.ModelConfiguration;
 
@@ -6,6 +7,9 @@ namespace MusicAppApi.Models
     public class MyDataContext : DbContext
     {
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<AudioFile> AudioFiles { get; set; }
+        public virtual DbSet<VideoFile> VideoFiles { get; set; }
+        public virtual DbSet<PhotoFile> PhotoFiles { get; set; }
 
         public MyDataContext(DbContextOptions<MyDataContext> options) : base(options)
         {
@@ -13,9 +17,16 @@ namespace MusicAppApi.Models
             this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
-         protected override void OnModelCreating(ModelBuilder modelBuilder){
-             modelBuilder.ApplyConfiguration(new UserConfiguration());
-         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new MediaFileConfiguration<AudioFile>());
+            modelBuilder.ApplyConfiguration(new MediaFileConfiguration<VideoFile>());
+            modelBuilder.ApplyConfiguration(new MediaFileConfiguration<PhotoFile>());
+
+            
+
+            modelBuilder.ApplyConfiguration(new UserConfiguration());
+        }
 
 
     }

@@ -25,34 +25,9 @@ namespace MusicAppApi.Services
             cloudinary.Api.Secure = true;
         }
 
-        public Task DeleteMusic(string musicPublicId)
+        public async Task<DeletionResult> DeleteFile(string filePublicId)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task DeletePhoto(string musicPublicId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task DeleteVideo(string musicPublicId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task GetMusic(string musicPublicId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task GetPhoto(string musicPublicId)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public Task GetVideo(string musicPublicId)
-        {
-            throw new System.NotImplementedException();
+            return await cloudinary.DestroyAsync(new DeletionParams(filePublicId));
         }
 
         public async Task<UploadResultDto> UploadMusic(IFormFile music)
