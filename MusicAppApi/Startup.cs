@@ -41,6 +41,7 @@ namespace MusicAppApi
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICloudinaryService, CloudinaryService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IPlaceService, PlaceService>();
 
             services.AddDbContext<MyDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MusicAppDB")));
 
