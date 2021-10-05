@@ -22,9 +22,9 @@ namespace MusicAppApi.Controllers
         }
 
         [HttpPost("audio")]
-        public async Task<IActionResult> AddAudioFile([FromForm] IFormFile audio)
+        public async Task<IActionResult> AddAudioFile([FromForm] IFormFile media)
         {
-            var result = await cloudinaryService.UploadMusic(audio);
+            var result = await cloudinaryService.UploadMusic(media);
             var newAudioFile = new AudioFile()
             {
                 PublicId = result.PublicId,
@@ -38,9 +38,9 @@ namespace MusicAppApi.Controllers
         }
 
         [HttpPost("video")]
-        public async Task<IActionResult> AddVideoFile([FromForm] IFormFile video)
+        public async Task<IActionResult> AddVideoFile([FromForm] IFormFile media)
         {
-            var result = await cloudinaryService.UploadVideo(video);
+            var result = await cloudinaryService.UploadVideo(media);
             var newVideoFile = new VideoFile()
             {
                 PublicId = result.PublicId,
@@ -54,9 +54,9 @@ namespace MusicAppApi.Controllers
         }
 
         [HttpPost("photo")]
-        public async Task<IActionResult> AddImageFile([FromForm] IFormFile photo)
+        public async Task<IActionResult> AddImageFile([FromForm] IFormFile media)
         {
-            var result = await cloudinaryService.UploadPhoto(photo);
+            var result = await cloudinaryService.UploadPhoto(media);
             
             var newImageFile = new PhotoFile()
             {
