@@ -8,14 +8,16 @@ using CloudinaryDotNet.Actions;
 using MusicAppApi.DTOs;
 using System;
 using MusicAppApi.MediaContentHelpers.Entities;
+using MusicAppApi.Models;
 
 namespace MusicAppApi.Services
 {
     public class CloudinaryService : ICloudinaryService
     {
+        private readonly MyDataContext context;
         private Cloudinary cloudinary;
 
-        public CloudinaryService(IOptions<CloudinarySettings> cloudinarySettings)
+        public CloudinaryService(IOptions<CloudinarySettings> cloudinarySettings, MyDataContext context)
         {
             var cloudinaryAccount = new Account(cloudinarySettings.Value.CloudName,
                                                 cloudinarySettings.Value.APIKey,
@@ -23,6 +25,7 @@ namespace MusicAppApi.Services
 
             cloudinary = new Cloudinary(cloudinaryAccount);
             cloudinary.Api.Secure = true;
+            this.context = context;
         }
 
         public async Task<DeletionResult> DeleteFile(string filePublicId)

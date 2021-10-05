@@ -8,7 +8,9 @@ namespace MusicAppApi.Mapping
     {
         public MediaFileProfile()
         {
-            CreateMap<MediaFile, MediaFileDto>().ReverseMap();
+            CreateMap<AudioFile, MediaFileDto>().ReverseMap();
+            CreateMap<VideoFile, MediaFileDto>().ReverseMap();
+            CreateMap<PhotoFile, MediaFileDto>().ReverseMap();
         }
     }
 }

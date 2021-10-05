@@ -49,6 +49,7 @@ namespace Astalavista.IntegrationTests
 
             return new MediaFileDto()
             {
+                Id = responseObject.id,
                 PublicId = responseObject.publicId,
                 Url = responseObject.url,
                 UploadTime = DateTime.Now
@@ -104,7 +105,7 @@ namespace Astalavista.IntegrationTests
             Assert.NotNull(uploadedAudio);
         }
 
-        // [Fact]
+        [Fact]
         public async Task AddNewPlace()
         {
             await AuthenticateAsync();
@@ -113,16 +114,20 @@ namespace Astalavista.IntegrationTests
             List<MediaFileDto> uploadedVideos = new List<MediaFileDto>();
             List<MediaFileDto> uploadedAudios = new List<MediaFileDto>();
 
-            for (int i = 0; i < 4; i++)
+            Assert.True(File.Exists(audioPath));
+            Assert.True(File.Exists(videoPath));
+            Assert.True(File.Exists(photoPath));
+
+            for (int i = 0; i < 3; i++)
             {
                 uploadedPhotos.Add(await uploadFile(photoPath, "http://localhost:5000/Cloudinary/photo"));
                 uploadedVideos.Add(await uploadFile(videoPath, "http://localhost:5000/Cloudinary/video"));
                 uploadedAudios.Add(await uploadFile(audioPath, "http://localhost:5000/Cloudinary/audio"));
             }
 
-            Assert.Equal(uploadedPhotos.Count, 4);
-            Assert.Equal(uploadedVideos.Count, 4);
-            Assert.Equal(uploadedAudios.Count, 4);
+            Assert.Equal(uploadedPhotos.Count, 3);
+            Assert.Equal(uploadedVideos.Count, 3);
+            Assert.Equal(uploadedAudios.Count, 3);
 
             string inputContentPath = "inputPlaceContent.txt";
 
@@ -138,7 +143,7 @@ namespace Astalavista.IntegrationTests
 
 
             var response = await TestClient.GetAsync("http://localhost:5000/User/user/1");
-            
+
             User retrievedUser = await response.Content.ReadAsAsync<User>();
 
 
@@ -160,7 +165,7 @@ namespace Astalavista.IntegrationTests
                 Photos = uploadedPhotos.ToHashSet(),
                 Author = userDto,
                 Content = string.Format(insertContent, uploadedPhotos[0].Url, uploadedPhotos[1].Url,
-                                                         uploadedVideos[0].Url, uploadedVideos[1].Url, uploadedVideos[2].Url, uploadedVideos[3].Url,
+                                                         uploadedVideos[0].Url, uploadedVideos[1].Url, uploadedVideos[2].Url,
                                                          uploadedAudios[0].Url),
                 ListKeyWords = KeyWords,
                 Name = "hululu",
@@ -170,9 +175,9 @@ namespace Astalavista.IntegrationTests
 
             var result = await TestClient.PostAsJsonAsync("http://localhost:5000/Place/newplace", newPlaceDto);
             result.EnsureSuccessStatusCode();
-            
+
             var content = result.Content.ReadAsAsync<PlaceDto>();
-            Assert.NotNull(content);       
+            Assert.NotNull(content.Result);
         }
     }
 }

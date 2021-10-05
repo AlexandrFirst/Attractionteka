@@ -42,34 +42,51 @@ namespace MusicAppApi.Services
 
         public async Task<PlaceDto> CreateNewPlace(PlaceDto newPlaceDto)
         {
-            var filteredPlaceDto = filterPlaceDescriptionMediaContent(newPlaceDto);
-            var placeForInsertion = mapper.Map<PlaceDescription>(filteredPlaceDto);
+            var filteredPlaceDto = await filterPlaceDescriptionMediaContent(newPlaceDto);
+
+
+            // var placeForInsertion = mapper.Map<PlaceDescription>(filteredPlaceDto);
+            var placeForInsertion = new PlaceDescription()
+            {
+                Content = newPlaceDto.Content,
+                Name = newPlaceDto.Name,
+                KeyWords = string.Join(",", newPlaceDto.ListKeyWords),
+                ShortDescription = newPlaceDto.ShortDescription,
+            };
 
             await dataContext.PlaceDescriptions.AddAsync(placeForInsertion);
+            await dataContext.SaveChangesAsync();
+
+            placeForInsertion.Audios = mapper.Map<HashSet<AudioFile>>(filteredPlaceDto.Audios);
+            placeForInsertion.Videos = mapper.Map<HashSet<VideoFile>>(filteredPlaceDto.Videos);
+            placeForInsertion.Photos = mapper.Map<HashSet<PhotoFile>>(filteredPlaceDto.Photos);
+            placeForInsertion.Author = mapper.Map<User>(newPlaceDto.Author);
+
+            await dataContext.SaveChangesAsync();
 
             return mapper.Map<PlaceDto>(placeForInsertion);
         }
 
 
-        private PlaceDto filterPlaceDescriptionMediaContent(PlaceDto newPlaceDto)
+        private async Task<PlaceDto> filterPlaceDescriptionMediaContent(PlaceDto newPlaceDto)
         {
             var filteredPlaceDescription = newPlaceDto;
-            filteredPlaceDescription.Photos = filterMediaFileList(filteredPlaceDescription.Content,
+            filteredPlaceDescription.Photos = await filterMediaFileList(filteredPlaceDescription.Content,
                                                                 filteredPlaceDescription.Photos,
                                                                 Tag.ImageTag);
 
-            filteredPlaceDescription.Videos = filterMediaFileList(filteredPlaceDescription.Content,
+            filteredPlaceDescription.Videos = await filterMediaFileList(filteredPlaceDescription.Content,
                                                                 filteredPlaceDescription.Videos,
                                                                 Tag.VideoTag);
 
-            filteredPlaceDescription.Audios = filterMediaFileList(filteredPlaceDescription.Content,
+            filteredPlaceDescription.Audios = await filterMediaFileList(filteredPlaceDescription.Content,
                                                                 filteredPlaceDescription.Audios,
                                                                 Tag.AudioTag);
 
             return filteredPlaceDescription;
         }
 
-        private HashSet<MediaFileDto> filterMediaFileList(string Content, HashSet<MediaFileDto> uploadedFiles, Tag tag)
+        private async Task<HashSet<MediaFileDto>> filterMediaFileList(string Content, HashSet<MediaFileDto> uploadedFiles, Tag tag)
         {
             HashSet<MediaFileDto> filesToDelete = new HashSet<MediaFileDto>();
 
@@ -79,7 +96,7 @@ namespace MusicAppApi.Services
 
             foreach (var file in filesToDelete)
             {
-                cloudinaryService.DeleteFile(file.PublicId);
+                await cloudinaryService.DeleteFile(file.PublicId);
             }
 
 
