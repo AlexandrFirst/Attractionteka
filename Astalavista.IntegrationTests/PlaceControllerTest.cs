@@ -176,8 +176,15 @@ namespace Astalavista.IntegrationTests
             var result = await TestClient.PostAsJsonAsync("http://localhost:5000/Place/newplace", newPlaceDto);
             result.EnsureSuccessStatusCode();
 
-            var content = result.Content.ReadAsAsync<PlaceDto>();
-            Assert.NotNull(content.Result);
+            var content = result.Content.ReadAsAsync<PlaceDto>().Result;
+            Assert.NotNull(content);
+            
+            Assert.Equal(content.Audios.Count, 1);
+            Assert.Equal(content.Videos.Count, 3);
+            Assert.Equal(content.Photos.Count, 2);
+
+
+
         }
     }
 }

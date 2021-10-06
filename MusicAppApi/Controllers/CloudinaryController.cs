@@ -30,7 +30,7 @@ namespace MusicAppApi.Controllers
                 PublicId = result.PublicId,
                 Url = result.Url
             };
-            
+
             await dataContext.AudioFiles.AddAsync(newAudioFile);
             await dataContext.SaveChangesAsync();
 
@@ -46,7 +46,7 @@ namespace MusicAppApi.Controllers
                 PublicId = result.PublicId,
                 Url = result.Url
             };
-            
+
             await dataContext.VideoFiles.AddAsync(newVideoFile);
             await dataContext.SaveChangesAsync();
 
@@ -57,45 +57,25 @@ namespace MusicAppApi.Controllers
         public async Task<IActionResult> AddImageFile([FromForm] IFormFile media)
         {
             var result = await cloudinaryService.UploadPhoto(media);
-            
+
             var newImageFile = new PhotoFile()
             {
                 PublicId = result.PublicId,
                 Url = result.Url
             };
-            
+
             await dataContext.PhotoFiles.AddAsync(newImageFile);
             await dataContext.SaveChangesAsync();
 
-        
+
             return Ok(newImageFile);
         }
 
         [HttpDelete("media/{category}/{publicId}")]
-        public async Task<IActionResult> DeleteMedia(string category,string publicId)
+        public async Task<IActionResult> DeleteMedia(string category, string publicId)
         {
-            IQueryable<MediaFile> placeToDelete = null;
-            if(category == "photo")
-            {
-                placeToDelete = dataContext.PhotoFiles;
-            }
-            else if(category == "video")
-            {
-                placeToDelete = dataContext.VideoFiles;
-            }
-            else if(category == "audio")
-            {
-                placeToDelete = dataContext.AudioFiles;
-            }
-            else{
-                throw new System.Exception("Category to delete not found");
-            }
 
-            var mediaFileToDelete = await placeToDelete.FirstOrDefaultAsync(m => m.PublicId == publicId);
-            dataContext.Remove(mediaFileToDelete);
-            await dataContext.SaveChangesAsync();
-            
-            var result = await cloudinaryService.DeleteFile(publicId);
+            var result = await cloudinaryService.DeleteFile(publicId, category);
             return Ok(result);
         }
     }

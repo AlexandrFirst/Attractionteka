@@ -9,7 +9,7 @@ namespace MusicAppApi.IServices
     public interface ICloudinaryService
     {
          Task<UploadResultDto> UploadMusic(IFormFile music);
-         Task<DeletionResult> DeleteFile(string filePublicId);
+         Task<DeletionResult> DeleteFile(string filePublicId, string category);
          Task<UploadResultDto> UploadVideo(IFormFile music);
          Task<UploadResultDto> UploadPhoto(IFormFile music);
     }

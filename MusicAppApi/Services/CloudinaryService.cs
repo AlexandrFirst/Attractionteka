@@ -9,12 +9,14 @@ using MusicAppApi.DTOs;
 using System;
 using MusicAppApi.MediaContentHelpers.Entities;
 using MusicAppApi.Models;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace MusicAppApi.Services
 {
     public class CloudinaryService : ICloudinaryService
     {
-        private readonly MyDataContext context;
+        private readonly MyDataContext dataContext;
         private Cloudinary cloudinary;
 
         public CloudinaryService(IOptions<CloudinarySettings> cloudinarySettings, MyDataContext context)
@@ -25,11 +27,33 @@ namespace MusicAppApi.Services
 
             cloudinary = new Cloudinary(cloudinaryAccount);
             cloudinary.Api.Secure = true;
-            this.context = context;
+            this.dataContext = context;
         }
 
-        public async Task<DeletionResult> DeleteFile(string filePublicId)
+        public async Task<DeletionResult> DeleteFile(string filePublicId, string category)
         {
+            IQueryable<MediaFile> placeToDelete = null;
+            if (category == "photo")
+            {
+                placeToDelete = dataContext.PhotoFiles;
+            }
+            else if (category == "video")
+            {
+                placeToDelete = dataContext.VideoFiles;
+            }
+            else if (category == "audio")
+            {
+                placeToDelete = dataContext.AudioFiles;
+            }
+            else
+            {
+                throw new System.Exception("Category to delete not found");
+            }
+
+            var mediaFileToDelete = await placeToDelete.FirstOrDefaultAsync(m => m.PublicId == filePublicId);
+            dataContext.Remove(mediaFileToDelete);
+            await dataContext.SaveChangesAsync();
+
             return await cloudinary.DestroyAsync(new DeletionParams(filePublicId));
         }
 

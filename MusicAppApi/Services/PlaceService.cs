@@ -13,17 +13,19 @@ namespace MusicAppApi.Services
     {
         private sealed class Tag
         {
-            public static readonly Tag VideoTag = new Tag(@"//video/source[@src]");
-            public static readonly Tag AudioTag = new Tag(@"//audio/source[@src]");
-            public static readonly Tag ImageTag = new Tag(@"//img[@src]");
+            public static readonly Tag VideoTag = new Tag(@"//video/source | //video", "video");
+            public static readonly Tag AudioTag = new Tag(@"//audio/source | //audio", "audio");
+            public static readonly Tag ImageTag = new Tag(@"//img", "photo");
 
 
-            private Tag(string value)
+            private Tag(string value, string category)
             {
                 Value = value;
+                Category = category;
             }
 
             public string Value { get; private set; }
+            public string Category {get;private set;}
         }
 
 
@@ -96,7 +98,7 @@ namespace MusicAppApi.Services
 
             foreach (var file in filesToDelete)
             {
-                await cloudinaryService.DeleteFile(file.PublicId);
+                await cloudinaryService.DeleteFile(file.PublicId, tag.Category);
             }
 
 
