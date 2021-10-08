@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using HtmlAgilityPack;
+using Microsoft.EntityFrameworkCore;
 using MusicAppApi.DTOs;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
@@ -25,7 +26,7 @@ namespace MusicAppApi.Services
             }
 
             public string Value { get; private set; }
-            public string Category {get;private set;}
+            public string Category { get; private set; }
         }
 
 
@@ -69,6 +70,53 @@ namespace MusicAppApi.Services
             return mapper.Map<PlaceDto>(placeForInsertion);
         }
 
+        public async Task DeletePlace(int placeId)
+        {
+            var deletingPlaceDescription = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(p => p.Id == placeId);
+
+            if (deletingPlaceDescription is null)
+                throw new System.Exception("No proper place found");
+
+            dataContext.PlaceDescriptions.Remove(deletingPlaceDescription);
+            await dataContext.SaveChangesAsync();
+
+        }
+
+        public async Task<PlaceDto> UpdatePlace(PlaceDto updatedPlaceDto)
+        {
+            var oldPlace = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(p => p.Id == updatedPlaceDto.Id);
+
+            if (oldPlace is null)
+                throw new System.Exception("No proper place found");
+
+            var oldPlaceDto = mapper.Map<PlaceDto>(oldPlace);
+
+            oldPlaceDto.Audios.UnionWith(updatedPlaceDto.Audios);
+            oldPlaceDto.Videos.UnionWith(updatedPlaceDto.Videos);
+            oldPlaceDto.Photos.UnionWith(updatedPlaceDto.Photos);
+
+            oldPlaceDto.Content = updatedPlaceDto.Content;
+
+            oldPlaceDto.ListKeyWords = updatedPlaceDto.ListKeyWords;
+            oldPlaceDto.ShortDescription = updatedPlaceDto.ShortDescription;
+            oldPlaceDto.Name = updatedPlaceDto.Name;
+
+            var filteredOldPlaceDto = filterPlaceDescriptionMediaContent(oldPlaceDto);
+
+            oldPlace = mapper.Map<PlaceDescription>(filteredOldPlaceDto);
+            await dataContext.SaveChangesAsync();
+            return mapper.Map<PlaceDto>(oldPlace);
+        }
+
+        public async Task<PlaceReadOnlyDto> GetPlaceById(int placeId)
+        {
+            var place = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(p => p.Id == placeId);
+            if (place == null)
+                throw new System.Exception("No proper place found");
+            
+            var readOnlyPlace = mapper.Map<PlaceReadOnlyDto>(place);
+            return readOnlyPlace;
+        }
 
         private async Task<PlaceDto> filterPlaceDescriptionMediaContent(PlaceDto newPlaceDto)
         {
@@ -84,6 +132,8 @@ namespace MusicAppApi.Services
             filteredPlaceDescription.Audios = await filterMediaFileList(filteredPlaceDescription.Content,
                                                                 filteredPlaceDescription.Audios,
                                                                 Tag.AudioTag);
+
+            filteredPlaceDescription.ListKeyWords = filteredPlaceDescription.ListKeyWords.Distinct().ToList();
 
             return filteredPlaceDescription;
         }
@@ -131,5 +181,7 @@ namespace MusicAppApi.Services
             return urlsToDelete;
 
         }
+
+
     }
 }

@@ -22,5 +22,29 @@ namespace MusicAppApi.Controllers
             var createdPlace = await placeService.CreateNewPlace(newPlaceDto);
             return Ok(createdPlace);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePlace(int id)
+        {
+            await placeService.DeletePlace(id);
+            return Ok(new
+            {
+                Response = "Place is deleted successfully"
+            });
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ReadPlace(int id)
+        {
+            var response = await placeService.GetPlaceById(id);
+            return Ok(response);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePlace([FromBody] PlaceDto updatePlaceDto)
+        {
+            var response = await placeService.UpdatePlace(updatePlaceDto);
+            return Ok(response);
+        }
     }
 }
