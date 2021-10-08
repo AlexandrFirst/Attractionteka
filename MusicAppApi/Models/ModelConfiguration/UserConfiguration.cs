@@ -9,8 +9,12 @@ namespace MusicAppApi.Models.ModelConfiguration
         {
             builder.HasIndex(u => u.Mail)
                    .IsUnique();
+
             builder.HasMany(m => m.PlaceDescriptions)
                     .WithOne(u => u.Author);
+
+            builder.HasMany(c => c.Comments)
+            .WithOne(u => u.Author);
         }
     }
 }

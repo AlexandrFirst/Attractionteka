@@ -15,6 +15,8 @@ namespace MusicAppApi.Models.ModelConfiguration
                     .WithOne(u => u.PlaceDescription);
             builder.HasMany(a => a.Photos)
                     .WithOne(u => u.PlaceDescription);
+            builder.HasMany(c => c.Photos)
+            .WithOne(u => u.PlaceDescription);
         }
     }
 }

@@ -7,6 +7,7 @@ namespace MusicAppApi.Models
         public User()
         {
             PlaceDescriptions = new HashSet<PlaceDescription>();
+            Comments = new HashSet<Comment>();
         }
 
         public int Id { get; set; }
@@ -16,5 +17,6 @@ namespace MusicAppApi.Models
         public string Role { get; set; }
         public string Password { get; set; }
         public HashSet<PlaceDescription> PlaceDescriptions { get; set; }
+         public HashSet<Comment> Comments { get; set; }
     }
 }

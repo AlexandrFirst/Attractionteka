@@ -11,6 +11,7 @@ namespace MusicAppApi.Models
         public virtual DbSet<VideoFile> VideoFiles { get; set; }
         public virtual DbSet<PhotoFile> PhotoFiles { get; set; }
         public virtual DbSet<PlaceDescription> PlaceDescriptions { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
 
         public MyDataContext(DbContextOptions<MyDataContext> options) : base(options)
         {
