@@ -83,7 +83,7 @@ namespace MusicAppApi.Services
                                                                     u.Mail == model.UserMail);
 
             if (user == null)
-                return null;
+                throw new Exception("No user found");
 
             var token = generateJwtToken(user);
 

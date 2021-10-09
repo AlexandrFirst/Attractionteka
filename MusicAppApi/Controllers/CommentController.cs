@@ -1,16 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MusicAppApi.DTOs;
+using MusicAppApi.Helpers;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 using MusicAppApi.Services;
 
 namespace MusicAppApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class CommentController : ControllerBase
@@ -43,16 +46,59 @@ namespace MusicAppApi.Controllers
 
             var comment = new Comment()
             {
-                Author = user,
+
                 Content = commentData.Content,
-                Place = place,
+
                 CommentTime = DateTime.Now
             };
 
             await dataContext.Comments.AddAsync(comment);
             await dataContext.SaveChangesAsync();
 
-            return Ok(comment);
+            comment.Author = user;
+            comment.Place = place;
+
+            await dataContext.SaveChangesAsync();
+
+            return Ok(mapper.Map<CommentDto>(comment));
+        }
+
+        [HttpPost("reply/{commentId}")]
+        public async Task<IActionResult> ReplyComment(int commentId, [FromBody] CreateCommentDto commentData)
+        {
+            var contextUser = userContext.GetUserContext();
+
+            var user = await dataContext.Users.FirstOrDefaultAsync(u => u.Id == contextUser.Id);
+            if (user == null)
+                throw new System.Exception("Who are you?");
+
+            var parentComment = await dataContext.Comments.Include(p => p.Place).FirstOrDefaultAsync(u => u.Id == commentId);
+            if (parentComment == null)
+                throw new System.Exception("Comment found");
+
+            var place = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(u => u.Id == commentData.PlaceId);
+            if (place == null)
+                throw new System.Exception("No place found");
+
+            if (place.Id != parentComment.Place.Id)
+                throw new System.Exception("Something wrong happened! Try again");
+
+            var replyComment = new Comment()
+            {
+                Content = commentData.Content,
+
+                CommentTime = DateTime.Now
+            };
+
+            await dataContext.Comments.AddAsync(replyComment);
+            replyComment.Place = place;
+            replyComment.Author = user;
+
+            parentComment.CommentReplies.Add(replyComment);
+
+            await dataContext.SaveChangesAsync();
+
+            return Ok(replyComment);
         }
 
         [HttpDelete("{commentId}")]
@@ -101,6 +147,7 @@ namespace MusicAppApi.Controllers
             return Ok(commentDto);
         }
 
+        
         [HttpPut("{commentId}")]
         public async Task<IActionResult> UpdateComment(int commentId, [FromBody] UpdateCommentDto commentData)
         {

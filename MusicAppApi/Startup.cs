@@ -1,8 +1,11 @@
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MusicAppApi.Entities;
@@ -26,23 +29,27 @@ namespace MusicAppApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-             services.AddCors(options =>
-            {
-                options.AddPolicy("AnyHeadersAllowed", builder =>
-                {
-                    builder.AllowAnyOrigin()
-                            .AllowAnyHeader()
-                            .AllowAnyMethod();
-                });
-            });
+            services.AddCors(options =>
+           {
+               options.AddPolicy("AnyHeadersAllowed", builder =>
+               {
+                   builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod();
+               });
+           });
 
 
             services.AddControllers();
+            services.AddControllers().AddJsonOptions(x =>
+                        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICloudinaryService, CloudinaryService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IPlaceService, PlaceService>();
             services.AddScoped<IUserContextService, UserContextService>();
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<MyDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MusicAppDB")));
 

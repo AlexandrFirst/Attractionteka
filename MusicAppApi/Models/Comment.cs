@@ -15,6 +15,6 @@ namespace MusicAppApi.Models
         public DateTime CommentTime { get; set; }
         public PlaceDescription Place { get; set; }
         public List<Comment> CommentReplies { get; set; }
-        public Comment ParentComment { get; set; }
+        public Comment? ParentComment { get; set; }
     }
 }
