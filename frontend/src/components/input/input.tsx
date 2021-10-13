@@ -1,22 +1,34 @@
 import React from 'react';
 import cn from "classnames";
 
+import passwordIcon from './img/pass.svg';
+import passwordInvisible from './img/invisible_pass.svg';
 import styles from './input.module.scss';
 
 export interface InputPops extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>{
     classnames?: string;
     icon?: React.ReactNode;
+    password?: boolean;
 }
 const Input:React.FC<InputPops> = (props) => {
 
+    React.useEffect(() => {
+        setNowIcon(props.icon);
+        setInputType(props.type);
+    },[props.icon, props.type])
+
+    const [inputType, setInputType] = React.useState(props.type?.toString());
+    const [nowIcon, setNowIcon] = React.useState<React.ReactNode>('');
+    
     return (
         <div className={styles.wrapper}>
             <input
                 className={cn(styles.input, props.classnames)}
                 {...props}
+                type={inputType}
             />
-            <div className={styles.icon}>
-                {props.icon}
+            <div className={cn(styles.icon,)}>
+                {nowIcon}
             </div>
         </div>
     );

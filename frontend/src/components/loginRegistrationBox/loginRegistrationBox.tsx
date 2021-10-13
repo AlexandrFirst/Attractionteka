@@ -7,12 +7,17 @@ import RegisterForm from "../registerForm/registerForm";
 
 import styles from './loginRegistrationBox.module.scss';
 import {LocalStorageKey} from "../../models/LocalStorageKey";
+
+export const enum SignPageList {
+    LOGIN="login",
+    REGISTER="register",
+}
 const LoginRegistrationBox = () => {
 
     const backdropVariants = {
         expanded: {
-            width: "233%",
-            height: "1050px",
+            width: "255%",
+            height: "1100px",
             borderRadius: "20%",
             transform: "rotate(60deg)",
         },
@@ -35,7 +40,7 @@ const LoginRegistrationBox = () => {
 
     React.useEffect(() => {
         const nowForm = localStorage.getItem(LocalStorageKey.nowLoginForm);
-        setActive(nowForm || "login");
+        setActive(nowForm || SignPageList.LOGIN);
         return () => {
             localStorage.removeItem(LocalStorageKey.nowLoginForm);
         }
@@ -49,18 +54,18 @@ const LoginRegistrationBox = () => {
     };
 
     const switchToRegister = (e: React.MouseEvent<HTMLDivElement>) => {
-        localStorage.setItem(LocalStorageKey.nowLoginForm, "register");
+        localStorage.setItem(LocalStorageKey.nowLoginForm, SignPageList.REGISTER);
         playExpandingAnimation();
         setTimeout(() => {
-            setActive("register");
+            setActive(SignPageList.REGISTER);
         }, 700);
     };
 
     const switchToLogin = (e: React.MouseEvent<HTMLDivElement>) => {
-        localStorage.setItem(LocalStorageKey.nowLoginForm, "login");
+        localStorage.setItem(LocalStorageKey.nowLoginForm, SignPageList.LOGIN);
         playExpandingAnimation();
         setTimeout(() => {
-            setActive("login");
+            setActive(SignPageList.LOGIN);
         }, 700);
     };
 

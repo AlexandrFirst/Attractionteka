@@ -38,4 +38,8 @@
   svg {
     fill: darkgrey;
   }
+
+  &_active {
+    cursor: pointer;
+  }
 }
