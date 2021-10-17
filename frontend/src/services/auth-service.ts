@@ -1,10 +1,13 @@
 import axios, {AxiosResponse} from "axios";
-    import {ILoginResponse} from "../models/ILoginResponse";
+import {ILoginResponse} from "../models/ILoginResponse";
 import {IRegisterResponse} from "../models/IRegisterResponse";
+import {Service} from "./service";
 
 require("dotenv").config();
 
-export class AuthService {
+export class AuthService extends Service{
+    // static serverHost = process.env.DEVELOPMENT_SERVER_HOST || "//localhost:5000";
+
     // static async getUsers(): Promise<AxiosResponse<IUser[]>> {
     //
     //     return axios.get<IUser[]>('./users.json',
@@ -14,8 +17,7 @@ export class AuthService {
     // }
 
     static async login(UserMail: string, UserPassword: string): Promise<AxiosResponse<ILoginResponse>> {
-        const serverHost = process.env.DEVELOPMENT_SERVER_HOST || "//localhost:5000";
-        return axios.post<ILoginResponse>(`${serverHost}/Auth/nativeLogin`,{UserMail, UserPassword}
+        return axios.post<ILoginResponse>(`${Service.serverHost}/Auth/nativeLogin`,{UserMail, UserPassword}
             // {headers:
             //         {Authorization: `Bearer ${localStorage.getItem(AuthData.token)}`}}
         );
