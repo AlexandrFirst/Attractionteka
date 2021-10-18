@@ -15,6 +15,7 @@ export const EditorActionCreators = {
             const response = await EditorService.uploadMedia(media, contentType);
             // console.log(response.data);
             dispatch(EditorActionCreators.setMedia(media));
+            console.log(response.data);
             return response.data;
         } catch (e: any) {
             dispatch(EditorActionCreators.setError(e))

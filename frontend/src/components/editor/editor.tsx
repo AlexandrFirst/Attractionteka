@@ -16,18 +16,39 @@ const Editor = () => {
     };
 
     const onImageUploadBefore = (files: Array<File>, info: any, uploadHandler: any) => {
+        console.log(files[0]);
         uploadMedia(files[0], "photo");
+    }
+
+    const onImageUpload = (
+        targetImgElement: HTMLImageElement,
+        index: number,
+        state: string,
+        imageInfo: object,
+        remainingFilesCount: number) => {
+
+    }
+
+
+    const onVideoUploadBefore = (files: File[], info: object, uploadHandler: Function) => {
+        const res = uploadMedia(files[0], "video");
+        console.log(res);
     }
 
     return (
         <div className={styles.wrapper}>
-            <SunEditor
-                getSunEditorInstance={getSunEditorInstance}
-                setOptions={{
-                    buttonList: buttonList.complex,
-                }}
-                onImageUploadBefore={onImageUploadBefore}
-            />
+            {/*<form action="" name="media">*/}
+                <SunEditor
+                    getSunEditorInstance={getSunEditorInstance}
+                    setOptions={{
+                        buttonList: buttonList.complex,
+                    }}
+                    onImageUploadBefore={onImageUploadBefore}
+                    // onImageUpload={onImageUpload}
+
+                    onVideoUploadBefore={onVideoUploadBefore}
+                />
+            {/*</form>*/}
         </div>
     );
 };

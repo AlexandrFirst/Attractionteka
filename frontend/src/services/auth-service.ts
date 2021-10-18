@@ -24,14 +24,14 @@ export class AuthService extends Service{
     }
 
     static async registration(Name: string, Surname: string, Mail: string, Password: string): Promise<AxiosResponse<IRegisterResponse>> {
-        const serverHost = process.env.DEVELOPMENT_SERVER_HOST || "//localhost:5000";
+        // const serverHost = process.env.DEVELOPMENT_SERVER_HOST || "//localhost:5000";
         const body = {
             Name: Name,
             Surname: Surname,
             Mail: Mail,
             Password: Password
         }
-        return axios.post<IRegisterResponse>(`${serverHost}/Auth/nativeRegister`,
+        return axios.post<IRegisterResponse>(`${Service.serverHost}/Auth/nativeRegister`,
             body
             // {headers:
             //         {Authorization: `Bearer ${localStorage.getItem(AuthData.token)}`}
