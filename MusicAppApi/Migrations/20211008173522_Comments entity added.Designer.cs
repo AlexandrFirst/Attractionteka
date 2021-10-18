@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicAppApi.Models;
 
 namespace MusicAppApi.Migrations
 {
     [DbContext(typeof(MyDataContext))]
-    partial class MyDataContextModelSnapshot : ModelSnapshot
+    [Migration("20211008173522_Comments entity added")]
+    partial class Commentsentityadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 9, 14, 11, 2, 986, DateTimeKind.Local).AddTicks(7110));
+                        .HasDefaultValue(new DateTime(2021, 10, 8, 20, 35, 18, 361, DateTimeKind.Local).AddTicks(3828));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -63,17 +65,12 @@ namespace MusicAppApi.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ParentCommentId")
-                        .HasColumnType("int");
-
                     b.Property<int?>("PlaceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("ParentCommentId");
 
                     b.HasIndex("PlaceId");
 
@@ -96,7 +93,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 9, 14, 11, 2, 995, DateTimeKind.Local).AddTicks(5711));
+                        .HasDefaultValue(new DateTime(2021, 10, 8, 20, 35, 18, 370, DateTimeKind.Local).AddTicks(8316));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -190,7 +187,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 9, 14, 11, 2, 995, DateTimeKind.Local).AddTicks(4493));
+                        .HasDefaultValue(new DateTime(2021, 10, 8, 20, 35, 18, 370, DateTimeKind.Local).AddTicks(6896));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -217,17 +214,11 @@ namespace MusicAppApi.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("AuthorId");
 
-                    b.HasOne("MusicAppApi.Models.Comment", "ParentComment")
-                        .WithMany("CommentReplies")
-                        .HasForeignKey("ParentCommentId");
-
                     b.HasOne("MusicAppApi.Models.PlaceDescription", "Place")
                         .WithMany("Comments")
                         .HasForeignKey("PlaceId");
 
                     b.Navigation("Author");
-
-                    b.Navigation("ParentComment");
 
                     b.Navigation("Place");
                 });
@@ -257,11 +248,6 @@ namespace MusicAppApi.Migrations
                         .HasForeignKey("PlaceDescriptionId");
 
                     b.Navigation("PlaceDescription");
-                });
-
-            modelBuilder.Entity("MusicAppApi.Models.Comment", b =>
-                {
-                    b.Navigation("CommentReplies");
                 });
 
             modelBuilder.Entity("MusicAppApi.Models.PlaceDescription", b =>

@@ -1,0 +1,187 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using AutoMapper;
+using HtmlAgilityPack;
+using Microsoft.EntityFrameworkCore;
+using MusicAppApi.DTOs;
+using MusicAppApi.IServices;
+using MusicAppApi.Models;
+
+namespace MusicAppApi.Services
+{
+    public class PlaceService : IPlaceService
+    {
+        private sealed class Tag
+        {
+            public static readonly Tag VideoTag = new Tag(@"//video/source | //video", "video");
+            public static readonly Tag AudioTag = new Tag(@"//audio/source | //audio", "audio");
+            public static readonly Tag ImageTag = new Tag(@"//img", "photo");
+
+
+            private Tag(string value, string category)
+            {
+                Value = value;
+                Category = category;
+            }
+
+            public string Value { get; private set; }
+            public string Category { get; private set; }
+        }
+
+
+        private readonly IMapper mapper;
+        private readonly ICloudinaryService cloudinaryService;
+        private readonly MyDataContext dataContext;
+
+        public PlaceService(IMapper mapper,
+                            ICloudinaryService cloudinaryService,
+                            MyDataContext dataContext)
+        {
+            this.mapper = mapper;
+            this.cloudinaryService = cloudinaryService;
+            this.dataContext = dataContext;
+        }
+
+        public async Task<PlaceDto> CreateNewPlace(PlaceDto newPlaceDto)
+        {
+            var filteredPlaceDto = await filterPlaceDescriptionMediaContent(newPlaceDto);
+
+
+            // var placeForInsertion = mapper.Map<PlaceDescription>(filteredPlaceDto);
+            var placeForInsertion = new PlaceDescription()
+            {
+                Content = newPlaceDto.Content,
+                Name = newPlaceDto.Name,
+                KeyWords = string.Join(",", newPlaceDto.ListKeyWords),
+                ShortDescription = newPlaceDto.ShortDescription,
+            };
+
+            await dataContext.PlaceDescriptions.AddAsync(placeForInsertion);
+            await dataContext.SaveChangesAsync();
+
+            placeForInsertion.Audios = mapper.Map<HashSet<AudioFile>>(filteredPlaceDto.Audios);
+            placeForInsertion.Videos = mapper.Map<HashSet<VideoFile>>(filteredPlaceDto.Videos);
+            placeForInsertion.Photos = mapper.Map<HashSet<PhotoFile>>(filteredPlaceDto.Photos);
+            placeForInsertion.Author = mapper.Map<User>(newPlaceDto.Author);
+
+            await dataContext.SaveChangesAsync();
+
+            return mapper.Map<PlaceDto>(placeForInsertion);
+        }
+
+        public async Task DeletePlace(int placeId)
+        {
+            var deletingPlaceDescription = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(p => p.Id == placeId);
+
+            if (deletingPlaceDescription is null)
+                throw new System.Exception("No proper place found");
+
+            dataContext.PlaceDescriptions.Remove(deletingPlaceDescription);
+            await dataContext.SaveChangesAsync();
+
+        }
+
+        public async Task<PlaceDto> UpdatePlace(PlaceDto updatedPlaceDto)
+        {
+            var oldPlace = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(p => p.Id == updatedPlaceDto.Id);
+
+            if (oldPlace is null)
+                throw new System.Exception("No proper place found");
+
+            var oldPlaceDto = mapper.Map<PlaceDto>(oldPlace);
+
+            oldPlaceDto.Audios.UnionWith(updatedPlaceDto.Audios);
+            oldPlaceDto.Videos.UnionWith(updatedPlaceDto.Videos);
+            oldPlaceDto.Photos.UnionWith(updatedPlaceDto.Photos);
+
+            oldPlaceDto.Content = updatedPlaceDto.Content;
+
+            oldPlaceDto.ListKeyWords = updatedPlaceDto.ListKeyWords;
+            oldPlaceDto.ShortDescription = updatedPlaceDto.ShortDescription;
+            oldPlaceDto.Name = updatedPlaceDto.Name;
+
+            var filteredOldPlaceDto = filterPlaceDescriptionMediaContent(oldPlaceDto);
+
+            oldPlace = mapper.Map<PlaceDescription>(filteredOldPlaceDto);
+            await dataContext.SaveChangesAsync();
+            return mapper.Map<PlaceDto>(oldPlace);
+        }
+
+        public async Task<PlaceReadOnlyDto> GetPlaceById(int placeId)
+        {
+            var place = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(p => p.Id == placeId);
+            if (place == null)
+                throw new System.Exception("No proper place found");
+            
+            var readOnlyPlace = mapper.Map<PlaceReadOnlyDto>(place);
+            return readOnlyPlace;
+        }
+
+        private async Task<PlaceDto> filterPlaceDescriptionMediaContent(PlaceDto newPlaceDto)
+        {
+            var filteredPlaceDescription = newPlaceDto;
+            filteredPlaceDescription.Photos = await filterMediaFileList(filteredPlaceDescription.Content,
+                                                                filteredPlaceDescription.Photos,
+                                                                Tag.ImageTag);
+
+            filteredPlaceDescription.Videos = await filterMediaFileList(filteredPlaceDescription.Content,
+                                                                filteredPlaceDescription.Videos,
+                                                                Tag.VideoTag);
+
+            filteredPlaceDescription.Audios = await filterMediaFileList(filteredPlaceDescription.Content,
+                                                                filteredPlaceDescription.Audios,
+                                                                Tag.AudioTag);
+
+            filteredPlaceDescription.ListKeyWords = filteredPlaceDescription.ListKeyWords.Distinct().ToList();
+
+            return filteredPlaceDescription;
+        }
+
+        private async Task<HashSet<MediaFileDto>> filterMediaFileList(string Content, HashSet<MediaFileDto> uploadedFiles, Tag tag)
+        {
+            HashSet<MediaFileDto> filesToDelete = new HashSet<MediaFileDto>();
+
+
+            filesToDelete = scanForDeletionInputMediaSrc(Content, uploadedFiles, tag.Value);
+
+
+            foreach (var file in filesToDelete)
+            {
+                await cloudinaryService.DeleteFile(file.PublicId, tag.Category);
+            }
+
+
+            return uploadedFiles.Except(filesToDelete).ToHashSet();
+        }
+
+        private HashSet<MediaFileDto> scanForDeletionInputMediaSrc(string htmlContent, HashSet<MediaFileDto> LoadedImages, string XPath)
+        {
+            List<string> htmlContentImgs = new List<string>();
+
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(htmlContent);
+
+            var nodes = document.DocumentNode.SelectNodes(XPath);
+            if (nodes != null)
+            {
+                foreach (HtmlNode img in nodes)
+                {
+                    string imgSrc = img.GetAttributeValue("src", string.Empty);
+
+                    if (!string.IsNullOrEmpty(imgSrc))
+                    {
+                        htmlContentImgs.Add(imgSrc);
+                    }
+                }
+            }
+
+            HashSet<MediaFileDto> urlsToDelete = LoadedImages.Where(img => !htmlContentImgs.Contains(img.Url)).ToHashSet();
+
+            return urlsToDelete;
+
+        }
+
+
+    }
+}

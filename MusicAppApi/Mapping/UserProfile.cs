@@ -9,6 +9,7 @@ namespace MusicAppApi.DTOProfile
         public UserProfile()
         {
             CreateMap<NativeUserRegisterDto, User>();
+            CreateMap<User, UserDto>().ReverseMap();
         }
     }
 }

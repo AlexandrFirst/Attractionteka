@@ -12,6 +12,10 @@ Don't forget to change connection string on yours in appsettings.json(if it is a
 If the project can't compile, try
 > dotnet restore
 
+If you can't run ef commands do these command
+> dotnet new tool-manifest  
+> dotnet tool install dotnet-ef  
+
 Existing api(input/output)  
 -> http://localhost:5000/Auth/nativeRegister (POST)
   ```json

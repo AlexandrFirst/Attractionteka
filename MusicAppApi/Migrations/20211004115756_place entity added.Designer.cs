@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicAppApi.Models;
 
 namespace MusicAppApi.Migrations
 {
     [DbContext(typeof(MyDataContext))]
-    partial class MyDataContextModelSnapshot : ModelSnapshot
+    [Migration("20211004115756_place entity added")]
+    partial class placeentityadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,7 +37,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 9, 14, 11, 2, 986, DateTimeKind.Local).AddTicks(7110));
+                        .HasDefaultValue(new DateTime(2021, 10, 4, 14, 57, 53, 436, DateTimeKind.Local).AddTicks(6540));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -45,39 +47,6 @@ namespace MusicAppApi.Migrations
                     b.HasIndex("PlaceDescriptionId");
 
                     b.ToTable("AudioFiles");
-                });
-
-            modelBuilder.Entity("MusicAppApi.Models.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CommentTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("ParentCommentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PlaceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AuthorId");
-
-                    b.HasIndex("ParentCommentId");
-
-                    b.HasIndex("PlaceId");
-
-                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("MusicAppApi.Models.PhotoFile", b =>
@@ -96,7 +65,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 9, 14, 11, 2, 995, DateTimeKind.Local).AddTicks(5711));
+                        .HasDefaultValue(new DateTime(2021, 10, 4, 14, 57, 53, 465, DateTimeKind.Local).AddTicks(3733));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -126,9 +95,6 @@ namespace MusicAppApi.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
 
                     b.Property<string>("ShortDescription")
                         .HasColumnType("nvarchar(max)");
@@ -190,7 +156,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 9, 14, 11, 2, 995, DateTimeKind.Local).AddTicks(4493));
+                        .HasDefaultValue(new DateTime(2021, 10, 4, 14, 57, 53, 464, DateTimeKind.Local).AddTicks(8211));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -209,27 +175,6 @@ namespace MusicAppApi.Migrations
                         .HasForeignKey("PlaceDescriptionId");
 
                     b.Navigation("PlaceDescription");
-                });
-
-            modelBuilder.Entity("MusicAppApi.Models.Comment", b =>
-                {
-                    b.HasOne("MusicAppApi.Models.User", "Author")
-                        .WithMany("Comments")
-                        .HasForeignKey("AuthorId");
-
-                    b.HasOne("MusicAppApi.Models.Comment", "ParentComment")
-                        .WithMany("CommentReplies")
-                        .HasForeignKey("ParentCommentId");
-
-                    b.HasOne("MusicAppApi.Models.PlaceDescription", "Place")
-                        .WithMany("Comments")
-                        .HasForeignKey("PlaceId");
-
-                    b.Navigation("Author");
-
-                    b.Navigation("ParentComment");
-
-                    b.Navigation("Place");
                 });
 
             modelBuilder.Entity("MusicAppApi.Models.PhotoFile", b =>
@@ -259,16 +204,9 @@ namespace MusicAppApi.Migrations
                     b.Navigation("PlaceDescription");
                 });
 
-            modelBuilder.Entity("MusicAppApi.Models.Comment", b =>
-                {
-                    b.Navigation("CommentReplies");
-                });
-
             modelBuilder.Entity("MusicAppApi.Models.PlaceDescription", b =>
                 {
                     b.Navigation("Audios");
-
-                    b.Navigation("Comments");
 
                     b.Navigation("Photos");
 
@@ -277,8 +215,6 @@ namespace MusicAppApi.Migrations
 
             modelBuilder.Entity("MusicAppApi.Models.User", b =>
                 {
-                    b.Navigation("Comments");
-
                     b.Navigation("PlaceDescriptions");
                 });
 #pragma warning restore 612, 618
