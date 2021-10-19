@@ -19,6 +19,7 @@ namespace MusicAppApi.Controllers
         [HttpPost("newplace")]
         public async Task<IActionResult> CreatePlace([FromBody] PlaceDto newPlaceDto)
         {
+            //TODO: get author from context
             var createdPlace = await placeService.CreateNewPlace(newPlaceDto);
             return Ok(createdPlace);
         }
