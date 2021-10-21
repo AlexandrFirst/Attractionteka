@@ -16,14 +16,14 @@ const LoginRegistrationBox = () => {
 
     const backdropVariants = {
         expanded: {
-            width: "255%",
+            width: "200%",
             height: "1100px",
             borderRadius: "20%",
             transform: "rotate(60deg)",
         },
         collapsed: {
-            width: "160%",
-            height: "550px",
+            width: "133%",
+            height: "500px",
             borderRadius: "50%",
             transform: "rotate(60deg)",
         },
@@ -84,6 +84,7 @@ const LoginRegistrationBox = () => {
                     />
                     {active === "login" && (
                             <div className={styles.headerContainer}>
+                                {/* <h2 className={styles.headerText}>Attractionteka</h2> */}
                                 <h2 className={styles.headerText}>Welcome</h2>
                                 <h2 className={styles.headerText}>Back</h2>
                                 <h5 className={styles.smallText}>Please login to continue!</h5>

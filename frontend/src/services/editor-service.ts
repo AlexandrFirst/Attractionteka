@@ -6,7 +6,7 @@ import {ContentType} from "../models/ContentType";
 
 export class EditorService extends Service {
 
-    static async uploadMedia(file: File, contentType: ContentType): Promise<AxiosResponse<IMediaResponse>> {
+    static async uploadMedia(file: FormData, contentType: ContentType): Promise<AxiosResponse<IMediaResponse>> {
         return axios.post<IMediaResponse>(`${Service.serverHost}/cloudinary/${contentType}`, file,
         // {
         //     Authorization: localStorage.getItem(LocalStorageKey.token),

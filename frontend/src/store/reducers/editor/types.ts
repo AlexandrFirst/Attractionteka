@@ -1,6 +1,7 @@
+import {IMediaResponse} from "../../../models/IMediaResponse";
 
 export interface EditorState {
-    media: File | null;
+    media: null | IMediaResponse;
     isLoading: boolean;
     error: string;
 }
@@ -13,7 +14,7 @@ export enum EditorActionsEnum {
 
 export interface SetMediaAction {
     type: EditorActionsEnum.SET_MEDIA;
-    payload: File;
+    payload: IMediaResponse;
 }
 
 export interface SetIsLoadingAction {
