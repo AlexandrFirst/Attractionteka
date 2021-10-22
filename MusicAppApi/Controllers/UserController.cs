@@ -44,9 +44,11 @@ namespace MusicAppApi.Controllers
             if (user == null)
                 throw new Exception("User not found");
 
-            user.Mail = user.Mail;
+            user.Mail = userDto.Mail;
             user.Name = userDto.Name;
             user.Surname = userDto.Surname;
+
+            context.Users.Update(user);
 
             await context.SaveChangesAsync();
             return Ok(user);
@@ -89,7 +91,8 @@ namespace MusicAppApi.Controllers
                 throw new Exception("User not found");
 
             user.Role = userRole;
-
+            context.Users.Update(user);
+            
             await context.SaveChangesAsync();
             return Ok(user);
         }

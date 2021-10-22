@@ -51,7 +51,6 @@ namespace MusicAppApi.Services
             var filteredPlaceDto = await filterPlaceDescriptionMediaContent(newPlaceDto);
 
 
-            // var placeForInsertion = mapper.Map<PlaceDescription>(filteredPlaceDto);
             var placeForInsertion = new PlaceDescription()
             {
                 Content = newPlaceDto.Content,
@@ -134,13 +133,13 @@ namespace MusicAppApi.Services
                                                                 filteredPlaceDescription.Photos,
                                                                 Tag.ImageTag);
 
-            filteredPlaceDescription.Videos = await filterMediaFileList(filteredPlaceDescription.Content,
-                                                                filteredPlaceDescription.Videos,
-                                                                Tag.VideoTag);
+            // filteredPlaceDescription.Videos = await filterMediaFileList(filteredPlaceDescription.Content,
+            //                                                     filteredPlaceDescription.Videos,
+            //                                                     Tag.VideoTag);
 
-            filteredPlaceDescription.Audios = await filterMediaFileList(filteredPlaceDescription.Content,
-                                                                filteredPlaceDescription.Audios,
-                                                                Tag.AudioTag);
+            // filteredPlaceDescription.Audios = await filterMediaFileList(filteredPlaceDescription.Content,
+            //                                                     filteredPlaceDescription.Audios,
+            //                                                     Tag.AudioTag);
 
             filteredPlaceDescription.ListKeyWords = filteredPlaceDescription.ListKeyWords.Distinct().ToList();
 

@@ -11,7 +11,8 @@ namespace MusicAppApi.Models.ModelConfiguration
                    .IsUnique();
 
             builder.HasMany(m => m.PlaceDescriptions)
-                    .WithOne(u => u.Author);
+                    .WithOne(u => u.Author)
+                    .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasMany(c => c.Comments)
             .WithOne(u => u.Author);
