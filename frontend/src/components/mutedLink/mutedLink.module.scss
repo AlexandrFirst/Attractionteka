@@ -1,7 +1,7 @@
 .mutedLink {
   font-size: 13px;
-  color: rgba(200, 200, 200, 0.8);
-  font-weight: 500;
+  color: var(--main-front-color);
+  font-weight: 600;
   text-decoration: none;
   &:hover {
     text-decoration: underline;

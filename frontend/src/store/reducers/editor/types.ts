@@ -1,7 +1,7 @@
 import {IMediaResponse} from "../../../models/IMediaResponse";
 
 export interface EditorState {
-    media: null | IMediaResponse;
+    media: IMediaResponse[];
     isLoading: boolean;
     error: string;
 }

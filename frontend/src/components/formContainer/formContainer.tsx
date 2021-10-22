@@ -1,10 +1,15 @@
 import React from 'react';
 
 import styles from './formContainer..module.scss';
+import cn from "classnames";
 
-const FormContainer:React.FC = (props) => {
+export interface FormContainerProps {
+    classNames?: string;
+}
+
+const FormContainer:React.FC<FormContainerProps> = (props, classNames) => {
     return (
-        <div className={styles.formContainer}>
+        <div className={cn(styles.formContainer, classNames)}>
             {props.children}
         </div>
     );

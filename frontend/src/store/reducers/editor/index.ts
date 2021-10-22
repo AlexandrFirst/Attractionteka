@@ -1,7 +1,7 @@
 import {EditorAction, EditorActionsEnum, EditorState} from "./types";
 
 const initialValue: EditorState = {
-    media: null,
+    media: [],
     isLoading: false,
     error: '',
 }
@@ -9,7 +9,7 @@ const initialValue: EditorState = {
 export default function editorReducer(state = initialValue, action: EditorAction): EditorState {
     switch (action.type) {
         case EditorActionsEnum.SET_MEDIA:
-            return { ...state, media: action.payload, isLoading: false }
+            return { ...state, media: [...state.media, action.payload], isLoading: false }
 
         case EditorActionsEnum.SET_IS_LOADING:
             return { ...state, isLoading: action.payload }

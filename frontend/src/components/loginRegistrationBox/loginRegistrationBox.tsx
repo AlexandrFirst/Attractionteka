@@ -8,11 +8,13 @@ import RegisterForm from "../registerForm/registerForm";
 import styles from './loginRegistrationBox.module.scss';
 import {LocalStorageKey} from "../../models/LocalStorageKey";
 
+import logo from '../../img/Attractionteka.png';
+
 export const enum SignPageList {
     LOGIN="login",
     REGISTER="register",
 }
-const LoginRegistrationBox = () => {
+const LoginRegistrationBox:React.FC = () => {
 
     const backdropVariants = {
         expanded: {
@@ -22,10 +24,10 @@ const LoginRegistrationBox = () => {
             transform: "rotate(60deg)",
         },
         collapsed: {
-            width: "133%",
-            height: "500px",
+            width: "127%",
+            height: "440px",
             borderRadius: "50%",
-            transform: "rotate(60deg)",
+            transform: "rotate(20deg)",
         },
     };
 
@@ -58,7 +60,7 @@ const LoginRegistrationBox = () => {
         playExpandingAnimation();
         setTimeout(() => {
             setActive(SignPageList.REGISTER);
-        }, 700);
+        }, 400);
     };
 
     const switchToLogin = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -66,13 +68,18 @@ const LoginRegistrationBox = () => {
         playExpandingAnimation();
         setTimeout(() => {
             setActive(SignPageList.LOGIN);
-        }, 700);
+        }, 400);
     };
 
     const contextValue = { switchToRegister, switchToLogin };
 
     return (
         <AccountContext.Provider value={contextValue}>
+            <img
+                src={logo}
+                alt="Logo"
+                className={styles.logo}
+            />
             <div className={styles.boxContainer}>
                 <div className={styles.topContainer}>
                     <motion.div
@@ -85,15 +92,15 @@ const LoginRegistrationBox = () => {
                     {active === "login" && (
                             <div className={styles.headerContainer}>
                                 {/* <h2 className={styles.headerText}>Attractionteka</h2> */}
-                                <h2 className={styles.headerText}>Welcome</h2>
-                                <h2 className={styles.headerText}>Back</h2>
+                                <h2 className={styles.headerText}>Welcome Back</h2>
+                                {/*<h2 className={styles.headerText}></h2>*/}
                                 <h5 className={styles.smallText}>Please login to continue!</h5>
                             </div>
                     )}
                     {active === "register" && (
                         <div className={styles.headerContainer}>
-                            <h2 className={styles.headerText}>Create</h2>
-                            <h2 className={styles.headerText}>Account</h2>
+                            <h2 className={styles.headerText}>Welcome</h2>
+                            <h2 className={styles.middleText}>Create your Account</h2>
                             <h5 className={styles.smallText}>Please register to continue!</h5>
                         </div>
                     )}

@@ -17,10 +17,10 @@ export const EditorActionCreators = {
             const response = await EditorService.uploadMedia(media, contentType);
             // console.log(response.data);
             dispatch(EditorActionCreators.setMedia(response.data));
-            console.log(response.data);
-            // return response;
+            console.log("Тут получен ответ с сервера=", response.data);
+            return response;
         } catch (e: any) {
-            dispatch(EditorActionCreators.setError(e));
+            dispatch(EditorActionCreators.setError("Произошла ошибка при загрузке медиафайла"));
         } finally {
             dispatch(EditorActionCreators.setIsLoading(false));
         }

@@ -10,6 +10,7 @@ import {useActions} from "../../hooks/useActions";
 import Marginer from "../marginer/marginer";
 import {emailIcon, invisiblePass, passIcon} from "./inputIconsData/inputIcons";
 import Checkbox from "../checkbox/checkbox";
+import FormError from "../formError/formError";
 
 const LoginForm = () => {
     const { switchToRegister } = React.useContext(AccountContext);
@@ -32,26 +33,30 @@ const LoginForm = () => {
 
     return (
         <div className={styles.boxContainer}>
-            <Marginer margin={"50px"} direction={"vertical"}/>
+            <Marginer margin={"6em"} direction={"vertical"}/>
             <FormContainer>
                 <Input {...email} type="email" placeholder={"Email"} icon={emailIcon} required/>
-                <Marginer margin="17px" direction="vertical"/>
                 <Input {...password} type={inputType} placeholder={"Password"} icon={inputType === "password" ? invisiblePass : passIcon} required/>
                 <Checkbox onChange={handleOnChangeCheckbox} label={"show password"}/>
             </FormContainer>
-            <Marginer margin={"80px"} direction={"vertical"}/>
+            {/*<Marginer margin={"90px"} direction={"vertical"}/>*/}
+            {/*<MutedLink*/}
+            {/*    to={'#'}*/}
+            {/*>Forgot your password?</MutedLink>*/}
+            <FormError message={"An account with that email exists! Forgot password?"}/>
+            <Marginer margin={"100px"} direction={"vertical"}/>
             <MutedLink
-                to={'#'}
-            >Forget your password?</MutedLink>
-            <Marginer margin={"5px"} direction={"vertical"}/>
-            <Button onClick={submitLogin}>Login</Button>
+                // classes="mt25"
+                to={'#'} classes={styles.muted_link}>Forgot password?</MutedLink>
             <Marginer margin={"10px"} direction={"vertical"}/>
-            <MutedLink to={'#'}>
+            <Button onClick={submitLogin}>Log in</Button>
+            <Marginer margin={"10px"} direction={"vertical"}/>
+            <MutedLink to={'#'} classes={styles.muted_link}>
                 Don't have an account?
                 <div
-                    className={styles.boldLink}
+                    className={styles.bold_link}
                     onClick={switchToRegister}
-                >Signup</div>
+                >Sign up</div>
             </MutedLink>
         </div>
     );

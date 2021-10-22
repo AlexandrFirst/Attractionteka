@@ -1,6 +1,6 @@
 export interface IMediaResponse {
-    Id: number;
-    PublicId: number;
-    Url: string;
-    UploadTime: Date;
+    id: number;
+    publicId: number;
+    url: string;
+    uploadTime: Date;
 }
