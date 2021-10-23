@@ -1,0 +1,20 @@
+.wrapper {
+  background: url("../img/background.png") no-repeat 50%/cover;
+}
+
+.working_place {
+  margin: 0 auto;
+  width: 1100px;
+  padding: 50px;
+  background: linear-gradient(180deg, #F8F8F8 0%, #DDDDDF 51.35%, #ACACAC 100%);
+  /* Blur 30 */
+
+  backdrop-filter: blur(30px);
+}
+
+.img_wrapper {
+  width: 50px;
+  display: block;
+  padding: 30px 15px 15px 0;
+  cursor: pointer;
+}

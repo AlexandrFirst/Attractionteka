@@ -9,13 +9,20 @@ export interface InputPops extends React.DetailedHTMLProps<React.InputHTMLAttrib
     classnames?: string;
     icon?: React.ReactNode;
     password?: boolean;
+    changeVisibility?: Function;
 }
 const Input:React.FC<InputPops> = (props) => {
 
     React.useEffect(() => {
         setNowIcon(props.icon);
         setInputType(props.type);
-    },[props.icon, props.type])
+    },[props.icon, props.type]);
+
+    const changeVisibility = () => {
+        if(props.changeVisibility) {
+            props.changeVisibility();
+        }
+    }
 
     const [inputType, setInputType] = React.useState(props.type?.toString());
     const [nowIcon, setNowIcon] = React.useState<React.ReactNode>('');
@@ -27,7 +34,10 @@ const Input:React.FC<InputPops> = (props) => {
                 {...props}
                 type={inputType}
             />
-            <div className={cn(styles.icon,)}>
+            <div
+                className={cn(styles.icon,)}
+                onClick={() => changeVisibility()}
+            >
                 {nowIcon}
             </div>
         </div>

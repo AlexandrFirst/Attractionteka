@@ -36,8 +36,13 @@ const LoginForm = () => {
             <Marginer margin={"6em"} direction={"vertical"}/>
             <FormContainer>
                 <Input {...email} type="email" placeholder={"Email"} icon={emailIcon} required/>
-                <Input {...password} type={inputType} placeholder={"Password"} icon={inputType === "password" ? invisiblePass : passIcon} required/>
-                <Checkbox onChange={handleOnChangeCheckbox} label={"show password"}/>
+                <Input {...password}
+                       changeVisibility={handleOnChangeCheckbox}
+                       type={inputType} placeholder={"Password"}
+                       icon={inputType === "password" ? invisiblePass : passIcon}
+                       required
+                />
+                {/*<Checkbox onChange={handleOnChangeCheckbox} label={"show password"}/>*/}
             </FormContainer>
             {/*<Marginer margin={"90px"} direction={"vertical"}/>*/}
             {/*<MutedLink*/}

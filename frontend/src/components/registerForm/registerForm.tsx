@@ -47,9 +47,9 @@ const RegisterForm = () => {
                 <Input {...firstName} type="text" placeholder={"Name"} icon={nameIcon}  required/>
                 <Input {...lastName} type="text" placeholder={"Surname"} icon={nameIcon}  required/>
                 <Input {...email} type="email" placeholder={"Email"} icon={emailIcon}  required/>
-                <Input {...password} type={inputType} placeholder={"Password"} icon={inputType === "password" ? invisiblePass : passIcon}  required/>
-                <Input {...confirmPass} type={inputType} placeholder={"Confirm password"} icon={inputType === "password" ? invisiblePass : passIcon}/>
-                <Checkbox label={"show password"} onChange={handleOnChangeCheckbox}/>
+                <Input {...password} changeVisibility={handleOnChangeCheckbox} type={inputType} placeholder={"Password"} icon={inputType === "password" ? invisiblePass : passIcon}  required/>
+                <Input {...confirmPass} changeVisibility={handleOnChangeCheckbox} type={inputType} placeholder={"Confirm password"} icon={inputType === "password" ? invisiblePass : passIcon}/>
+                {/*<Checkbox label={"show password"} onChange={handleOnChangeCheckbox}/>*/}
             </FormContainer>
             <FormError message={"An account with that email exists! Forgot password?"}/>
             <Marginer margin={"6px"} direction={"vertical"}/>
