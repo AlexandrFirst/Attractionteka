@@ -19,7 +19,7 @@ const EditorSection = () => {
     const editor = React.useRef<SunEditorCore>();
     // const {uploadMedia} = useActions();
     const [currentPhoto, setCurrentPhoto] = React.useState<IMediaResponse>();
-    const {photos, isLoading, error} = useTypedSelector(state => state.editor);
+    const {photos: {data: photos, isLoading, error} } = useTypedSelector(state => state.editor);
     const [content, setContent] = React.useState("");
     const dispatch = useDispatch<AppDispatch>();
 
@@ -54,7 +54,7 @@ const EditorSection = () => {
         sendingPhoto.append("media", files[0]);
 
         async function requestToServer() {
-            dispatch(EditorActionCreators.setIsLoading(true));
+            dispatch(EditorActionCreators.setIsLoadingPhotos(true));
             return await EditorService.uploadMedia(sendingPhoto, "photo");
         }
 
@@ -74,8 +74,8 @@ const EditorSection = () => {
             }
             // console.log(currentPhoto);
             uploadHandler(imageOnServer);
-        }).catch(e => dispatch(EditorActionCreators.setError("Произошла ошибка при загрузке медиафайла на сервер"))
-        ).finally(() => dispatch(EditorActionCreators.setIsLoading(false)));
+        }).catch(e => dispatch(EditorActionCreators.setErrorPhotos("Произошла ошибка при загрузке медиафайла на сервер"))
+        ).finally(() => dispatch(EditorActionCreators.setIsLoadingPhotos(false)));
     }
 
     // const onImageUpload = (

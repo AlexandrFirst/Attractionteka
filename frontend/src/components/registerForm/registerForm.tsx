@@ -51,7 +51,7 @@ const RegisterForm = () => {
                 <Input {...confirmPass} changeVisibility={handleOnChangeCheckbox} type={inputType} placeholder={"Confirm password"} icon={inputType === "password" ? invisiblePass : passIcon}/>
                 {/*<Checkbox label={"show password"} onChange={handleOnChangeCheckbox}/>*/}
             </FormContainer>
-            <FormError message={"An account with that email exists! Forgot password?"}/>
+            <FormError>An account with that email exists! Forgot password</FormError>
             <Marginer margin={"6px"} direction={"vertical"}/>
             <Button onClick={submitRegistration}>Register</Button>
             <Marginer margin={"12px"} direction={"vertical"} />

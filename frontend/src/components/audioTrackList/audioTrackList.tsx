@@ -7,20 +7,20 @@ import {useActions} from "../../hooks/useActions";
 import Spinner from "../spinner/spinner";
 
 export interface AudioTrackListProps {
-    fileArray: File[] | null;
+    fileList: FileList | null;
 }
 
-const AudioTrackList:React.FC<AudioTrackListProps> = ({fileArray}) => {
+const AudioTrackList:React.FC<AudioTrackListProps> = ({fileList}) => {
 
-    const {audios, isLoading, error} = useTypedSelector(state => state.editor);
-    const {uploadMedia} = useActions();
+    const {audios: {data: audios, isLoading, error }} = useTypedSelector(state => state.editor);
+    const {uploadAudio} = useActions();
 
     const [state, setState] = React.useState<React.ReactNode>();
 
     React.useEffect(() => {
         console.log("USE EFFECT -> fileArray");
         requestToServer();
-    }, [fileArray])
+    }, [fileList])
 
     React.useEffect(() => {
         console.log("USE EFFECT -> audios");
@@ -29,13 +29,18 @@ const AudioTrackList:React.FC<AudioTrackListProps> = ({fileArray}) => {
     }, [audios, isLoading, error])
 
     const requestToServer = async () => {
-        console.log("fileArray......", fileArray);
-        if(fileArray?.length) {
-            for (const file of fileArray) {
+        console.log("fileArray......", fileList);
+        if(fileList?.length) {
+            for (let i = 0; i < fileList.length; ++i) {
                 const data = new FormData();
-                data.append("media", file);
-                await uploadMedia(data, "audio");
+                data.append("media", fileList[i]);
+                await uploadAudio(data);
             }
+            // for (const file of fileArray) {
+            //     const data = new FormData();
+            //     data.append("media", file);
+            //     await uploadMedia(data, "audio");
+            // }
         }
     }
 
@@ -47,9 +52,12 @@ const AudioTrackList:React.FC<AudioTrackListProps> = ({fileArray}) => {
             return <h2>{error}</h2>
         }
         if(audios.length > 0) {
-            return fileArray?.map(file => <AudioTrackItem audio={file} key={file.name}/>)
+
+            // return audios.map((audio, index) => {
+            //     if(audio.name != fileList)
+            // })
         } else {
-            return <h2>No file selected</h2>
+            return <h2 className={styles.no_files}>No file selected</h2>
         }
     }
 

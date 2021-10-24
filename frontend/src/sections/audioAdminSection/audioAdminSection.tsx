@@ -8,14 +8,14 @@ const AudioAdminSection = () => { //TODO: Use React.useMemo to this component
     const [currentFileList, setCurrentFileList] = React.useState<FileList | null>(null);
     const [currentFileArray, setCurrentFileArray] = React.useState<File[]>([]);
 
-    React.useEffect(() => {
-        if(currentFileList) {
-            for (let i = 0; i < currentFileList.length; ++i) {
-                // audios.push(currentFileList[i]);
-                setCurrentFileArray(prevState => [...prevState, currentFileList[i]]);
-            }
-        }
-    }, [currentFileList])
+    // React.useEffect(() => {
+    //     if(currentFileList) {
+    //         for (let i = 0; i < currentFileList.length; ++i) {
+    //             // audios.push(currentFileList[i]);
+    //             setCurrentFileArray(prevState => [...prevState, currentFileList[i]]);
+    //         }
+    //     }
+    // }, [currentFileList])
 
     return (
         <>
@@ -25,7 +25,7 @@ const AudioAdminSection = () => { //TODO: Use React.useMemo to this component
                 setFile={setCurrentFileList}
                 buttonCaption={"Select a file"}
             />
-            <AudioTrackList fileArray={currentFileArray}/>
+            <AudioTrackList fileList={currentFileList}/>
         </>
     );
 };

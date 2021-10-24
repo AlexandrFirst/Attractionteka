@@ -1,18 +1,34 @@
 import {IMediaResponse} from "../../../models/IMediaResponse";
 
-export interface EditorState {
-    photos: IMediaResponse[];
-    audios: IMediaResponse[];
-    videos: IMediaResponse[];
-    keywords: string[];
+export interface  IMediaData {
+    data: IMediaResponse[];
     isLoading: boolean;
     error: string;
 }
 
+export interface IKeywordsData {
+    data: string[];
+    isLoading: boolean;
+    error: string;
+}
+
+export interface EditorState {
+    photos: IMediaData;
+    audios: IMediaData;
+    videos: IMediaData;
+    keywords: IKeywordsData;
+    // isLoading: boolean;
+    // error: string;
+}
+
 export enum EditorActionsEnum {
     SET_PHOTOS="SET_PHOTOS",
-    SET_IS_LOADING="SET_IS_LOADING",
-    SET_ERROR="SET_ERROR",
+    SET_IS_LOADING_PHOTOS="SET_IS_LOADING_PHOTOS",
+    SET_IS_LOADING_AUDIOS="SET_IS_LOADING_AUDIOS",
+    SET_IS_LOADING_VIDEOS="SET_IS_LOADING_VIDEOS",
+    SET_ERROR_PHOTOS="SET_ERROR_PHOTOS",
+    SET_ERROR_AUDIOS="SET_ERROR_AUDIOS",
+    SET_ERROR_VIDEOS="SET_ERROR_VIDEOS",
     SET_AUDIOS="SET_AUDIOS",
     DELETE_AUDIO="DELETE_AUDIO",
     SET_VIDEOS="SET_VIDEOS",
@@ -51,12 +67,12 @@ export interface SetKeywordsAction {
 }
 
 export interface SetIsLoadingAction {
-    type: EditorActionsEnum.SET_IS_LOADING;
+    type: EditorActionsEnum.SET_IS_LOADING_PHOTOS | EditorActionsEnum.SET_IS_LOADING_AUDIOS | EditorActionsEnum.SET_IS_LOADING_VIDEOS;
     payload: boolean;
 }
 
 export interface SetErrorAction {
-    type: EditorActionsEnum.SET_ERROR;
+    type: EditorActionsEnum.SET_ERROR_PHOTOS | EditorActionsEnum.SET_ERROR_AUDIOS | EditorActionsEnum.SET_ERROR_VIDEOS;
     payload: string;
 }
 

@@ -1,15 +1,20 @@
 import React from 'react';
 import {IMediaResponse} from "../../../models/IMediaResponse";
 
+import styles from './audioTrackItem.module.scss';
+
 export interface AudioTrackItemProps {
-    audio: File;
+    audio: IMediaResponse;
+    num: number;
 }
 
-const AudioTrackItem:React.FC<AudioTrackItemProps> = ({audio}) => {
+const AudioTrackItem:React.FC<AudioTrackItemProps> = ({audio, num}) => {
     return (
-        <>
-            <h2>{audio.name}</h2>
-        </>
+        <div className={styles.wrapper}>
+            <h5>{num}</h5>
+            <h5>{audio.name}</h5>
+
+        </div>
     );
 };
 

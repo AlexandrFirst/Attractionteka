@@ -48,7 +48,7 @@ const LoginForm = () => {
             {/*<MutedLink*/}
             {/*    to={'#'}*/}
             {/*>Forgot your password?</MutedLink>*/}
-            <FormError message={"An account with that email exists! Forgot password?"}/>
+            <FormError>An account with that email exists! Forgot password?</FormError>
             <Marginer margin={"100px"} direction={"vertical"}/>
             <MutedLink
                 // classes="mt25"

@@ -1,0 +1,11 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+
+  margin-top: 5px;
+  padding: 10px 67px;
+
+  width: 100%;
+  background: rgba(187, 193, 228, 0.4);
+  border-radius: 15px;
+}
