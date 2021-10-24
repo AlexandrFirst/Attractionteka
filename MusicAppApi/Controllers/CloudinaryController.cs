@@ -28,7 +28,8 @@ namespace MusicAppApi.Controllers
             var newAudioFile = new AudioFile()
             {
                 PublicId = result.PublicId,
-                Url = result.Url
+                Url = result.Url,
+                Name = result.Name
             };
 
             await dataContext.AudioFiles.AddAsync(newAudioFile);
@@ -44,7 +45,8 @@ namespace MusicAppApi.Controllers
             var newVideoFile = new VideoFile()
             {
                 PublicId = result.PublicId,
-                Url = result.Url
+                Url = result.Url,
+                Name = result.Name
             };
 
             await dataContext.VideoFiles.AddAsync(newVideoFile);
@@ -61,7 +63,8 @@ namespace MusicAppApi.Controllers
             var newImageFile = new PhotoFile()
             {
                 PublicId = result.PublicId,
-                Url = result.Url
+                Url = result.Url,
+                Name = result.Name
             };
 
             await dataContext.PhotoFiles.AddAsync(newImageFile);
