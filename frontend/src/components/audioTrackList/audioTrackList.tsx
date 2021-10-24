@@ -18,7 +18,7 @@ const AudioTrackList:React.FC<AudioTrackListProps> = ({fileList}) => {
     const [state, setState] = React.useState<React.ReactNode>();
 
     React.useEffect(() => {
-        console.log("USE EFFECT -> fileArray");
+        console.log("USE EFFECT -> fileList");
         requestToServer();
     }, [fileList])
 
@@ -29,7 +29,7 @@ const AudioTrackList:React.FC<AudioTrackListProps> = ({fileList}) => {
     }, [audios, isLoading, error])
 
     const requestToServer = async () => {
-        console.log("fileArray......", fileList);
+        console.log("fileList......", fileList);
         if(fileList?.length) {
             for (let i = 0; i < fileList.length; ++i) {
                 const data = new FormData();
@@ -44,6 +44,18 @@ const AudioTrackList:React.FC<AudioTrackListProps> = ({fileList}) => {
         }
     }
 
+    function* render() {
+        if(isLoading) {
+            yield <Spinner/>
+        }
+        if(error) {
+            yield <h2>{error}</h2>
+        }
+        if(audios.length) {
+            yield audios.map((audio, index) => <AudioTrackItem audio={audio} num={index+1} key={audio.publicId}/>)
+        }
+    }
+
     const setItemsToRender = (): React.ReactNode => {
         if(isLoading) {
             return <Spinner/>
@@ -52,10 +64,7 @@ const AudioTrackList:React.FC<AudioTrackListProps> = ({fileList}) => {
             return <h2>{error}</h2>
         }
         if(audios.length > 0) {
-
-            // return audios.map((audio, index) => {
-            //     if(audio.name != fileList)
-            // })
+            return audios.map((audio, index) => <AudioTrackItem audio={audio} num={index+1} key={audio.publicId}/>);
         } else {
             return <h2 className={styles.no_files}>No file selected</h2>
         }
