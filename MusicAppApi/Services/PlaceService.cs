@@ -33,14 +33,17 @@ namespace MusicAppApi.Services
         private readonly IMapper mapper;
         private readonly ICloudinaryService cloudinaryService;
         private readonly MyDataContext dataContext;
+        private readonly IUserContextService userContext;
 
         public PlaceService(IMapper mapper,
                             ICloudinaryService cloudinaryService,
-                            MyDataContext dataContext)
+                            MyDataContext dataContext,
+                            IUserContextService userContext)
         {
             this.mapper = mapper;
             this.cloudinaryService = cloudinaryService;
             this.dataContext = dataContext;
+            this.userContext = userContext;
         }
 
         public async Task<PlaceDto> CreateNewPlace(PlaceDto newPlaceDto)
@@ -48,7 +51,6 @@ namespace MusicAppApi.Services
             var filteredPlaceDto = await filterPlaceDescriptionMediaContent(newPlaceDto);
 
 
-            // var placeForInsertion = mapper.Map<PlaceDescription>(filteredPlaceDto);
             var placeForInsertion = new PlaceDescription()
             {
                 Content = newPlaceDto.Content,
@@ -63,7 +65,13 @@ namespace MusicAppApi.Services
             placeForInsertion.Audios = mapper.Map<HashSet<AudioFile>>(filteredPlaceDto.Audios);
             placeForInsertion.Videos = mapper.Map<HashSet<VideoFile>>(filteredPlaceDto.Videos);
             placeForInsertion.Photos = mapper.Map<HashSet<PhotoFile>>(filteredPlaceDto.Photos);
-            placeForInsertion.Author = mapper.Map<User>(newPlaceDto.Author);
+
+            var authorId = userContext.GetUserContext().Id;
+            
+            var authorEntity = await dataContext.Users.FirstOrDefaultAsync(u => u.Id == authorId);
+
+
+             placeForInsertion.Author = authorEntity;
 
             await dataContext.SaveChangesAsync();
 
@@ -113,7 +121,7 @@ namespace MusicAppApi.Services
             var place = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(p => p.Id == placeId);
             if (place == null)
                 throw new System.Exception("No proper place found");
-            
+
             var readOnlyPlace = mapper.Map<PlaceReadOnlyDto>(place);
             return readOnlyPlace;
         }
@@ -125,13 +133,13 @@ namespace MusicAppApi.Services
                                                                 filteredPlaceDescription.Photos,
                                                                 Tag.ImageTag);
 
-            filteredPlaceDescription.Videos = await filterMediaFileList(filteredPlaceDescription.Content,
-                                                                filteredPlaceDescription.Videos,
-                                                                Tag.VideoTag);
+            // filteredPlaceDescription.Videos = await filterMediaFileList(filteredPlaceDescription.Content,
+            //                                                     filteredPlaceDescription.Videos,
+            //                                                     Tag.VideoTag);
 
-            filteredPlaceDescription.Audios = await filterMediaFileList(filteredPlaceDescription.Content,
-                                                                filteredPlaceDescription.Audios,
-                                                                Tag.AudioTag);
+            // filteredPlaceDescription.Audios = await filterMediaFileList(filteredPlaceDescription.Content,
+            //                                                     filteredPlaceDescription.Audios,
+            //                                                     Tag.AudioTag);
 
             filteredPlaceDescription.ListKeyWords = filteredPlaceDescription.ListKeyWords.Distinct().ToList();
 

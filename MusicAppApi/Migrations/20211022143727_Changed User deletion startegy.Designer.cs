@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicAppApi.Models;
 
 namespace MusicAppApi.Migrations
 {
     [DbContext(typeof(MyDataContext))]
-    partial class MyDataContextModelSnapshot : ModelSnapshot
+    [Migration("20211022143727_Changed User deletion startegy")]
+    partial class ChangedUserdeletionstartegy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +28,6 @@ namespace MusicAppApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("PlaceDescriptionId")
                         .HasColumnType("int");
 
@@ -38,7 +37,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 24, 15, 26, 39, 182, DateTimeKind.Local).AddTicks(4280));
+                        .HasDefaultValue(new DateTime(2021, 10, 22, 17, 37, 25, 790, DateTimeKind.Local).AddTicks(1331));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -90,9 +89,6 @@ namespace MusicAppApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("PlaceDescriptionId")
                         .HasColumnType("int");
 
@@ -102,7 +98,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 24, 15, 26, 39, 197, DateTimeKind.Local).AddTicks(4599));
+                        .HasDefaultValue(new DateTime(2021, 10, 22, 17, 37, 25, 804, DateTimeKind.Local).AddTicks(9000));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -187,9 +183,6 @@ namespace MusicAppApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("PlaceDescriptionId")
                         .HasColumnType("int");
 
@@ -199,7 +192,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 24, 15, 26, 39, 197, DateTimeKind.Local).AddTicks(1781));
+                        .HasDefaultValue(new DateTime(2021, 10, 22, 17, 37, 25, 804, DateTimeKind.Local).AddTicks(6130));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");

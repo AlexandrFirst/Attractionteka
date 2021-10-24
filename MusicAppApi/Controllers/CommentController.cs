@@ -124,30 +124,7 @@ namespace MusicAppApi.Controllers
             });
         }
 
-        [HttpGet("place/{placeId}")]
-        public async Task<IActionResult> GetPlaceComments(int placeId)
-        {
-            var place = await dataContext.PlaceDescriptions.Include(c => c.Comments).FirstOrDefaultAsync(u => u.Id == placeId);
-            if (place == null)
-                throw new System.Exception("No place found");
 
-            var comments = mapper.Map<List<CommentDto>>(place.Comments);
-            return Ok(comments);
-        }
-
-
-        [HttpGet("single/{commentId}")]
-        public async Task<IActionResult> GetSingleComments(int commentId)
-        {
-            var comment = await dataContext.Comments.Include(r => r.CommentReplies).FirstOrDefaultAsync(u => u.Id == commentId);
-            if (comment == null)
-                throw new System.Exception("No comment found");
-
-            var commentDto = mapper.Map<CommentDto>(comment);
-            return Ok(commentDto);
-        }
-
-        
         [HttpPut("{commentId}")]
         public async Task<IActionResult> UpdateComment(int commentId, [FromBody] UpdateCommentDto commentData)
         {
@@ -167,5 +144,57 @@ namespace MusicAppApi.Controllers
 
             return Ok(updatedComment);
         }
+
+
+        [HttpGet("place/{placeId}")]
+        public async Task<IActionResult> GetPlaceComments(int placeId)
+        {
+            var place = await dataContext.PlaceDescriptions.Include(c => c.Comments).ThenInclude(c => c.CommentReplies).FirstOrDefaultAsync(u => u.Id == placeId);
+            if (place == null)
+                throw new System.Exception("No place found");
+
+            foreach (var comment in place.Comments)
+            {
+                comment.CommentReplies = await GetReplies(comment.CommentReplies);
+            }
+
+            var comments = mapper.Map<List<CommentDto>>(place.Comments);
+            
+            return Ok(comments);
+        }
+
+
+        [HttpGet("single/{commentId}")]
+        public async Task<IActionResult> GetSingleComments(int commentId)
+        {
+            var comment = await dataContext.Comments.Include(r => r.CommentReplies).FirstOrDefaultAsync(u => u.Id == commentId);
+            if (comment == null)
+                throw new System.Exception("No comment found");
+
+            comment.CommentReplies = await GetReplies(comment.CommentReplies);
+
+            var commentDto = mapper.Map<CommentDto>(comment);
+            return Ok(commentDto);
+        }
+
+        private async Task<List<Comment>> GetReplies(List<Comment> replies)
+        {
+            if (replies.Count == 0)
+            {
+                return new List<Comment>();
+            }
+
+            foreach (var comment in replies)
+            {
+                var commentWithReplies = await dataContext.Comments.Include(c => c.CommentReplies)
+                                                        .FirstOrDefaultAsync(p => p.Id == comment.Id);
+
+                comment.CommentReplies = await GetReplies(commentWithReplies.CommentReplies);
+            }
+
+            return replies;
+
+        }
+
     }
 }

@@ -141,29 +141,11 @@ namespace Astalavista.IntegrationTests
 
             List<string> KeyWords = new List<string> { "sjkdjskd", "sjhdjs", "sjhjshdjshd" };
 
-
-            var response = await TestClient.GetAsync("http://localhost:5000/User/user/1");
-
-            User retrievedUser = await response.Content.ReadAsAsync<User>();
-
-
-
-            Assert.NotNull(retrievedUser);
-
-            UserDto userDto = new UserDto()
-            {
-                Id = retrievedUser.Id,
-                Mail = retrievedUser.Mail,
-                Name = retrievedUser.Name,
-                Surname = retrievedUser.Surname
-            };
-
             PlaceDto newPlaceDto = new PlaceDto()
             {
                 Audios = uploadedAudios.ToHashSet(),
                 Videos = uploadedVideos.ToHashSet(),
                 Photos = uploadedPhotos.ToHashSet(),
-                Author = userDto,
                 Content = string.Format(insertContent, uploadedPhotos[0].Url, uploadedPhotos[1].Url,
                                                          uploadedVideos[0].Url, uploadedVideos[1].Url, uploadedVideos[2].Url,
                                                          uploadedAudios[0].Url),

@@ -33,15 +33,17 @@ namespace MusicAppApi.Services
         public async Task<DeletionResult> DeleteFile(string filePublicId, string category)
         {
             IQueryable<MediaFile> placeToDelete = null;
-            if (category == "photo")
+
+
+            if (category == MediaCategory.PhotoCategory)
             {
                 placeToDelete = dataContext.PhotoFiles;
             }
-            else if (category == "video")
+            else if (category == MediaCategory.VideoCategory)
             {
                 placeToDelete = dataContext.VideoFiles;
             }
-            else if (category == "audio")
+            else if (category == MediaCategory.AudioCategory)
             {
                 placeToDelete = dataContext.AudioFiles;
             }
