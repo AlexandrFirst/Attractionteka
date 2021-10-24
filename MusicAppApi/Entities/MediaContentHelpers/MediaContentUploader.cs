@@ -33,7 +33,7 @@ namespace MusicAppApi.MediaContentHelpers.Entities
 
                     return new UploadResultDto()
                     {
-                        Name = file.Name,
+                        Name = file.FileName,
                         PublicId = result.PublicId,
                         Url = result.Url.ToString()
                     };
