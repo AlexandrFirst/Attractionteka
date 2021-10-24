@@ -1,4 +1,5 @@
 import React from 'react';
+import {IMediaResponse} from "../../../models/IMediaResponse";
 
 export interface AudioTrackItemProps {
     audio: File;
@@ -6,9 +7,9 @@ export interface AudioTrackItemProps {
 
 const AudioTrackItem:React.FC<AudioTrackItemProps> = ({audio}) => {
     return (
-        <div>
-            <h1>AAAAAA</h1>
-        </div>
+        <>
+            <h2>{audio.name}</h2>
+        </>
     );
 };
 

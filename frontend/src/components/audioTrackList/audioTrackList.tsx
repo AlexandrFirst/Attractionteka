@@ -2,44 +2,61 @@ import React from 'react';
 import AudioTrackItem from "./audioTrackItem/audioTrackItem";
 
 import styles from './audioTrackList.module.scss';
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {useActions} from "../../hooks/useActions";
+import Spinner from "../spinner/spinner";
 
 export interface AudioTrackListProps {
-    audios: File[] | null;
+    fileArray: File[] | null;
 }
 
-const AudioTrackList:React.FC<AudioTrackListProps> = ({audios}) => {
+const AudioTrackList:React.FC<AudioTrackListProps> = ({fileArray}) => {
 
-    const [itemsToRender, setItemsToRender] = React.useState<React.ReactNode>(null);
+    const {audios, isLoading, error} = useTypedSelector(state => state.editor);
+    const {uploadMedia} = useActions();
+
+    const [state, setState] = React.useState<React.ReactNode>();
 
     React.useEffect(() => {
-        console.log("Audios.......",audios);
-        // console.log(audios)
-        if(audios)
-        if(audios?.length > 0) {
-            setItemsToRender(audios.map(audio => {
-                return (<AudioTrackItem audio={audio} key={audio.name}/>)
-            }))
-        } else {
-            console.log("Else block")
-            setItemsToRender(<h2>No file selected</h2>)
-        }
-    }, [audios])
+        console.log("USE EFFECT -> fileArray");
+        requestToServer();
+    }, [fileArray])
 
-    const renderItems = () => {
+    React.useEffect(() => {
+        console.log("USE EFFECT -> audios");
+        console.log("audios use effect", audios);
+        setState(setItemsToRender());
+    }, [audios, isLoading, error])
 
-        console.log("Audios.......",audios);
-        if(audios) {
-            setItemsToRender(audios.map(audio => {
-                return (<AudioTrackItem audio={audio} key={audio.name}/>)
-            }))
-        } else {
-            setItemsToRender(<h1>No file selected</h1>)
+    const requestToServer = async () => {
+        console.log("fileArray......", fileArray);
+        if(fileArray?.length) {
+            for (const file of fileArray) {
+                const data = new FormData();
+                data.append("media", file);
+                await uploadMedia(data, "audio");
+            }
         }
     }
 
+    const setItemsToRender = (): React.ReactNode => {
+        if(isLoading) {
+            return <Spinner/>
+        }
+        if(error) {
+            return <h2>{error}</h2>
+        }
+        if(audios.length > 0) {
+            return fileArray?.map(file => <AudioTrackItem audio={file} key={file.name}/>)
+        } else {
+            return <h2>No file selected</h2>
+        }
+    }
+
+
     return (
         <div className={styles.wrapper}>
-            {itemsToRender}
+            {state}
         </div>
     );
 };

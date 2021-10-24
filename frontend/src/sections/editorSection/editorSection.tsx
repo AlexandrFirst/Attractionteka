@@ -18,8 +18,8 @@ import AudioAdminSection from "../audioAdminSection/audioAdminSection";
 const EditorSection = () => {
     const editor = React.useRef<SunEditorCore>();
     // const {uploadMedia} = useActions();
-    const [currentMedia, setCurrentMedia] = React.useState<IMediaResponse>();
-    const {media, isLoading, error} = useTypedSelector(state => state.editor);
+    const [currentPhoto, setCurrentPhoto] = React.useState<IMediaResponse>();
+    const {photos, isLoading, error} = useTypedSelector(state => state.editor);
     const [content, setContent] = React.useState("");
     const dispatch = useDispatch<AppDispatch>();
 
@@ -38,15 +38,15 @@ const EditorSection = () => {
         // }
         // else
         {
-            console.log("MEDIA........", media);
-            console.log("media[media.length - 1]=", media[media.length - 1]);
-            setCurrentMedia(media[media.length - 1]);
-            console.log("Current media.......", currentMedia);
+            // console.log("PHOTOS........", photos);
+            // console.log("media[media.length - 1]=", photos[photos.length - 1]);
+            setCurrentPhoto(photos[photos.length - 1]);
+            // console.log("Current photo.......", currentPhoto);
         }
-    }, [media, currentMedia, isLoading, error])
+    }, [photos, currentPhoto, isLoading, error])
 
     React.useEffect(() => {
-        console.log("Content=", content);
+        // console.log("Content=", content);
     }, [content])
 
     const onImageUploadBefore = async (files: Array<File>, info: object, uploadHandler: Function) => {
@@ -59,9 +59,9 @@ const EditorSection = () => {
         }
 
         requestToServer().then(res => {
-            console.log("res.data=", res.data)
-            dispatch(EditorActionCreators.setMedia(res.data));
-            setCurrentMedia(res.data);
+            // console.log("res.data=", res.data)
+            dispatch(EditorActionCreators.setPhoto(res.data));
+            setCurrentPhoto(res.data);
             const imageOnServer = {
                 // The response must have a "result" array.
                 "result": [
@@ -72,11 +72,10 @@ const EditorSection = () => {
                     },
                 ]
             }
-            console.log(currentMedia);
+            // console.log(currentPhoto);
             uploadHandler(imageOnServer);
         }).catch(e => dispatch(EditorActionCreators.setError("Произошла ошибка при загрузке медиафайла на сервер"))
         ).finally(() => dispatch(EditorActionCreators.setIsLoading(false)));
-        // console.log("CURMED=",currentMedia);
     }
 
     // const onImageUpload = (

@@ -19,6 +19,7 @@
   border-bottom: 1.5px solid var(--main-front-color);
   border-radius: 10px;
   background-color: transparent;
+  //color: var(--main-front-color);
   &::placeholder {
     font-weight: 200;
     color: var(--main-front-gradient);
@@ -38,7 +39,6 @@
   position: absolute;
   top: 14px;
   left: 20px;
-  cursor: pointer;
   svg {
     fill: var(--main-front-color);
   }

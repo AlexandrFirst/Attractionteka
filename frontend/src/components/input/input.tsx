@@ -35,7 +35,9 @@ const Input:React.FC<InputPops> = (props) => {
                 type={inputType}
             />
             <div
-                className={cn(styles.icon,)}
+                className={cn(styles.icon, {
+                    [styles.icon_active]: props.changeVisibility,
+                })}
                 onClick={() => changeVisibility()}
             >
                 {nowIcon}
