@@ -31,6 +31,19 @@ namespace MusicAppApi.MediaContentHelpers.Entities
                         Size = file.Length
                     });
 
+                    Type resultType = result.GetType(); //FIXME:пофиксить костыль с загрузкой видео
+
+                    if (resultType == (typeof(VideoUploadResult)))
+                    {
+                        return new UploadResultDto()
+                        {
+                            Name = file.FileName,
+                            PublicId = result.PublicId,
+                            Url = result.Url.ToString(),
+                            Duration = (result as VideoUploadResult).Duration.ToString()
+                        };
+                    }
+
                     return new UploadResultDto()
                     {
                         Name = file.FileName,

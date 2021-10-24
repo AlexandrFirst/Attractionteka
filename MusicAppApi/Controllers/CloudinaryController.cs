@@ -29,7 +29,8 @@ namespace MusicAppApi.Controllers
             {
                 PublicId = result.PublicId,
                 Url = result.Url,
-                Name = result.Name
+                Name = result.Name,
+                Duration = result.Duration
             };
 
             await dataContext.AudioFiles.AddAsync(newAudioFile);
@@ -46,7 +47,8 @@ namespace MusicAppApi.Controllers
             {
                 PublicId = result.PublicId,
                 Url = result.Url,
-                Name = result.Name
+                Name = result.Name,
+                Duration = result.Duration
             };
 
             await dataContext.VideoFiles.AddAsync(newVideoFile);
