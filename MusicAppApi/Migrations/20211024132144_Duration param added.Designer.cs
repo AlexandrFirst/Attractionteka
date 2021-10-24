@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicAppApi.Models;
 
 namespace MusicAppApi.Migrations
 {
     [DbContext(typeof(MyDataContext))]
-    partial class MyDataContextModelSnapshot : ModelSnapshot
+    [Migration("20211024132144_Duration param added")]
+    partial class Durationparamadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +28,6 @@ namespace MusicAppApi.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Duration")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -41,7 +40,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 24, 16, 30, 37, 559, DateTimeKind.Local).AddTicks(4226));
+                        .HasDefaultValue(new DateTime(2021, 10, 24, 16, 21, 43, 880, DateTimeKind.Local).AddTicks(9656));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -105,7 +104,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 24, 16, 30, 37, 572, DateTimeKind.Local).AddTicks(9452));
+                        .HasDefaultValue(new DateTime(2021, 10, 24, 16, 21, 43, 893, DateTimeKind.Local).AddTicks(9632));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -205,7 +204,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 10, 24, 16, 30, 37, 572, DateTimeKind.Local).AddTicks(7370));
+                        .HasDefaultValue(new DateTime(2021, 10, 24, 16, 21, 43, 893, DateTimeKind.Local).AddTicks(7396));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");

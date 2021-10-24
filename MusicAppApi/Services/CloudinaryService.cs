@@ -61,7 +61,7 @@ namespace MusicAppApi.Services
 
         public async Task<UploadResultDto> UploadMusic(IFormFile music)
         {
-            return await uploadMedia(new AudioContentUploader(cloudinary), music);
+            return await uploadMedia(new VideoContentUploader(cloudinary), music);
         }
 
         public async Task<UploadResultDto> UploadPhoto(IFormFile photo)
