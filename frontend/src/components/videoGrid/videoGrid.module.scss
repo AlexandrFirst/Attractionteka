@@ -1,4 +1,5 @@
 .wrapper {
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 500px 500px;
   grid-template-rows: 250px;
@@ -6,4 +7,16 @@
 
   padding-top: 30px;
   //grid-auto-rows: 250px;
+}
+
+.loading_error {
+  display: flex;
+  justify-content: center;
+  padding-top: 30px;
+}
+
+.no_files {
+  font-size: 20px;
+  line-height: 27px;
+  font-weight: 600;
 }

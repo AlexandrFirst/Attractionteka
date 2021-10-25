@@ -4,8 +4,8 @@ import styles from './videoGrid.module.scss';
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
 import Spinner from "../spinner/spinner";
-import AudioTrackItem from "../audioTrackList/audioTrackItem/audioTrackItem";
 import VideoItem from "./videoItem/videoItem";
+import cn from "classnames";
 
 export interface VideoGridProps {
     fileList: FileList | null;
@@ -52,7 +52,7 @@ const VideoGrid:React.FC<VideoGridProps> = ({fileList}) => {
             return <h2>{error}</h2>
         }
         if(videos.length > 0) {
-            return videos.map((audio, index) => <VideoItem  key={audio.publicId}/>);
+            return videos.map((video, index) => <VideoItem video={video} key={video.publicId}/>);
         } else {
             return <h2 className={styles.no_files}>No file selected</h2>
         }
@@ -60,7 +60,7 @@ const VideoGrid:React.FC<VideoGridProps> = ({fileList}) => {
 
 
     return (
-        <div className={styles.wrapper}>
+        <div className={isLoading || error || !fileList ? styles.loading_error : styles.wrapper}>
             {state}
         </div>
     );
