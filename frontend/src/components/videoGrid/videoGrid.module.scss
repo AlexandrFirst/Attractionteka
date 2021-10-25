@@ -1,0 +1,9 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 500px 500px;
+  grid-template-rows: 250px;
+  gap: 25px;
+
+  padding-top: 30px;
+  //grid-auto-rows: 250px;
+}

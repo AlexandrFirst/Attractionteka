@@ -1,4 +1,5 @@
 import {
+    DeleteAudioAction,
     EditorActionsEnum,
     SetAudioAction,
     SetErrorAction,
@@ -8,7 +9,6 @@ import {
 } from "./types";
 import {AppDispatch} from "../../index";
 import {EditorService} from "../../../services/editor-service";
-import {ContentType} from "../../../models/ContentType";
 import {IMediaResponse} from "../../../models/IMediaResponse";
 
 
@@ -25,6 +25,8 @@ export const EditorActionCreators = {
     setPhoto: (payload: IMediaResponse): SetPhotoAction => ({ type: EditorActionsEnum.SET_PHOTOS, payload }),
     setAudio: (payload: IMediaResponse): SetAudioAction => ({ type: EditorActionsEnum.SET_AUDIOS, payload }),
     setVideo: (payload: IMediaResponse): SetVideoAction => ({ type: EditorActionsEnum.SET_VIDEOS, payload }),
+
+    deleteAudio: (payload: IMediaResponse): DeleteAudioAction => ({ type: EditorActionsEnum.DELETE_AUDIO, payload }),
 
     uploadPhoto: (media: FormData) => async (dispatch: AppDispatch) => {
         try {

@@ -2,6 +2,9 @@ import React from 'react';
 import {IMediaResponse} from "../../../models/IMediaResponse";
 
 import styles from './audioTrackItem.module.scss';
+import {useActions} from "../../../hooks/useActions";
+
+import {trashBin} from './audioTrackItemData';
 
 export interface AudioTrackItemProps {
     audio: IMediaResponse;
@@ -9,6 +12,9 @@ export interface AudioTrackItemProps {
 }
 
 const AudioTrackItem:React.FC<AudioTrackItemProps> = ({audio, num}) => {
+    const { deleteAudio } = useActions();
+
+
     const getDuration = (duration: string) => {
         duration = duration.replace(',', '.');
         // console.log("duration",duration);
@@ -35,6 +41,10 @@ const AudioTrackItem:React.FC<AudioTrackItemProps> = ({audio, num}) => {
             <h5>{num}</h5>
             <h5>{audio.name}</h5>
             <h5>{getDuration(audio.duration)}</h5>
+            <div
+                className={styles.delete_item}
+                onClick={() => deleteAudio(audio)}
+            >{trashBin}</div>
         </div>
     );
 };

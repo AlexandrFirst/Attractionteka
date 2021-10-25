@@ -16,7 +16,7 @@ const EditPage = () => {
                 </Link>
                 <EditorSection/>
                 <AudioAdminSection/>
-                {/*<VideoUploadSection/>*/}
+                <VideoAdminSection/>
             </div>
         </div>
     );
