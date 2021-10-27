@@ -3,9 +3,10 @@ import JolPlayer from "jol-player";
 import {IMediaResponse} from "../../../models/IMediaResponse";
 
 import styles from './videoItem.module.scss';
+import {IMediaFileDTO} from "../../../models/IMediaFileDTO";
 
 export interface VideoItemProps {
-    video: IMediaResponse;
+    video: IMediaFileDTO;
     deleteFunc: Function;
 }
 

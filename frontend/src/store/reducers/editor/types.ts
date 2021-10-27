@@ -1,7 +1,8 @@
 import {IMediaResponse} from "../../../models/IMediaResponse";
+import {IMediaFileDTO} from "../../../models/IMediaFileDTO";
 
 export interface  IMediaData {
-    data: IMediaResponse[];
+    data: IMediaFileDTO[];
     isLoading: boolean;
     error: string;
 }
@@ -42,17 +43,17 @@ export enum EditorActionsEnum {
 
 export interface SetPhotoAction {
     type: EditorActionsEnum.SET_PHOTOS;
-    payload: IMediaResponse;
+    payload: IMediaFileDTO;
 }
 
 export interface SetVideoAction {
     type: EditorActionsEnum.SET_VIDEOS;
-    payload: IMediaResponse;
+    payload: IMediaFileDTO;
 }
 
 export interface SetAudioAction {
     type: EditorActionsEnum.SET_AUDIOS;
-    payload: IMediaResponse;
+    payload: IMediaFileDTO;
 }
 
 export interface SetKeywordsAction {
@@ -72,12 +73,12 @@ export interface SetShortDescriptionAction {
 
 export interface DeleteVideoAction {
     type: EditorActionsEnum.DELETE_VIDEO;
-    payload: IMediaResponse;
+    payload: IMediaFileDTO;
 }
 
 export interface DeleteAudioAction {
     type: EditorActionsEnum.DELETE_AUDIO;
-    payload: IMediaResponse;
+    payload: IMediaFileDTO;
 }
 
 export interface SetIsLoadingAction {

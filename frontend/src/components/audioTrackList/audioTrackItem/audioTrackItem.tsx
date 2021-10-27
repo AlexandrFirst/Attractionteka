@@ -5,9 +5,10 @@ import styles from './audioTrackItem.module.scss';
 import {useActions} from "../../../hooks/useActions";
 
 import {trashBin} from './audioTrackItemData';
+import {IMediaFileDTO} from "../../../models/IMediaFileDTO";
 
 export interface AudioTrackItemProps {
-    audio: IMediaResponse;
+    audio: IMediaFileDTO;
     num: number;
 }
 
@@ -42,8 +43,9 @@ const AudioTrackItem:React.FC<AudioTrackItemProps> = ({audio, num}) => {
     return (
         <div className={styles.wrapper}>
             <h5>{num}</h5>
-            <h5>{audio.name}</h5>
-            <h5>{getDuration(audio.duration)}</h5>
+            <h5>"NAMESAWEQW"</h5>
+            {/*<h5>{getDuration(audio.duration)}</h5>*/}
+            <h5>{"DURATION"}</h5>
             <div
                 className={styles.delete_item}
                 onClick={() => deleteAudio(audio)}

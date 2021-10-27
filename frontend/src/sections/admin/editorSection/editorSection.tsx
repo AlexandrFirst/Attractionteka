@@ -11,11 +11,12 @@ import {useDispatch} from "react-redux";
 import {EditorService} from "../../../services/editor-service";
 import {EditorActionCreators} from "../../../store/reducers/editor/editor-action-creators";
 import Spinner from "../../../components/spinner/spinner";
+import {IMediaFileDTO} from "../../../models/IMediaFileDTO";
 
 const EditorSection = () => {
     const editor = React.useRef<SunEditorCore>();
     // const {uploadMedia} = useActions();
-    const [currentPhoto, setCurrentPhoto] = React.useState<IMediaResponse>();
+    const [currentPhoto, setCurrentPhoto] = React.useState<IMediaFileDTO>();
     const {photos: {data: photos, isLoading, error} } = useTypedSelector(state => state.editor);
     const [content, setContent] = React.useState("");
     const dispatch = useDispatch<AppDispatch>();

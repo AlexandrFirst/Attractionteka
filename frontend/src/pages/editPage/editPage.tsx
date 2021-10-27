@@ -14,6 +14,7 @@ import ShortDescriptionSection from "../../sections/admin/shortDescriptionSectio
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
 import Spinner from "../../components/spinner/spinner";
+import {IMediaFileDTO} from "../../models/IMediaFileDTO";
 
 const EditPage = () => {
     const {photos,videos,audios,loadingAddNewPlace,keywords,editorContent,shortDescription} = useTypedSelector(state => state.editor);
@@ -22,13 +23,37 @@ const EditPage = () => {
 
     const TryAddNewPlace = () => {
         // console.log(placeInfo);
-        const photoUrls = photos.data.map(photo => photo.url);
-        const videoUrls = videos.data.map(video => video.url);
-        const audioUrls = audios.data.map(audio => audio.url);
+        const photoUrls: IMediaFileDTO[] = photos.data.map(({url,publicId,id}) => {
+            return {
+                url,
+                publicId,
+                id,
+                uploadTime: new Date(),
+            }
+        });
+        const videoUrls: IMediaFileDTO[] = videos.data.map(({url,publicId,id}) => {
+            return {
+                url,
+                publicId,
+                id,
+                uploadTime: new Date(),
+            }
+        });
+        const audioUrls: IMediaFileDTO[] = audios.data.map(({url,publicId,id}) => {
+            return {
+                url,
+                publicId,
+                id,
+                uploadTime: new Date(),
+            }
+        });
+
+
+
         console.log(photoUrls);
         console.log(audioUrls);
         console.log(videoUrls);
-        addNewPlace(photos.data,videos.data,audios.data,editorContent,keywords,shortDescription);
+        addNewPlace(photoUrls,audioUrls,videoUrls,editorContent,keywords,shortDescription);
     }
 
     // if(loadingAddNewPlace) {

@@ -15,6 +15,7 @@ import {
 import {AppDispatch} from "../../index";
 import {EditorService} from "../../../services/editor-service";
 import {IMediaResponse} from "../../../models/IMediaResponse";
+import {IMediaFileDTO} from "../../../models/IMediaFileDTO";
 
 
 export const EditorActionCreators = {
@@ -28,15 +29,15 @@ export const EditorActionCreators = {
     setErrorAudios: (payload: string): SetErrorAction => ({ type:EditorActionsEnum.SET_ERROR_AUDIOS, payload }),
     setErrorVideos: (payload: string): SetErrorAction => ({ type:EditorActionsEnum.SET_ERROR_VIDEOS, payload }),
 
-    setPhoto: (payload: IMediaResponse): SetPhotoAction => ({ type: EditorActionsEnum.SET_PHOTOS, payload }),
-    setAudio: (payload: IMediaResponse): SetAudioAction => ({ type: EditorActionsEnum.SET_AUDIOS, payload }),
-    setVideo: (payload: IMediaResponse): SetVideoAction => ({ type: EditorActionsEnum.SET_VIDEOS, payload }),
+    setPhoto: (payload: IMediaFileDTO): SetPhotoAction => ({ type: EditorActionsEnum.SET_PHOTOS, payload }),
+    setAudio: (payload: IMediaFileDTO): SetAudioAction => ({ type: EditorActionsEnum.SET_AUDIOS, payload }),
+    setVideo: (payload: IMediaFileDTO): SetVideoAction => ({ type: EditorActionsEnum.SET_VIDEOS, payload }),
     setKeywords: (payload: string[]): SetKeywordsAction => ({ type:EditorActionsEnum.SET_KEYWORDS, payload }),
     setEditorContent: (payload: string): SetEditorContentAction => ({ type: EditorActionsEnum.SET_EDITOR_CONTENT, payload }),
     setShortDescription: (payload: string): SetShortDescriptionAction => ({ type: EditorActionsEnum.SET_SHORT_DESCRIPTION, payload }),
 
-    deleteAudio: (payload: IMediaResponse): DeleteAudioAction => ({ type: EditorActionsEnum.DELETE_AUDIO, payload }),
-    deleteVideo: (payload: IMediaResponse): DeleteVideoAction => ({ type: EditorActionsEnum.DELETE_VIDEO, payload }),
+    deleteAudio: (payload: IMediaFileDTO): DeleteAudioAction => ({ type: EditorActionsEnum.DELETE_AUDIO, payload }),
+    deleteVideo: (payload: IMediaFileDTO): DeleteVideoAction => ({ type: EditorActionsEnum.DELETE_VIDEO, payload }),
 
     uploadPhoto: (media: FormData) => async (dispatch: AppDispatch) => {
         try {
@@ -81,9 +82,9 @@ export const EditorActionCreators = {
     },
 
     addNewPlace: (
-            photos: IMediaResponse[],
-            videos: IMediaResponse[],
-            audios: IMediaResponse[],
+            photos: IMediaFileDTO[],
+            videos: IMediaFileDTO[],
+            audios: IMediaFileDTO[],
             editorContent: string,
             keywords: string[],
             shortDescription: string

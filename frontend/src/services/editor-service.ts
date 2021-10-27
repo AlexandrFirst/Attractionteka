@@ -3,11 +3,12 @@ import {Service} from "./service";
 import {IMediaResponse} from "../models/IMediaResponse";
 import {LocalStorageKey} from "../models/LocalStorageKey";
 import {ContentType} from "../models/ContentType";
+import {IMediaFileDTO} from "../models/IMediaFileDTO";
 
 export class EditorService extends Service {
 
-    static async uploadMedia(file: FormData, contentType: ContentType): Promise<AxiosResponse<IMediaResponse>> {
-        return axios.post<IMediaResponse>(`${Service.serverHost}/cloudinary/${contentType}`, file,
+    static async uploadMedia(file: FormData, contentType: ContentType): Promise<AxiosResponse<IMediaFileDTO>> {
+        return axios.post<IMediaFileDTO>(`${Service.serverHost}/cloudinary/${contentType}`, file,
         {
             // headers: {
             //     Authorization: `Bearer ${localStorage.getItem(LocalStorageKey.token)}`,
@@ -21,9 +22,9 @@ export class EditorService extends Service {
         shortDesc: string,
         keywords: string[],
         uploadTime: Date,
-        photos: IMediaResponse[],
-        videos: IMediaResponse[],
-        audios: IMediaResponse[]
+        photos: IMediaFileDTO[],
+        videos: IMediaFileDTO[],
+        audios: IMediaFileDTO[]
     ): Promise<AxiosResponse> {
 
         const body = {
@@ -36,6 +37,8 @@ export class EditorService extends Service {
             videos,
             audios
         };
+
+        console.log(body);
 
         return axios.post(`${Service.serverHost}/place/newplace`, body,
         {
