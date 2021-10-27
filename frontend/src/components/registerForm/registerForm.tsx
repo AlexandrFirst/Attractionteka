@@ -14,7 +14,7 @@ import {emailIcon, invisiblePass, nameIcon} from "./inputIconsData/inputIcons";
 import {useActions} from "../../hooks/useActions";
 import {passIcon} from "../loginForm/inputIconsData/inputIcons";
 import Checkbox from "../checkbox/checkbox";
-import FormError from "../formError/formError";
+import ErrorMessage from "../errorMessage/errorMessage";
 
 const RegisterForm = () => {
     const { switchToLogin } = React.useContext(AccountContext);
@@ -47,13 +47,13 @@ const RegisterForm = () => {
                 <Input {...firstName} type="text" placeholder={"Name"} icon={nameIcon}  required/>
                 <Input {...lastName} type="text" placeholder={"Surname"} icon={nameIcon}  required/>
                 <Input {...email} type="email" placeholder={"Email"} icon={emailIcon}  required/>
-                <Input {...password} changeVisibility={handleOnChangeCheckbox} type={inputType} placeholder={"Password"} icon={inputType === "password" ? invisiblePass : passIcon}  required/>
-                <Input {...confirmPass} changeVisibility={handleOnChangeCheckbox} type={inputType} placeholder={"Confirm password"} icon={inputType === "password" ? invisiblePass : passIcon}/>
+                <Input {...password} changevisibility={handleOnChangeCheckbox} type={inputType} placeholder={"Password"} icon={inputType === "password" ? invisiblePass : passIcon} required/>
+                <Input {...confirmPass} changevisibility={handleOnChangeCheckbox} type={inputType} placeholder={"Confirm password"} icon={inputType === "password" ? invisiblePass : passIcon}/>
                 {/*<Checkbox label={"show password"} onChange={handleOnChangeCheckbox}/>*/}
             </FormContainer>
-            <FormError>An account with that email exists! Forgot password</FormError>
+            <ErrorMessage>An account with that email exists! Forgot password</ErrorMessage>
             <Marginer margin={"6px"} direction={"vertical"}/>
-            <Button onClick={submitRegistration}>Register</Button>
+            <Button classes={styles.btn} onClick={submitRegistration}>Register</Button>
             <Marginer margin={"12px"} direction={"vertical"} />
             <MutedLink to={'#'} classes={styles.mutedLink}>
                 Already have an account?

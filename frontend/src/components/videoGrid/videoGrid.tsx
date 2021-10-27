@@ -13,7 +13,7 @@ export interface VideoGridProps {
 
 const VideoGrid:React.FC<VideoGridProps> = ({fileList}) => {
     const {videos:  {data: videos, isLoading, error }} = useTypedSelector(state => state.editor);
-    const {uploadVideo} = useActions();
+    const {uploadVideo, deleteVideo} = useActions();
 
     const [state, setState] = React.useState<React.ReactNode>();
 
@@ -52,7 +52,7 @@ const VideoGrid:React.FC<VideoGridProps> = ({fileList}) => {
             return <h2>{error}</h2>
         }
         if(videos.length > 0) {
-            return videos.map((video, index) => <VideoItem video={video} key={video.publicId}/>);
+            return videos.map((video) => <VideoItem deleteFunc={deleteVideo} video={video} key={video.publicId}/>);
         } else {
             return <h2 className={styles.no_files}>No file selected</h2>
         }
@@ -60,7 +60,7 @@ const VideoGrid:React.FC<VideoGridProps> = ({fileList}) => {
 
 
     return (
-        <div className={isLoading || error || !fileList ? styles.loading_error : styles.wrapper}>
+        <div className={isLoading || error || !videos.length ? styles.loading_error : styles.wrapper}>
             {state}
         </div>
     );

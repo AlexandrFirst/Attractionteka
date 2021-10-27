@@ -1,8 +1,9 @@
 .button {
   width: 100%;
-  padding: 11px 40%;
+  height: 50px;
+  padding: 11px 0;
   color: var(--main-text-color);
-  font-size: 14px;
+  font-size: 26px;
   line-height: 19px;
   font-weight: 300;
   border: none;
@@ -18,4 +19,9 @@
   &:hover {
     filter: brightness(1.03);
   }
+}
+
+.green {
+  background: #34C759;
+  font-size: 26px;
 }

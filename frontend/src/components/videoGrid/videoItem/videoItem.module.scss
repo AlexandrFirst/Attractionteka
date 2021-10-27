@@ -1,5 +1,15 @@
-.rect {
-  width: 500px;
-  height: 250px;
-  border: 1px solid greenyellow;
+.wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.delete_btn {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  color: var(--main-text-color);
+  font-size: 20px;
+  z-index: 100;
 }

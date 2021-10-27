@@ -2,7 +2,7 @@
   padding-top: 50px;
 }
 
-.keywords {
+.short_desc {
   padding: 15px 20px;
   background: #FFFFFF;
   /* Text Black/Black 20 */
@@ -10,5 +10,17 @@
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 15px;
   width: 100%;
+  height: 200px;
   resize: none;
+  font-size: 18px;
+
+  &_wrong {
+    border: 2px solid #E41313;
+  }
+}
+
+.error {
+  width: fit-content;
+  margin: 2px auto;
+  border-radius: 5px;
 }

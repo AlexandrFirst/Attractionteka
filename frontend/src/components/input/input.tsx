@@ -9,7 +9,7 @@ export interface InputPops extends React.DetailedHTMLProps<React.InputHTMLAttrib
     classnames?: string;
     icon?: React.ReactNode;
     password?: boolean;
-    changeVisibility?: Function;
+    changevisibility?: Function;
 }
 const Input:React.FC<InputPops> = (props) => {
 
@@ -19,8 +19,8 @@ const Input:React.FC<InputPops> = (props) => {
     },[props.icon, props.type]);
 
     const changeVisibility = () => {
-        if(props.changeVisibility) {
-            props.changeVisibility();
+        if(props.changevisibility) {
+            props.changevisibility();
         }
     }
 
@@ -36,7 +36,7 @@ const Input:React.FC<InputPops> = (props) => {
             />
             <div
                 className={cn(styles.icon, {
-                    [styles.icon_active]: props.changeVisibility,
+                    [styles.icon_active]: props.changevisibility,
                 })}
                 onClick={() => changeVisibility()}
             >

@@ -1,6 +1,6 @@
 import React from 'react';
-import MediaUploadSection from "../../components/mediaUploadSection/mediaUploadSection";
-import VideoGrid from "../../components/videoGrid/videoGrid";
+import MediaUploadSection from "../mediaUploadSection/mediaUploadSection";
+import VideoGrid from "../../../components/videoGrid/videoGrid";
 
 const VideoAdminSection = () => {
     const [currentFileList, setCurrentFileList] = React.useState<FileList | null>(null);

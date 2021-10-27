@@ -16,11 +16,10 @@ const initialValue: EditorState = {
         isLoading:false,
         error: ''
     },
-    keywords: {
-        data: [],
-        isLoading: false,
-        error: ''
-    },
+    keywords: [],
+    editorContent: '',
+    shortDescription: '',
+    loadingAddNewPlace: false,
     // isLoading: false,
     // error: '',
 }
@@ -33,14 +32,23 @@ export default function editorReducer(state = initialValue, action: EditorAction
         case EditorActionsEnum.SET_AUDIOS:
             return { ...state, audios: { ...state.audios, data: [...state.audios.data, action.payload], isLoading: false } }
 
-        case EditorActionsEnum.DELETE_AUDIO:
-            return { ...state, audios: { ...state.audios, data: [...state.audios.data.filter(audio => audio.publicId !== action.payload.publicId)], isLoading: false }  }
-
         case EditorActionsEnum.SET_VIDEOS:
             return { ...state, videos: { ...state.videos, data: [...state.videos.data, action.payload], isLoading: false } }
 
         case EditorActionsEnum.SET_KEYWORDS:
-            return { ...state, keywords: { ...state.keywords, data: action.payload, isLoading: false } }
+            return { ...state, keywords: action.payload }
+
+        case EditorActionsEnum.SET_EDITOR_CONTENT:
+            return { ...state, editorContent: action.payload }
+
+        case EditorActionsEnum.SET_SHORT_DESCRIPTION:
+            return { ...state, shortDescription: action.payload }
+
+        case EditorActionsEnum.DELETE_AUDIO:
+            return { ...state, audios: { ...state.audios, data: [...state.audios.data.filter(audio => audio.publicId !== action.payload.publicId)], isLoading: false }  }
+
+        case EditorActionsEnum.DELETE_VIDEO:
+            return { ...state, videos: { ...state.videos, data: [...state.videos.data.filter(video => video.publicId !== action.payload.publicId)], isLoading: false }  }
 
         case EditorActionsEnum.SET_IS_LOADING_PHOTOS:
             return { ...state, photos: { ...state.photos, isLoading: action.payload } }
@@ -50,6 +58,9 @@ export default function editorReducer(state = initialValue, action: EditorAction
 
         case EditorActionsEnum.SET_IS_LOADING_AUDIOS:
             return { ...state, audios: { ...state.audios, isLoading: action.payload } }
+
+        case EditorActionsEnum.SET_LOADING_ADD_NEW_PLACE:
+            return {...state, loadingAddNewPlace: action.payload }
 
         case EditorActionsEnum.SET_ERROR_PHOTOS:
             return { ...state, photos: { ...state.photos, error: action.payload, isLoading: false } }

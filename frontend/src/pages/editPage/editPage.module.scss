@@ -12,9 +12,53 @@
   backdrop-filter: blur(30px);
 }
 
-.img_wrapper {
-  width: 50px;
-  display: block;
+.back_wrapper {
+  width: fit-content;
+  display: flex;
+  align-items: center;
   padding: 30px 15px 15px 0;
   cursor: pointer;
+  text-decoration: none;
+
+}
+
+.save_delete_top {
+  display: flex;
+  justify-content: flex-end;
+
+  .btn_top {
+    width: 100px;
+    padding: 0;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .save_top {
+    background: #34C759;
+  }
+
+  .delete_top {
+    background: #E41313;
+    margin-left: 10px;
+  }
+}
+
+.back_title {
+  padding-left: 15px;
+  color: var(--additional-front-color);
+  font-size: 18px;
+  line-height: 25px;
+  font-weight: 500;
+}
+
+.btn_container {
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
+.save_btn {
+  //display: flex;
+  width: 800px;
+  background: #34C759;
 }

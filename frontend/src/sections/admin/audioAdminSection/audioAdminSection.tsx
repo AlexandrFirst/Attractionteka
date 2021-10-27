@@ -1,7 +1,7 @@
 import React from 'react';
 
-import MediaUploadSection from "../../components/mediaUploadSection/mediaUploadSection";
-import AudioTrackList from "../../components/audioTrackList/audioTrackList";
+import MediaUploadSection from "../mediaUploadSection/mediaUploadSection";
+import AudioTrackList from "../../../components/audioTrackList/audioTrackList";
 
 const AudioAdminSection = () => { //TODO: Use React.useMemo to this component
     const [currentFileList, setCurrentFileList] = React.useState<FileList | null>(null);

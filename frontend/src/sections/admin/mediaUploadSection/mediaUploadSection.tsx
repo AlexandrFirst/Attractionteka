@@ -1,7 +1,7 @@
 import React from 'react';
-import Caption from "../caption/caption";
-import FileUpload from "../fileUpload/fileUpload";
-import Button from "../button/button";
+import Caption from "../../../components/caption/caption";
+import FileUpload from "../../../components/fileUpload/fileUpload";
+import Button from "../../../components/button/button";
 
 import styles from "./mediaUploadSection.module.scss";
 

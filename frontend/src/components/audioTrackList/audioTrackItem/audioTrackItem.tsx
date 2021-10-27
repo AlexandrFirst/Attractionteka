@@ -28,10 +28,13 @@ const AudioTrackItem:React.FC<AudioTrackItemProps> = ({audio, num}) => {
         // console.log("m", m);
         // console.log("s", s);
 
-        const hDisplay = h > 0 ? (h < 10 ? "0" : "") + `${h}:`  : "";
+        // const hDisplay = h > 0 ? (h < 10 ? "0" : "") + `${h}h:`  : "";
+        // const mDisplay = m > 0 ? (m < 10 ? "0" : "") + `${m}m:` : "";
+        // const sDisplay = s > 0 ? (s < 10 ? "0" : "") + `${s}s` : "";
 
-        const mDisplay = m > 0 ? (m < 10 ? "0" : "") + `${m}:` : "";
-        const sDisplay = s > 0 ? (s < 10 ? "0" : "") + s : "";
+        const hDisplay = h > 0 ? `${h}h:`  : "";
+        const mDisplay = m > 0 ? `${m}m:` : "";
+        const sDisplay = s > 0 ? `${s}s` : "";
         // console.log("hDisplay + mDisplay + sDisplay=", hDisplay + mDisplay + sDisplay);
         return hDisplay + mDisplay + sDisplay;
     }

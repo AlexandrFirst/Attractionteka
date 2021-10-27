@@ -8,10 +8,40 @@ export class EditorService extends Service {
 
     static async uploadMedia(file: FormData, contentType: ContentType): Promise<AxiosResponse<IMediaResponse>> {
         return axios.post<IMediaResponse>(`${Service.serverHost}/cloudinary/${contentType}`, file,
-        // {
-        //     Authorization: localStorage.getItem(LocalStorageKey.token),
-        // }
-        );
+        {
+            // headers: {
+            //     Authorization: `Bearer ${localStorage.getItem(LocalStorageKey.token)}`,
+            // }
+        });
+    }
 
+    static async addNewPlace(
+        content: string,
+        name: string,
+        shortDesc: string,
+        keywords: string[],
+        uploadTime: Date,
+        photos: IMediaResponse[],
+        videos: IMediaResponse[],
+        audios: IMediaResponse[]
+    ): Promise<AxiosResponse> {
+
+        const body = {
+            content,
+            name,
+            shortDesc,
+            keywords,
+            uploadTime,
+            photos,
+            videos,
+            audios
+        };
+
+        return axios.post(`${Service.serverHost}/place/newplace`, body,
+        {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem(LocalStorageKey.token)}`,
+            }
+        });
     }
 }
