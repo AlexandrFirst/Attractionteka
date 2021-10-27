@@ -48,7 +48,19 @@ namespace MusicAppApi.Services
 
         public async Task<PlaceDto> CreateNewPlace(PlaceDto newPlaceDto)
         {
+            if (newPlaceDto.ListKeyWords == null)
+                newPlaceDto.ListKeyWords = new List<string>();
             var filteredPlaceDto = await filterPlaceDescriptionMediaContent(newPlaceDto);
+
+            
+            HashSet<VideoFile> VideoFiles = await GetMedia(dataContext.VideoFiles, filteredPlaceDto.Videos);
+
+            HashSet<AudioFile> AudioFiles = await GetMedia(dataContext.AudioFiles, filteredPlaceDto.Audios);
+            HashSet<PhotoFile> PhotoFiles = await GetMedia(dataContext.PhotoFiles, filteredPlaceDto.Photos);
+
+            var authorId = userContext.GetUserContext().Id;
+
+            var authorEntity = await dataContext.Users.FirstOrDefaultAsync(u => u.Id == authorId);
 
 
             var placeForInsertion = new PlaceDescription()
@@ -57,26 +69,32 @@ namespace MusicAppApi.Services
                 Name = newPlaceDto.Name,
                 KeyWords = string.Join(",", newPlaceDto.ListKeyWords),
                 ShortDescription = newPlaceDto.ShortDescription,
+                Audios = AudioFiles,
+                Videos = VideoFiles,
+                Photos = PhotoFiles,
+                Author = authorEntity
             };
+
+
 
             await dataContext.PlaceDescriptions.AddAsync(placeForInsertion);
             await dataContext.SaveChangesAsync();
 
-            placeForInsertion.Audios = mapper.Map<HashSet<AudioFile>>(filteredPlaceDto.Audios);
-            placeForInsertion.Videos = mapper.Map<HashSet<VideoFile>>(filteredPlaceDto.Videos);
-            placeForInsertion.Photos = mapper.Map<HashSet<PhotoFile>>(filteredPlaceDto.Photos);
-
-            var authorId = userContext.GetUserContext().Id;
-            
-            var authorEntity = await dataContext.Users.FirstOrDefaultAsync(u => u.Id == authorId);
-
-
-             placeForInsertion.Author = authorEntity;
-
-            await dataContext.SaveChangesAsync();
 
             return mapper.Map<PlaceDto>(placeForInsertion);
         }
+
+        public async Task<HashSet<TEntity>> GetMedia<TEntity, TEntityDto>(  IQueryable<TEntity> placeToSerach, 
+                                                                            HashSet<TEntityDto> filteredMedia) 
+                                            where TEntity: MediaFile
+                                            where TEntityDto: MediaFileDto
+        {
+            HashSet<TEntity> mediaFiles = (await placeToSerach.ToListAsync())
+                                            .Where(v => filteredMedia.Any(m_v => m_v.Id == v.Id))
+                                            .ToHashSet();
+            return mediaFiles;
+        }
+
 
         public async Task DeletePlace(int placeId)
         {
@@ -132,14 +150,6 @@ namespace MusicAppApi.Services
             filteredPlaceDescription.Photos = await filterMediaFileList(filteredPlaceDescription.Content,
                                                                 filteredPlaceDescription.Photos,
                                                                 Tag.ImageTag);
-
-            // filteredPlaceDescription.Videos = await filterMediaFileList(filteredPlaceDescription.Content,
-            //                                                     filteredPlaceDescription.Videos,
-            //                                                     Tag.VideoTag);
-
-            // filteredPlaceDescription.Audios = await filterMediaFileList(filteredPlaceDescription.Content,
-            //                                                     filteredPlaceDescription.Audios,
-            //                                                     Tag.AudioTag);
 
             filteredPlaceDescription.ListKeyWords = filteredPlaceDescription.ListKeyWords.Distinct().ToList();
 
