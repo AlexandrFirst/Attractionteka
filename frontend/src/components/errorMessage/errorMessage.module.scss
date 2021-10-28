@@ -1,7 +1,8 @@
 .error {
   display: flex;
 
-  padding: 5px;
+  padding: 0 5px;
+  padding-right: 10px;
   background: #DFB0B0;
   /* Light pink for error DFB0B0/Light pink for error */
   border: 0.3px solid #DFB0B0;
@@ -13,7 +14,7 @@
   visibility: hidden; //Change to see the error
   &_img {
     padding-right: 2px;
-    width: 46px;
+    width: 30px;
     height: 16px;
   }
 

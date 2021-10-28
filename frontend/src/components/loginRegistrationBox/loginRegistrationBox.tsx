@@ -6,9 +6,10 @@ import LoginForm from "../loginForm/loginForm";
 import RegisterForm from "../registerForm/registerForm";
 
 import styles from './loginRegistrationBox.module.scss';
-import {LocalStorageKey} from "../../models/LocalStorageKey";
+import {LocalStorageKey} from "../../types/LocalStorageKey";
 
 import logo from '../../img/Attractionteka.png';
+import {useActions} from "../../hooks/useActions";
 
 export const enum SignPageList {
     LOGIN="login",
@@ -40,6 +41,8 @@ const LoginRegistrationBox:React.FC = () => {
     const [isExpanded, setExpanded] = React.useState(false);
     const [active, setActive] = React.useState("login");
 
+    const {setError} = useActions();
+
     React.useEffect(() => {
         const nowForm = localStorage.getItem(LocalStorageKey.nowLoginForm);
         setActive(nowForm || SignPageList.LOGIN);
@@ -60,6 +63,7 @@ const LoginRegistrationBox:React.FC = () => {
         playExpandingAnimation();
         setTimeout(() => {
             setActive(SignPageList.REGISTER);
+            setError('');
         }, 400);
     };
 
@@ -68,6 +72,7 @@ const LoginRegistrationBox:React.FC = () => {
         playExpandingAnimation();
         setTimeout(() => {
             setActive(SignPageList.LOGIN);
+            setError('');
         }, 400);
     };
 

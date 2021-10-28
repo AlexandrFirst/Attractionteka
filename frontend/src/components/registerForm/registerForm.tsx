@@ -15,6 +15,8 @@ import {useActions} from "../../hooks/useActions";
 import {passIcon} from "../loginForm/inputIconsData/inputIcons";
 import Checkbox from "../checkbox/checkbox";
 import ErrorMessage from "../errorMessage/errorMessage";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import Spinner from "../spinner/spinner";
 
 const RegisterForm = () => {
     const { switchToLogin } = React.useContext(AccountContext);
@@ -29,8 +31,15 @@ const RegisterForm = () => {
     const [inputType, setInputType] = React.useState('password');
     const [visible, setVisible] = React.useState(false);
 
-    const handleOnChangeCheckbox = () => {
+    const {error, isAuth, isLoading} = useTypedSelector(state => state.auth);
 
+    React.useEffect(() => {
+        if(isAuth) {
+            goToAnotherPage('/');
+        }
+    }, [isAuth]);
+
+    const handleOnChangeCheckbox = () => {
         visible ? setInputType("password") : setInputType("text");
         setVisible(prevState => !prevState);
     }
@@ -38,6 +47,16 @@ const RegisterForm = () => {
     const submitRegistration = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         registration(firstName.value, lastName.value, email.value, password.value);
+    }
+
+    const goToAnotherPage = (url: string) => {
+        if (error === '') {
+            window.location.assign(url);
+        }
+    }
+
+    if(isLoading) {
+        return <Spinner/>
     }
 
     return (
@@ -51,7 +70,7 @@ const RegisterForm = () => {
                 <Input {...confirmPass} changevisibility={handleOnChangeCheckbox} type={inputType} placeholder={"Confirm password"} icon={inputType === "password" ? invisiblePass : passIcon}/>
                 {/*<Checkbox label={"show password"} onChange={handleOnChangeCheckbox}/>*/}
             </FormContainer>
-            <ErrorMessage>An account with that email exists! Forgot password</ErrorMessage>
+            <ErrorMessage isVisible={error !== ''}>An account with that email exists! Forgot password?</ErrorMessage>
             <Marginer margin={"6px"} direction={"vertical"}/>
             <Button classes={styles.btn} onClick={submitRegistration}>Register</Button>
             <Marginer margin={"12px"} direction={"vertical"} />

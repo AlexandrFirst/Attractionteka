@@ -6,18 +6,18 @@ import error from './img/error.svg';
 
 export interface FormErrorProps {
     // message: string;
-    classNames?: string;
+    classes?: string;
     isVisible?: boolean;
 }
 
 const ErrorMessage:React.FC<FormErrorProps> = (
     {
-        classNames,
+        classes,
         children,
         isVisible,
     }) => {
     return (
-        <div className={cn(styles.error, classNames, {
+        <div className={cn(styles.error, classes, {
             [styles.error_visible]: isVisible,
         })}>
             <img src={error} alt="error" className={styles.error_img}/>

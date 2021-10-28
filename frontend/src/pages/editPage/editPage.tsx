@@ -1,4 +1,5 @@
 import React from 'react';
+import cn from "classnames";
 import EditorSection from "../../sections/admin/editorSection/editorSection";
 import AudioAdminSection from "../../sections/admin/audioAdminSection/audioAdminSection";
 import VideoAdminSection from "../../sections/admin/videoAdminSection/videoAdminSection";
@@ -9,56 +10,40 @@ import Button from "../../components/button/button";
 
 import arrowBack from "../../sections/admin/editorSection/img/arrow_icon.svg";
 import styles from './editPage.module.scss';
-import cn from "classnames";
 import ShortDescriptionSection from "../../sections/admin/shortDescriptionSection/shortDescriptionSection";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
-import Spinner from "../../components/spinner/spinner";
-import {IMediaFileDTO} from "../../models/IMediaFileDTO";
+import {IMediaFileDTO} from "../../models/admin/IMediaFileDTO";
+import {IMediaResponse} from "../../models/admin/IMediaResponse";
+import AttractionNameSection from "../../sections/admin/attractionNameSection/attractionNameSection";
 
 const EditPage = () => {
-    const {photos,videos,audios,loadingAddNewPlace,keywords,editorContent,shortDescription} = useTypedSelector(state => state.editor);
+    const filesToSend = useTypedSelector(state => state.editor);
 
     const {addNewPlace} = useActions();
 
     const TryAddNewPlace = () => {
         // console.log(placeInfo);
-        const photoUrls: IMediaFileDTO[] = photos.data.map(({url,publicId,id}) => {
-            return {
-                url,
-                publicId,
-                id,
-                uploadTime: new Date(),
-            }
-        });
-        const videoUrls: IMediaFileDTO[] = videos.data.map(({url,publicId,id}) => {
-            return {
-                url,
-                publicId,
-                id,
-                uploadTime: new Date(),
-            }
-        });
-        const audioUrls: IMediaFileDTO[] = audios.data.map(({url,publicId,id}) => {
-            return {
-                url,
-                publicId,
-                id,
-                uploadTime: new Date(),
-            }
-        });
+        const photosToSend: IMediaFileDTO[] = prepareMediaToSend(filesToSend.photos.data),
+              videosToSend: IMediaFileDTO[] = prepareMediaToSend(filesToSend.videos.data),
+              audiosToSend: IMediaFileDTO[] = prepareMediaToSend(filesToSend.audios.data);
 
-
-
-        console.log(photoUrls);
-        console.log(audioUrls);
-        console.log(videoUrls);
-        addNewPlace(photoUrls,audioUrls,videoUrls,editorContent,keywords,shortDescription);
+        // console.log(photoUrls);
+        // console.log(audioUrls);
+        // console.log(videoUrls);
+        addNewPlace(photosToSend,audiosToSend,videosToSend,filesToSend);
     }
 
-    // if(loadingAddNewPlace) {
-    //     return <Spinner/>
-    // }
+    const prepareMediaToSend = (arr: IMediaResponse[]): IMediaFileDTO[] => {
+        return arr.map(({url,publicId,id}) => {
+            return {
+                url,
+                publicId,
+                id,
+                uploadTime: new Date(),
+            }
+        });
+    }
 
     return (
         <div className={styles.wrapper}>
@@ -75,6 +60,7 @@ const EditPage = () => {
                         >Save</Button>
                         <Button classes={cn(styles.btn_top, styles.delete_top)}>Delete</Button>
                     </div>
+                    <AttractionNameSection/>
                     <EditorSection/>
                     <ShortDescriptionSection/>
                     <KeywordsSection/>

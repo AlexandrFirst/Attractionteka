@@ -1,8 +1,7 @@
 import React from 'react';
 import styles from "./shortDescriptionSection.module.scss";
-import cn from "classnames";
-import ErrorMessage from "../../../components/errorMessage/errorMessage";
 import {useActions} from "../../../hooks/useActions";
+import TextAreaWithVisibleError from "../../../components/textAreaWithVisibleError/textAreaWithVisibleError";
 
 const ShortDescriptionSection = () => {
     const [shortDescriptionData, setShortDescriptionData] = React.useState<string>('');
@@ -20,18 +19,15 @@ const ShortDescriptionSection = () => {
 
     return (
         <div className={styles.wrapper}>
-            {/*<h5>Short description</h5>*/}
-            <textarea
-                value={shortDescriptionData}
-                onChange={(e ) => setShortDescriptionData(e.target.value)}
-                placeholder="Short description..."
-                className={cn(styles.short_desc, {[styles.short_desc_wrong]: isVisibleError})}
-                onBlur={saveShortDescToRedux}
-            />
-            <ErrorMessage
-                isVisible={isVisibleError}
-                classNames={styles.error}
-            >Incorrect short description. It has to be filled</ErrorMessage>
+            <TextAreaWithVisibleError
+                valueToWrite={shortDescriptionData}
+                setValueToWrite={setShortDescriptionData}
+                onBlurFunc={saveShortDescToRedux}
+                placeholderData={"Short description..."}
+                conditionOfError={isVisibleError}
+                classes={styles.short_desc}
+                isErrorToShow
+                errorMessage="Incorrect short description. It has to be filled"/>
         </div>
     );
 };

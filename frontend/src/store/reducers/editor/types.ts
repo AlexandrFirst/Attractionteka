@@ -1,8 +1,8 @@
-import {IMediaResponse} from "../../../models/IMediaResponse";
-import {IMediaFileDTO} from "../../../models/IMediaFileDTO";
+import {IMediaResponse} from "../../../models/admin/IMediaResponse";
+import {IMediaFileDTO} from "../../../models/admin/IMediaFileDTO";
 
 export interface  IMediaData {
-    data: IMediaFileDTO[];
+    data: IMediaResponse[];
     isLoading: boolean;
     error: string;
 }
@@ -12,6 +12,7 @@ export interface EditorState {
     photos: IMediaData;
     audios: IMediaData;
     videos: IMediaData;
+    attractionName: string;
     keywords: string[];
     editorContent: string;
     shortDescription: string;
@@ -27,6 +28,7 @@ export enum EditorActionsEnum {
     SET_AUDIOS="SET_AUDIOS",
     SET_EDITOR_CONTENT="SET_EDITOR_CONTENT",
     SET_SHORT_DESCRIPTION="SET_SHORT_DESCRIPTION",
+    SET_ATTRACTION_NAME="SET_ATTRACTION_NAME",
 
     SET_IS_LOADING_PHOTOS="SET_IS_LOADING_PHOTOS",
     SET_IS_LOADING_AUDIOS="SET_IS_LOADING_AUDIOS",
@@ -43,17 +45,22 @@ export enum EditorActionsEnum {
 
 export interface SetPhotoAction {
     type: EditorActionsEnum.SET_PHOTOS;
-    payload: IMediaFileDTO;
+    payload: IMediaResponse;
 }
 
 export interface SetVideoAction {
     type: EditorActionsEnum.SET_VIDEOS;
-    payload: IMediaFileDTO;
+    payload: IMediaResponse;
 }
 
 export interface SetAudioAction {
     type: EditorActionsEnum.SET_AUDIOS;
-    payload: IMediaFileDTO;
+    payload: IMediaResponse;
+}
+
+export interface SetAttractionNameAction {
+    type: EditorActionsEnum.SET_ATTRACTION_NAME;
+    payload: string;
 }
 
 export interface SetKeywordsAction {
@@ -73,12 +80,12 @@ export interface SetShortDescriptionAction {
 
 export interface DeleteVideoAction {
     type: EditorActionsEnum.DELETE_VIDEO;
-    payload: IMediaFileDTO;
+    payload: IMediaResponse;
 }
 
 export interface DeleteAudioAction {
     type: EditorActionsEnum.DELETE_AUDIO;
-    payload: IMediaFileDTO;
+    payload: IMediaResponse;
 }
 
 export interface SetIsLoadingAction {
@@ -101,6 +108,7 @@ export type EditorAction =
     SetPhotoAction |
     SetVideoAction |
     SetAudioAction |
+    SetAttractionNameAction |
     SetEditorContentAction |
     SetKeywordsAction |
     SetShortDescriptionAction |

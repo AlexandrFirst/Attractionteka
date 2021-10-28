@@ -16,6 +16,7 @@ const initialValue: EditorState = {
         isLoading:false,
         error: ''
     },
+    attractionName: '',
     keywords: [],
     editorContent: '',
     shortDescription: '',
@@ -34,6 +35,9 @@ export default function editorReducer(state = initialValue, action: EditorAction
 
         case EditorActionsEnum.SET_VIDEOS:
             return { ...state, videos: { ...state.videos, data: [...state.videos.data, action.payload], isLoading: false } }
+
+        case EditorActionsEnum.SET_ATTRACTION_NAME:
+            return { ...state, attractionName: action.payload }
 
         case EditorActionsEnum.SET_KEYWORDS:
             return { ...state, keywords: action.payload }

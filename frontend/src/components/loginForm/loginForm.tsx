@@ -11,6 +11,8 @@ import Marginer from "../marginer/marginer";
 import {emailIcon, invisiblePass, passIcon} from "./inputIconsData/inputIcons";
 import Checkbox from "../checkbox/checkbox";
 import ErrorMessage from "../errorMessage/errorMessage";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import Spinner from "../spinner/spinner";
 
 const LoginForm = () => {
     const { switchToRegister } = React.useContext(AccountContext);
@@ -20,8 +22,15 @@ const LoginForm = () => {
     const [inputType, setInputType] = React.useState('password');
     const [visible, setVisible] = React.useState(false);
 
-    const handleOnChangeCheckbox = () => {
+    const {isLoading, error, isAuth} = useTypedSelector(state => state.auth);
 
+    React.useEffect(() => {
+        if(isAuth) {
+            goToAnotherPage('/');
+        }
+    }, [isAuth]);
+
+    const handleOnChangeCheckbox = () => {
         visible ? setInputType("password") : setInputType("text");
         setVisible(prevState => !prevState);
     }
@@ -29,6 +38,16 @@ const LoginForm = () => {
     const submitLogin = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         login(email.value, password.value);
+    }
+
+    const goToAnotherPage = (url: string) => {
+        if (error === '') {
+            window.location.assign(url);
+        }
+    }
+
+    if(isLoading) {
+        return <Spinner/>
     }
 
     return (
@@ -48,7 +67,7 @@ const LoginForm = () => {
             {/*<MutedLink*/}
             {/*    to={'#'}*/}
             {/*>Forgot your password?</MutedLink>*/}
-            <ErrorMessage>An account with that email exists! Forgot password?</ErrorMessage>
+            <ErrorMessage isVisible={error !== ''}>An account with that email or password does not exist! Forgot password?</ErrorMessage>
             <Marginer margin={"100px"} direction={"vertical"}/>
             <MutedLink
                 // classes="mt25"

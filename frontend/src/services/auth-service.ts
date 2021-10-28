@@ -1,6 +1,6 @@
 import axios, {AxiosResponse} from "axios";
-import {ILoginResponse} from "../models/ILoginResponse";
-import {IRegisterResponse} from "../models/IRegisterResponse";
+import {ILoginResponse} from "../models/auth/ILoginResponse";
+import {IRegisterResponse} from "../models/auth/IRegisterResponse";
 import {Service} from "./service";
 
 require("dotenv").config();

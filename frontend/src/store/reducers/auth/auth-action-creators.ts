@@ -2,7 +2,7 @@ import {IUser} from "../../../models/IUser";
 import {AuthActionsEnum, SetAuthAction, SetErrorAction, SetIsLoadingAction, SetUserAction} from "./types";
 import {AppDispatch} from "../../index";
 import {AuthService} from "../../../services/auth-service";
-import {LocalStorageKey} from "../../../models/LocalStorageKey";
+import {LocalStorageKey} from "../../../types/LocalStorageKey";
 
 
 export const AuthActionCreators = {
@@ -25,11 +25,13 @@ export const AuthActionCreators = {
     registration: (name:string, surname: string, email: string, password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
-            const response = await AuthService.registration(name, surname, email, password);
-            console.log(response.data);
+            const regResponse = await AuthService.registration(name, surname, email, password);
+            const loginResponse = await AuthService.login(regResponse.data.mail, regResponse.data.password);
+            localStorage.setItem(LocalStorageKey.token, loginResponse.data.userToken);
             dispatch(AuthActionCreators.setIsAuth(true));
         } catch (e: any) {
-            dispatch(AuthActionCreators.setError(e))
+            console.log(e);
+            dispatch(AuthActionCreators.setError("An account with that email exists! Forgot password?"))
         } finally {
             dispatch(AuthActionCreators.setIsLoading(false))
         }

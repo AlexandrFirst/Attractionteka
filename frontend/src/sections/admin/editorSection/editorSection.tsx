@@ -4,19 +4,19 @@ import 'suneditor/dist/css/suneditor.min.css';
 import SunEditor, {buttonList} from "suneditor-react";
 import SunEditorCore from "suneditor/src/lib/core";
 import { useActions } from "../../../hooks/useActions";
-import {IMediaResponse} from "../../../models/IMediaResponse";
+import {IMediaResponse} from "../../../models/admin/IMediaResponse";
 import {useTypedSelector} from "../../../hooks/useTypedSelector";
 import {AppDispatch} from "../../../store";
 import {useDispatch} from "react-redux";
 import {EditorService} from "../../../services/editor-service";
 import {EditorActionCreators} from "../../../store/reducers/editor/editor-action-creators";
 import Spinner from "../../../components/spinner/spinner";
-import {IMediaFileDTO} from "../../../models/IMediaFileDTO";
+import {IMediaFileDTO} from "../../../models/admin/IMediaFileDTO";
 
 const EditorSection = () => {
     const editor = React.useRef<SunEditorCore>();
     // const {uploadMedia} = useActions();
-    const [currentPhoto, setCurrentPhoto] = React.useState<IMediaFileDTO>();
+    const [currentPhoto, setCurrentPhoto] = React.useState<IMediaResponse>();
     const {photos: {data: photos, isLoading, error} } = useTypedSelector(state => state.editor);
     const [content, setContent] = React.useState("");
     const dispatch = useDispatch<AppDispatch>();

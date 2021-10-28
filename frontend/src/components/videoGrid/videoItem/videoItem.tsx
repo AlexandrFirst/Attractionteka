@@ -1,12 +1,12 @@
 import React from 'react';
 import JolPlayer from "jol-player";
-import {IMediaResponse} from "../../../models/IMediaResponse";
+import {IMediaResponse} from "../../../models/admin/IMediaResponse";
 
 import styles from './videoItem.module.scss';
-import {IMediaFileDTO} from "../../../models/IMediaFileDTO";
+import {IMediaFileDTO} from "../../../models/admin/IMediaFileDTO";
 
 export interface VideoItemProps {
-    video: IMediaFileDTO;
+    video: IMediaResponse;
     deleteFunc: Function;
 }
 

@@ -3,7 +3,9 @@ import React from 'react';
 import styles from './keywordsSection.module.scss';
 import {useActions} from "../../../hooks/useActions";
 import ErrorMessage from "../../../components/errorMessage/errorMessage";
-import cn from "classnames";
+import TextAreaWithVisibleError from "../../../components/textAreaWithVisibleError/textAreaWithVisibleError";
+import {useTypedSelector} from "../../../hooks/useTypedSelector";
+
 export interface KeywordsSectionProps {
 
 }
@@ -12,6 +14,11 @@ const KeywordsSection:React.FC<KeywordsSectionProps> = () => {
     const [keywordsData, setKeywordsData] = React.useState<string>('');
     const [isVisibleError, setIsVisibleError] = React.useState(false);
     const {setKeywords} = useActions();
+    const {keywords} = useTypedSelector(state => state.editor);
+
+    React.useEffect(()=>{
+        console.log(keywords);
+    },[keywords])
 
     const splitKeywords = (e: React.FocusEvent<HTMLTextAreaElement>) => {
         if(keywordsData === '') {
@@ -35,24 +42,23 @@ const KeywordsSection:React.FC<KeywordsSectionProps> = () => {
         } catch (e) {
             setIsVisibleError(true);
         } finally {
-            console.log("keywordsData....", keywordsData);
+            // console.log("keywordsData....", keywordsData);
         }
+
     }
 
     return (
         <div className={styles.wrapper}>
             {/*<h5>Keywords</h5>*/}
-            <textarea
-                value={keywordsData}
-                onChange={(e ) => setKeywordsData(e.target.value)}
-                placeholder="Keywords"
-                className={cn(styles.keywords, {[styles.keywords_wrong]: isVisibleError})}
-                onBlur={splitKeywords}
-            />
-            <ErrorMessage
-                isVisible={isVisibleError}
-                classNames={styles.error}
-            >Incorrect keywords. Try to add "#" before all words and set a space between them</ErrorMessage>
+           <TextAreaWithVisibleError
+               valueToWrite={keywordsData}
+               setValueToWrite={setKeywordsData}
+               conditionOfError={isVisibleError}
+               placeholderData={"Keywords..."}
+               onBlurFunc={splitKeywords}
+               isErrorToShow
+               errorMessage={"Incorrect keywords. Try to add \"#\" before all words and set a space between them"}
+           />
         </div>
     );
 };
