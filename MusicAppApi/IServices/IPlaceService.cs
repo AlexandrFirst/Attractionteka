@@ -7,7 +7,7 @@ namespace MusicAppApi.IServices
     {
          Task<PlaceDto> CreateNewPlace(PlaceDto newPlaceDto);
          Task DeletePlace(int placeId);
-         Task<PlaceReadOnlyDto> GetPlaceById (int placeId);
+         Task<PlaceDto> GetPlaceById (int placeId);
          Task<PlaceDto> UpdatePlace(PlaceDto updatedPlaceDto);
     }
 }
