@@ -48,9 +48,9 @@ const AttractionBox:React.FC<AttractionBoxProps> = (
                 <MainPhotoAttracrtion  />
                 <InformationAttraction content={content}/>
                 <KeyWordsAttraction keywords={listKeyWords?.$values}/>
-                <AudioAttraction audios={audios?.$values}/>
-                <PhotoAttraction photos={photos?.$values}/>
-                <VideoAttraction videos={videos?.$values}/>
+                {audios && <AudioAttraction audios={audios}/>}
+                {photos && <PhotoAttraction photos={photos}/>}
+                {videos && <VideoAttraction videos={videos}/>}
                 <RatingAttraction />
                 <ReviewsAttraction />
                 <div className="block-author">{uploadTime}-"author"</div>
