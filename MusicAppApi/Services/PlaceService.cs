@@ -50,6 +50,7 @@ namespace MusicAppApi.Services
         {
             if (newPlaceDto.ListKeyWords == null)
                 newPlaceDto.ListKeyWords = new List<string>();
+                
             var filteredPlaceDto = await filterPlaceDescriptionMediaContent(newPlaceDto);
 
             
@@ -84,8 +85,8 @@ namespace MusicAppApi.Services
             return mapper.Map<PlaceDto>(placeForInsertion);
         }
 
-        public async Task<HashSet<TEntity>> GetMedia<TEntity, TEntityDto>(  IQueryable<TEntity> placeToSerach, 
-                                                                            HashSet<TEntityDto> filteredMedia) 
+        public async Task<HashSet<TEntity>> GetMedia<TEntity, TEntityDto>(IQueryable<TEntity> placeToSerach, 
+                                                                          HashSet<TEntityDto> filteredMedia) 
                                             where TEntity: MediaFile
                                             where TEntityDto: MediaFileDto
         {
@@ -134,13 +135,13 @@ namespace MusicAppApi.Services
             return mapper.Map<PlaceDto>(oldPlace);
         }
 
-        public async Task<PlaceReadOnlyDto> GetPlaceById(int placeId)
+        public async Task<PlaceDto> GetPlaceById(int placeId)
         {
             var place = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(p => p.Id == placeId);
             if (place == null)
                 throw new System.Exception("No proper place found");
 
-            var readOnlyPlace = mapper.Map<PlaceReadOnlyDto>(place);
+            var readOnlyPlace = mapper.Map<PlaceDto>(place);
             return readOnlyPlace;
         }
 
