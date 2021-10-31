@@ -17,6 +17,7 @@ export interface EditorState {
     editorContent: string;
     shortDescription: string;
     loadingAddNewPlace: boolean;
+    errorAddNewPlace: string;
     // isLoading: boolean;
     // error: string;
 }
@@ -38,6 +39,7 @@ export enum EditorActionsEnum {
     SET_ERROR_PHOTOS="SET_ERROR_PHOTOS",
     SET_ERROR_AUDIOS="SET_ERROR_AUDIOS",
     SET_ERROR_VIDEOS="SET_ERROR_VIDEOS",
+    SET_ERROR_ADD_NEW_PLACE="SET_ERROR_ADD_NEW_PLACE",
 
     DELETE_AUDIO="DELETE_AUDIO",
     DELETE_VIDEO="DELETE_VIDEO",
@@ -98,6 +100,11 @@ export interface SetLoadingNewPlaceAction {
     payload: boolean;
 }
 
+export interface SetErrorNewPlaceAction {
+    type: EditorActionsEnum.SET_ERROR_ADD_NEW_PLACE;
+    payload: string;
+}
+
 export interface SetErrorAction {
     type: EditorActionsEnum.SET_ERROR_PHOTOS | EditorActionsEnum.SET_ERROR_AUDIOS | EditorActionsEnum.SET_ERROR_VIDEOS;
     payload: string;
@@ -116,4 +123,5 @@ export type EditorAction =
     DeleteVideoAction |
     SetIsLoadingAction |
     SetLoadingNewPlaceAction |
+    SetErrorNewPlaceAction |
     SetErrorAction;

@@ -1,0 +1,22 @@
+.block-rate-attraction {
+    margin-top: 30px;
+    width: 83%;
+    min-height: 10px;
+    position: relative;
+}
+
+.img-rate-attraction {
+    height: 100%;
+    width: 50%;
+    height: auto;
+}
+
+.general-rating {
+    display: inline-block;
+    background-color: brown;
+    width: 40%;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    text-align: right;
+}

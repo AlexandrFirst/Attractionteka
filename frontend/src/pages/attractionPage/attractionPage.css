@@ -1,0 +1,12 @@
+.boxContainer{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-image: url("../img/background.png");
+    background-size:  100%;
+}
+
+.spinner {
+    padding-top: 50vh;
+}

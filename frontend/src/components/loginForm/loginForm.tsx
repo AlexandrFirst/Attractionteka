@@ -13,6 +13,8 @@ import Checkbox from "../checkbox/checkbox";
 import ErrorMessage from "../errorMessage/errorMessage";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Spinner from "../spinner/spinner";
+import {RouteNames} from "../../routes";
+import {useHistory} from "react-router-dom";
 
 const LoginForm = () => {
     const { switchToRegister } = React.useContext(AccountContext);
@@ -21,12 +23,13 @@ const LoginForm = () => {
     const {login} = useActions();
     const [inputType, setInputType] = React.useState('password');
     const [visible, setVisible] = React.useState(false);
+    const history = useHistory();
 
     const {isLoading, error, isAuth} = useTypedSelector(state => state.auth);
 
     React.useEffect(() => {
         if(isAuth) {
-            goToAnotherPage('/');
+            goToAnotherPage(RouteNames.MAIN);
         }
     }, [isAuth]);
 
@@ -42,12 +45,12 @@ const LoginForm = () => {
 
     const goToAnotherPage = (url: string) => {
         if (error === '') {
-            window.location.assign(url);
+            history.push(url);
         }
     }
 
     if(isLoading) {
-        return <Spinner/>
+        return <Spinner classes={styles.spinner}/>
     }
 
     return (

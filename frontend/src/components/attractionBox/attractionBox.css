@@ -1,0 +1,52 @@
+.body-attraction{
+    width:84%;
+    min-height: 3000px;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #F8F8F8 0%, #DDDDDF 51.35%, #ACACAC 100%);
+    backdrop-filter: blur(30px);
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+}
+
+.block-back-home{
+    width: 91%;
+    height: 27px;
+    margin-top: 28px;
+    position: relative;
+}
+
+.icon-home {
+    height:100%;
+    margin-right: 15px;
+}
+
+.text-home {
+    display: inline-block;
+    position: absolute;
+    top: 50%; 
+    transform: translate(0, -50%);
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 25px;
+    color: #656FAB;
+}
+
+.block-author {
+    margin-top: 40px;
+    width:90%;
+    height: 20px;
+    margin-bottom: 140px;
+    background-color: firebrick;
+    text-align: right;
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 25px;
+    color: #000000;
+    opacity: 0.5;
+}

@@ -4,7 +4,7 @@ import {
     EditorActionsEnum, EditorState, SetAttractionNameAction,
     SetAudioAction,
     SetEditorContentAction,
-    SetErrorAction,
+    SetErrorAction, SetErrorNewPlaceAction,
     SetIsLoadingAction,
     SetKeywordsAction,
     SetLoadingNewPlaceAction,
@@ -28,6 +28,7 @@ export const EditorActionCreators = {
     setErrorPhotos: (payload: string): SetErrorAction => ({ type:EditorActionsEnum.SET_ERROR_PHOTOS, payload }),
     setErrorAudios: (payload: string): SetErrorAction => ({ type:EditorActionsEnum.SET_ERROR_AUDIOS, payload }),
     setErrorVideos: (payload: string): SetErrorAction => ({ type:EditorActionsEnum.SET_ERROR_VIDEOS, payload }),
+    setErrorAddNewPlace: (payload: string): SetErrorNewPlaceAction => ({ type:EditorActionsEnum.SET_ERROR_ADD_NEW_PLACE, payload }),
 
     setPhoto: (payload: IMediaResponse): SetPhotoAction => ({ type: EditorActionsEnum.SET_PHOTOS, payload }),
     setAudio: (payload: IMediaResponse): SetAudioAction => ({ type: EditorActionsEnum.SET_AUDIOS, payload }),
@@ -96,14 +97,15 @@ export const EditorActionCreators = {
         try {
             dispatch(EditorActionCreators.setLoadingAddNewPlace(true));
             const nowDate = new Date();
-            await EditorService.addNewPlace(
+            const res = await EditorService.addNewPlace(
                 editorContent, attractionName, shortDescription,
                 keywords, nowDate,
                 photos, videos, audios
             );
+            console.log("ПОЛУЧЕН ОТВЕТ ПРИ СОЗДАНИИ ДОСТОПРИМЕЧАТЕЛЬНОСТИ...........", res.data);
 
         } catch (e) {
-            console.log(e);
+            EditorActionCreators.setErrorAddNewPlace("An error occurred while adding a new attraction");
         } finally {
             dispatch(EditorActionCreators.setLoadingAddNewPlace(false));
         }

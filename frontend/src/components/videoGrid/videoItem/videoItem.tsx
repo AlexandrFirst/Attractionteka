@@ -25,7 +25,6 @@ const VideoItem: React.FC<VideoItemProps> = ({video, deleteFunc}) => {
                 className={styles.delete_btn}
                 onClick={() => deleteFunc(video)}
             >X</div>
-            {/*//TODO: add delete button*/}
         </div>
     );
 };

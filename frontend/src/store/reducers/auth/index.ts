@@ -1,14 +1,14 @@
 import {AuthAction, AuthActionsEnum, AuthState} from "./types";
 import {IUser} from "../../../models/IUser";
 
-const initialValue: AuthState = {
+const initialState: AuthState = {
     isAuth: false,
     user: {} as IUser,
     isLoading: false,
     error: '',
 }
 
-export default function authReducer(state = initialValue, action: AuthAction): AuthState {
+export default function authReducer(state = initialState, action: AuthAction): AuthState {
     switch (action.type) {
         case AuthActionsEnum.SET_AUTH:
             return { ...state, isAuth: action.payload, isLoading: false }

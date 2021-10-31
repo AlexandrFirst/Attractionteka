@@ -1,0 +1,43 @@
+.block-information {
+    margin-top: 50px;
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.information-header {
+    width: 155px;
+    height: 20px;
+    position: relative;
+}
+
+.icon-information-header {
+    height:100%;
+    margin-right: 15px;
+}
+
+.text-information-header {
+    display: inline-block;
+    position: absolute;
+    top: 50%; 
+    transform: translate(0, -50%);
+    text-decoration: underline;
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    color: #111C5A;
+}
+
+.information-main {
+    margin-top: 40px;
+    width: 90%;
+    height: 700px;
+    /*background-color: chocolate;*/
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-align: justify;
+}

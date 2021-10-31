@@ -21,6 +21,7 @@ const initialValue: EditorState = {
     editorContent: '',
     shortDescription: '',
     loadingAddNewPlace: false,
+    errorAddNewPlace: '',
     // isLoading: false,
     // error: '',
 }
@@ -65,6 +66,9 @@ export default function editorReducer(state = initialValue, action: EditorAction
 
         case EditorActionsEnum.SET_LOADING_ADD_NEW_PLACE:
             return {...state, loadingAddNewPlace: action.payload }
+
+        case EditorActionsEnum.SET_ERROR_ADD_NEW_PLACE:
+            return {...state, errorAddNewPlace: action.payload }
 
         case EditorActionsEnum.SET_ERROR_PHOTOS:
             return { ...state, photos: { ...state.photos, error: action.payload, isLoading: false } }

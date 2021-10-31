@@ -1,6 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import cn from 'classnames';
 import useInput from "../../hooks/useInput";
 import {AccountContext} from "../accountContext";
 
@@ -13,10 +11,10 @@ import Marginer from "../marginer/marginer";
 import {emailIcon, invisiblePass, nameIcon} from "./inputIconsData/inputIcons";
 import {useActions} from "../../hooks/useActions";
 import {passIcon} from "../loginForm/inputIconsData/inputIcons";
-import Checkbox from "../checkbox/checkbox";
 import ErrorMessage from "../errorMessage/errorMessage";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Spinner from "../spinner/spinner";
+import {RouteNames} from "../../routes";
 
 const RegisterForm = () => {
     const { switchToLogin } = React.useContext(AccountContext);
@@ -35,7 +33,7 @@ const RegisterForm = () => {
 
     React.useEffect(() => {
         if(isAuth) {
-            goToAnotherPage('/');
+            goToAnotherPage(RouteNames.MAIN);
         }
     }, [isAuth]);
 
@@ -56,7 +54,7 @@ const RegisterForm = () => {
     }
 
     if(isLoading) {
-        return <Spinner/>
+        return <Spinner classes={styles.spinner}/>
     }
 
     return (

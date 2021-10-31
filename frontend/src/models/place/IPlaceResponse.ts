@@ -1,5 +1,5 @@
-import {IMediaFileDTO} from "./IMediaFileDTO";
-import {IMediaResponse} from "./IMediaResponse";
+import {IMediaFileDTO} from "../admin/IMediaFileDTO";
+import {IMediaResponse} from "../admin/IMediaResponse";
 
 
 export interface IPlaceResponse {
@@ -9,9 +9,9 @@ export interface IPlaceResponse {
     shortDescription: string;
     listKeyWords: idValueKeyWords;
     uploadTime: Date;
-    photos: idValueMedia;
-    videos: idValueMedia;
-    audios: idValueMedia;
+    photos: IMediaResponse[];
+    videos: IMediaResponse[];
+    audios: IMediaResponse[];
 
     // public int Id { get; set; }
     // public string Content { get; set; }
@@ -27,12 +27,12 @@ export interface IPlaceResponse {
 
 export interface idValueKeyWords {
     $id: number;
-    $value: string[];
+    $values: string[];
 }
 
 export interface idValueMedia {
     $id: number;
-    $value: IMediaResponse[];
+    $values: IMediaResponse[];
 }
 
 

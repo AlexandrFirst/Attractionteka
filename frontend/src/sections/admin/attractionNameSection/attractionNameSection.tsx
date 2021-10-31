@@ -2,9 +2,11 @@ import React from 'react';
 import TextAreaWithVisibleError from "../../../components/textAreaWithVisibleError/textAreaWithVisibleError";
 
 import styles from './attractionNameSection.module.scss';
+import {useActions} from "../../../hooks/useActions";
 
 const AttractionNameSection = () => {
 
+    const {setAttractionName} = useActions();
     const [attractionNameData, setAttractionNameData] = React.useState('');
     const [isVisibleError, setIsVisibleError] = React.useState(false);
 
@@ -13,7 +15,7 @@ const AttractionNameSection = () => {
             setIsVisibleError(true);
             return;
         }
-        setAttractionNameData(attractionNameData);
+        setAttractionName(attractionNameData);
         setIsVisibleError(false);
     }
 

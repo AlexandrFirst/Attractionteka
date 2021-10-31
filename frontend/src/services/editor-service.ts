@@ -4,7 +4,7 @@ import {IMediaResponse} from "../models/admin/IMediaResponse";
 import {LocalStorageKey} from "../types/LocalStorageKey";
 import {ContentType} from "../types/ContentType";
 import {IMediaFileDTO} from "../models/admin/IMediaFileDTO";
-import {IPlaceResponse} from "../models/admin/IPlaceResponse";
+import {IPlaceResponse} from "../models/place/IPlaceResponse";
 
 export class EditorService extends Service {
 

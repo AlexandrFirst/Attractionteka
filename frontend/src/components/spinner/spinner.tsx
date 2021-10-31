@@ -1,9 +1,16 @@
 import React from 'react';
+import cn from "classnames";
+import styles from './spinner.module.scss';
 
-const Spinner = () => {
+
+export interface SpinnerProps {
+    classes?: string;
+}
+
+const Spinner:React.FC<SpinnerProps> = ({classes}) => {
     return (
-        <div>
-            LOADING............
+        <div className={cn(styles.wrapper, classes)}>
+            <div className={styles.spinner}>LOADING............</div>
         </div>
     );
 };

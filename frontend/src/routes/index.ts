@@ -1,6 +1,7 @@
-import Main from "../pages/main/main";
+import MainPage from "../pages/mainPage/mainPage";
 import LoginPage from "../pages/loginPage/loginPage";
 import EditPage from "../pages/editPage/editPage";
+import AttractionPage from "../pages/attractionPage/attractionPage";
 
 export interface IRoute {
     path: string;
@@ -12,12 +13,14 @@ export enum RouteNames {
     MAIN = "/",
     LOGIN = "/login",
     EDIT = "/edit",
+    ATTRACTION="/attraction",
 }
 
 export const publicRoutes: IRoute[] = [
-    { path: RouteNames.MAIN, component: Main, exact: true },
+    { path: RouteNames.MAIN, component: MainPage, exact: true },
     { path: RouteNames.LOGIN, component: LoginPage, exact: true },
     { path: RouteNames.EDIT, component: EditPage, exact: true },
+    { path: RouteNames.ATTRACTION + "/:id", component: AttractionPage, exact: true },
 ]
 
 // export const privateRoutes: IRoute[] = [

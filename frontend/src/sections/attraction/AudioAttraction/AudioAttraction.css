@@ -1,0 +1,98 @@
+.block-audio {
+    margin-top: 70px;
+    width: 90%;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.audio-header {
+    width: 135px;
+    height: 20px;
+    position: relative;
+}
+
+.audio-main {
+    margin-top: 40px;
+    width: 80%;
+    min-height: 100px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    align-items: center;
+}
+
+
+ul.audio-main-header {
+    margin: 0;
+    width: 90%;
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 19px;
+    color: #000000;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ul.audio-main-header li {
+    display: inline-block;
+}
+
+ul.audio-main-header li.li-number {
+    width: 5%;
+}
+
+ul.audio-main-header li.li-name-audio {
+    width: 35%;
+    text-align: left;
+}
+
+ul.audio-main-header li.li-date-added {
+    width: 30%;
+    text-align: left;
+}
+
+ul.audio-main-header li.li-time
+{
+    text-align: center;
+    width: 25%;
+}
+
+.line {
+    border: 0;
+    background-color: #9b9a9a;
+    height: 0.7px;
+}
+
+.list-audio {
+    width: 90%;
+    height: 300px;
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    color: #000000;
+    margin-left: auto;
+    margin-right: auto;
+    /*background-color: darkblue;*/
+}
+
+.icon-information-header {
+    height:100%;
+    margin-right: 15px;
+}
+
+.text-information-header {
+    display: inline-block;
+    position: absolute;
+    top: 50%; 
+    transform: translate(0, -50%);
+    text-decoration: underline;
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    color: #111C5A;
+}

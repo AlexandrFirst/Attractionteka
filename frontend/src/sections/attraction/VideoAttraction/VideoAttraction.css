@@ -1,0 +1,43 @@
+.block-video {
+    margin-top: 50px;
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.list-video {
+    display: grid;
+    grid-template-columns: 500px 500px;
+    gap: 30px;
+    grid-auto-rows: 250px;
+    margin-top: 35px;
+    width:85%;
+    height: 600px;
+    /*background-color:darkmagenta;*/
+}
+
+.audio-header {
+    width: 135px;
+    height: 20px;
+    position: relative;
+}
+
+.icon-information-header {
+    height:100%;
+    margin-right: 15px;
+}
+
+.text-information-header {
+    display: inline-block;
+    position: absolute;
+    top: 50%; 
+    transform: translate(0, -50%);
+    text-decoration: underline;
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    color: #111C5A;
+}
