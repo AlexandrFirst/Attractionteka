@@ -46,7 +46,7 @@ const EditPage = () => {
         // console.log(audioUrls);
         // console.log(videoUrls);
         console.log("ТО ЧТО Я ОТПРАВЛЯЮ", filesToSend);
-        addNewPlace(photosToSend,audiosToSend,videosToSend,filesToSend);
+        addNewPlace(photosToSend, videosToSend, audiosToSend, filesToSend);
     }
 
     const prepareMediaToSend = (arr: IMediaResponse[]): IMediaFileDTO[] => {
