@@ -14,6 +14,7 @@ using MusicAppApi.Helpers.ExceptionHandler;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 using MusicAppApi.Services;
+using Newtonsoft.Json;
 
 namespace MusicAppApi
 {
@@ -41,8 +42,10 @@ namespace MusicAppApi
 
 
             services.AddControllers();
-            services.AddControllers().AddJsonOptions(x =>
-                        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            services.AddControllers().AddNewtonsoftJson(o =>
+            {
+                o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<ICloudinaryService, CloudinaryService>();
             services.AddScoped<IUserService, UserService>();
