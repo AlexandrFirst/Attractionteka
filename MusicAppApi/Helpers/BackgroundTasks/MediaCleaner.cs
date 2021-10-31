@@ -37,6 +37,7 @@ namespace MusicAppApi.Helpers.BackgroundTasks
 
             timer = new Timer(async o =>
                     {
+                        System.Console.WriteLine("Media data cleaned");
                         var photosWithoutPlace = await GetUnusedMediaFromContext(context.PhotoFiles);
                         var vidsWithoutPlace = await GetUnusedMediaFromContext(context.VideoFiles);
                         var musicWithoutPlace = await GetUnusedMediaFromContext(context.AudioFiles);
