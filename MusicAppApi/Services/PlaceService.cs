@@ -137,7 +137,10 @@ namespace MusicAppApi.Services
 
         public async Task<PlaceDto> GetPlaceById(int placeId)
         {
-            var place = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(p => p.Id == placeId);
+            var place = await dataContext.PlaceDescriptions.Include(p => p.Photos)
+                                                            .Include(a => a.Audios)
+                                                            .Include(v => v.Videos)
+                                                            .FirstOrDefaultAsync(p => p.Id == placeId);
             if (place == null)
                 throw new System.Exception("No proper place found");
 
