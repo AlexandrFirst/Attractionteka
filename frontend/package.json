@@ -31,7 +31,10 @@
     "suneditor": "^2.41.3",
     "suneditor-react": "^3.3.0",
     "typescript": "^4.4.3",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "react-elastic-carousel": "^0.11.5",
+    "styled-components": "^5.3.3",
+    "react-image-gallery": "^1.2.7"
   },
   "scripts": {
     "start": "react-scripts start",

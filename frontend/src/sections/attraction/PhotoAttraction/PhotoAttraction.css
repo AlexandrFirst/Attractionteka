@@ -1,7 +1,9 @@
-
+.render {
+    display: flex;
+}
 .block-photo {
     margin-top: 50px;
-    width: 100%;
+    width: 99%;
     min-height: 100px;
     display: flex;
     flex-direction: column;
@@ -19,8 +21,10 @@
 }
 
 .item-photo {
-    width: 495px;
-    height: 650px;
+    width: 99%;
+    margin: 10px;
+    height: 450px;
+    object-fit: cover;
     border-radius: 15px;
 }
 

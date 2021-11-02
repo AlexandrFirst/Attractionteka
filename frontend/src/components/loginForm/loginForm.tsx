@@ -27,6 +27,12 @@ const LoginForm = () => {
 
     const {isLoading, error, isAuth} = useTypedSelector(state => state.auth);
 
+    const goToAnotherPage = (url: string) => {
+        if (error === '') {
+            history.push(url);
+        }
+    }
+
     React.useEffect(() => {
         if(isAuth) {
             goToAnotherPage(RouteNames.MAIN);
@@ -43,11 +49,6 @@ const LoginForm = () => {
         login(email.value, password.value);
     }
 
-    const goToAnotherPage = (url: string) => {
-        if (error === '') {
-            history.push(url);
-        }
-    }
 
     if(isLoading) {
         return <Spinner classes={styles.spinner}/>
