@@ -98,7 +98,7 @@ namespace MusicAppApi.Controllers
         }
 
         [Authorize(Role = UserRoles.Admin)]
-        [HttpPost("user/ban/{userId}")]
+        [HttpDelete("user/ban/{userId}")]
         public async Task<IActionResult> BanUser(int userId)
         {
             var user = await userService.GetUserById(userId);
@@ -110,7 +110,7 @@ namespace MusicAppApi.Controllers
         }
 
         [Authorize(Role = UserRoles.Admin)]
-        [HttpPost("user/unban/{userId}")]
+        [HttpDelete("user/unban/{userId}")]
         public async Task<IActionResult> UnbanUser(int userId)
         {
             var user = await userService.GetUserById(userId);
