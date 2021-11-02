@@ -62,7 +62,7 @@ namespace MusicAppApi.Controllers
             if (user == null)
                 throw new Exception("User not found");
 
-            //FIXME: if it couldn't be deleted change in migration delete staretage for user constarint in place migration
+
 
             context.Users.Remove(user);
 
@@ -78,7 +78,7 @@ namespace MusicAppApi.Controllers
             Type userRoleType = typeof(UserRoles);
 
             List<FieldInfo> fields = userRoleType.GetFields(BindingFlags.Static | BindingFlags.Public).ToList();
-            //FIXME: field can be emty due to incorrect flags
+
 
             if (!fields.Any(f => f.Name == userRole))
             {
@@ -92,12 +92,34 @@ namespace MusicAppApi.Controllers
 
             user.Role = userRole;
             context.Users.Update(user);
-            
+
             await context.SaveChangesAsync();
             return Ok(user);
         }
 
+        [Authorize(Role = UserRoles.Admin)]
+        [HttpPost("user/ban/{userId}")]
+        public async Task<IActionResult> BanUser(int userId)
+        {
+            var user = await userService.GetUserById(userId);
+            user.IsBanned = true;
+            
+            context.Update(user);
+            await context.SaveChangesAsync();
+            return Ok(user);
+        }
 
+        [Authorize(Role = UserRoles.Admin)]
+        [HttpPost("user/unban/{userId}")]
+        public async Task<IActionResult> UnbanUser(int userId)
+        {
+            var user = await userService.GetUserById(userId);
+            user.IsBanned = false;
+            
+            context.Update(user);
+            await context.SaveChangesAsync();
+            return Ok(user);
+        }
 
 
     }

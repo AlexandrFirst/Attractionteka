@@ -84,8 +84,12 @@ namespace MusicAppApi.Services
 
             if (user == null)
                 throw new Exception("No user found");
+            if(user.IsBanned)
+                throw new Exception("This user is banned");
+
 
             var token = generateJwtToken(user);
+
 
             return new UserLoginOutputDto()
             {
