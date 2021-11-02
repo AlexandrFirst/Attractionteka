@@ -3,7 +3,7 @@ import './PhotoAttraction.css'
 import iconphoto from './img/iconphoto.png';
 
 const PhotoAttraction = (props) => {
-    const renderPhotos = props.photos.map(photo => <img className="item-photo" key={photo} src={photo}/>)
+    const renderPhotos = props.photos.map(photo => <img className="item-photo" key={photo.url} src={photo.url}/>)
 
     return (
         <div className="block-photo">

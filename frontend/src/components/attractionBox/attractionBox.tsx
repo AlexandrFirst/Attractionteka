@@ -17,9 +17,21 @@ import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useActions} from "../../hooks/useActions";
 import {IPlaceResponse} from "../../models/place/IPlaceResponse";
 import {mockPhotos, mockVideos} from "../../MOCKDATA/ATTRACTION_DATA";
+import Footer from "../footer/footer";
+import {ReactJkMusicPlayerInstance} from "react-jinke-music-player";
 
 export interface AttractionBoxProps {
     data: IPlaceResponse;
+}
+
+interface AudioListProps {
+    name: string | React.ReactNode;
+    musicSrc: string;
+    cover: string;
+    singer?: string | React.ReactNode;
+    duration?: number;
+    lyric?: string;
+    [key: string]: any
 }
 
 const AttractionBox:React.FC<AttractionBoxProps> = (
@@ -34,7 +46,9 @@ const AttractionBox:React.FC<AttractionBoxProps> = (
         audios
     }}) => {
 
-    console.log(videos);
+    const [currentAudio, setCurrentAudio] = React.useState(-1);
+    const [currentAudioPlayerInstance, setCurrentAudioPlayerInstance] = React.useState<ReactJkMusicPlayerInstance | null>();
+
 
     return (
         <div>
@@ -44,17 +58,23 @@ const AttractionBox:React.FC<AttractionBoxProps> = (
                     <div className="text-home">Home - Attractions</div>
                 </Link>
                 <GeneralRateAttraction />
-                <HeaderAttraction name={name} />
-                <MainPhotoAttracrtion  />
+                {name && <HeaderAttraction name={name}/>}
+                {photos && <MainPhotoAttracrtion photo={photos[0].url}/>}
                 <InformationAttraction content={content}/>
-                <KeyWordsAttraction keywords={listKeyWords?.$values}/>
-                {audios && <AudioAttraction audios={audios}/>}
+                <KeyWordsAttraction keywords={listKeyWords}/>
+                {audios && <AudioAttraction
+                    currentAudio={currentAudio}
+                    setCurrentAudio={setCurrentAudio}
+                    audios={audios}
+                    currentAudioPlayerInstance={currentAudioPlayerInstance}
+                />}
                 {photos && <PhotoAttraction photos={photos}/>}
                 {videos && <VideoAttraction videos={videos}/>}
                 <RatingAttraction />
                 <ReviewsAttraction />
                 <div className="block-author">{uploadTime}-"author"</div>
             </div>
+            <Footer setCurrentAudioPlayerInstance={setCurrentAudioPlayerInstance} curAudio={currentAudio}/>
         </div>
     )
 }

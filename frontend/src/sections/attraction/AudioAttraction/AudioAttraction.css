@@ -68,8 +68,8 @@ ul.audio-main-header li.li-time
 }
 
 .list-audio {
-    width: 90%;
-    height: 300px;
+    width: 100%;
+    height: fit-content;
     font-family: 'Nunito Sans', sans-serif;
     font-style: normal;
     font-weight: normal;
@@ -95,4 +95,27 @@ ul.audio-main-header li.li-time
     font-weight: normal;
     font-size: 23px;
     color: #111C5A;
+}
+
+.audio-item {
+    display: grid;
+    grid-template-columns: 0.5fr 4fr 4.5fr 1.5fr 1fr;
+
+    margin-top: 15px;
+    padding: 10px 20px 10px 35px;
+    /*padding-left: 30px;*/
+    background: rgba(187, 193, 228, 0.4);
+    border-radius: 15px;
+    height: 40px;
+}
+
+.play_download_wrapper {
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn {
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
 }

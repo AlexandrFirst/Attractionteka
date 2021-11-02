@@ -34,7 +34,7 @@
 .information-main {
     margin-top: 40px;
     width: 90%;
-    height: 700px;
+    height: fit-content;
     /*background-color: chocolate;*/
     font-family: 'Nunito Sans', sans-serif;
     font-style: normal;
