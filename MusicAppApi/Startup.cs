@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MusicAppApi.Entities;
 using MusicAppApi.Helpers;
+using MusicAppApi.Helpers.Email;
 using MusicAppApi.Helpers.ExceptionHandler;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
@@ -53,11 +54,14 @@ namespace MusicAppApi
             services.AddScoped<IUserContextService, UserContextService>();
 
             services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddSingleton<ITempSaverService, TempSaverService>();
+            services.TryAddSingleton<IMailService, MailService>();
 
             services.AddDbContext<MyDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("MusicAppDB")));
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
+            services.Configure<EmailCreds>(Configuration.GetSection("EmailCredentials"));
 
             services.AddAutoMapper(typeof(Startup));
 

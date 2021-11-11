@@ -20,7 +20,7 @@ namespace MusicAppApi.Controllers
 
 
         [HttpPost("nativeRegister")]
-        public async Task<IActionResult> RegisterUsers([FromBody] NativeUserRegisterDto userRegisterData){
+        public async Task<IActionResult> RegisterUsers([FromBody] InputUserDto userRegisterData){
             
             User newUser = await authService.NativeRegister(userRegisterData);
             

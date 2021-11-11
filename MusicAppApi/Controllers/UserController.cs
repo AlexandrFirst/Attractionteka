@@ -26,7 +26,7 @@ namespace MusicAppApi.Controllers
             this.context = context;
         }
 
-        [Authorize(Role = "User")]
+        [Authorize(Role = UserRoles.User)]
         [HttpGet("user/{userId}")]
         public async Task<IActionResult> GetUserById(int userId)
         {
@@ -38,20 +38,10 @@ namespace MusicAppApi.Controllers
         }
 
         [HttpPost("user/update/{userId}")]
-        public async Task<IActionResult> UpdateUserProfile(int userId, UserDto userDto)
+        public async Task<IActionResult> UpdateUserProfile(int userId, UpdateUserInfo userDto)
         {
-            var user = await userService.GetUserById(userId);
-            if (user == null)
-                throw new Exception("User not found");
-
-            user.Mail = userDto.Mail;
-            user.Name = userDto.Name;
-            user.Surname = userDto.Surname;
-
-            context.Users.Update(user);
-
-            await context.SaveChangesAsync();
-            return Ok(user);
+            var updatedUser = await userService.UpdateUserInfo(userDto, userId);
+            return Ok(updatedUser);
         }
 
         [Authorize(Role = UserRoles.Admin)]
@@ -103,7 +93,7 @@ namespace MusicAppApi.Controllers
         {
             var user = await userService.GetUserById(userId);
             user.IsBanned = true;
-            
+
             context.Update(user);
             await context.SaveChangesAsync();
             return Ok(user);
@@ -115,12 +105,39 @@ namespace MusicAppApi.Controllers
         {
             var user = await userService.GetUserById(userId);
             user.IsBanned = false;
-            
+
             context.Update(user);
             await context.SaveChangesAsync();
             return Ok(user);
         }
 
+        [HttpGet("token/get/{userId}")]
+        public async Task<IActionResult> ReceiveTokenToUpdatePassword(int userId)
+        {
+            await userService.GenerateToken(userId);
+            return Ok(new { Message = "Token is generated. Chack mail" });
+        }
+
+        [HttpGet("token/validate/{userId}/{token}")]
+        public async Task<IActionResult> ValidateTokenToUpdatePassword(int userId, string token)
+        {
+            var success = await userService.IsTokenValid(userId, token);
+            if (success)
+            {
+                return Ok(new { Message = "Token is valid" });
+            }
+            else
+            {
+                return BadRequest(new { Message = "Generate token again" });
+            }
+        }
+
+        [HttpPut("token/validate/{userId}/{token}")]
+        public async Task<IActionResult> UpdatePassword(int userId, string token, UpdatePasswordDto passwords)
+        {
+           var userDto = await userService.UpdatePassword(userId, passwords, token);
+           return Ok(userDto);
+        }
 
     }
 }

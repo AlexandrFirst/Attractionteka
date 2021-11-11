@@ -128,9 +128,9 @@ namespace MusicAppApi.Services
             oldPlaceDto.ShortDescription = updatedPlaceDto.ShortDescription;
             oldPlaceDto.Name = updatedPlaceDto.Name;
 
-            var filteredOldPlaceDto = filterPlaceDescriptionMediaContent(oldPlaceDto);
+            var filteredOldPlaceDto = await filterPlaceDescriptionMediaContent(oldPlaceDto);
 
-            oldPlace = mapper.Map<PlaceDescription>(filteredOldPlaceDto);
+            mapper.Map(oldPlace, filteredOldPlaceDto);
             await dataContext.SaveChangesAsync();
             return mapper.Map<PlaceDto>(oldPlace);
         }

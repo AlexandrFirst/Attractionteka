@@ -58,7 +58,7 @@ namespace MusicAppApi.Services
 
 
 
-        public async Task<User> NativeRegister(NativeUserRegisterDto userData)
+        public async Task<User> NativeRegister(InputUserDto userData)
         {
             var newUser = mapper.Map<User>(userData);
             newUser.Role = UserRoles.User;
