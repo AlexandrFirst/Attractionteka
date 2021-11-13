@@ -10,7 +10,7 @@ namespace MusicAppApi.Services
 {
     public class TempSaverService : ITempSaverService
     {
-        private const int fiveMinsInMsx4 = 300000 * 4;
+        private const int fiveMinsInMsDiv5 = 300000;
 
         private Scheduler scheduler;
         private ConcurrentDictionary<int, string> userChangePasswordTokenExpirationTimeDictionary;
@@ -62,22 +62,36 @@ namespace MusicAppApi.Services
             {
                 string value;
                 userChangePasswordTokenExpirationTimeDictionary.Remove(userToken.UserId, out value);
-            }, fiveMinsInMsx4);
+                System.Console.WriteLine("Token is removed");
+            }, fiveMinsInMsDiv5);
 
             return new TempSavedEntity<UserChangePasswordToken>()
             {
-                ExpirationTime = currentTime.AddMilliseconds(fiveMinsInMsx4),
+                ExpirationTime = currentTime.AddMilliseconds(fiveMinsInMsDiv5),
                 Key = userToken.UserId,
                 SavedEntity = userToken
             };
         }
 
-        public async Task<bool> RemoveToke(int userId)
+        public async Task<bool> RemoveToken(int userId)
         {
             return await Task<bool>.Factory.StartNew(() =>
             {
                 string value;
                 return userChangePasswordTokenExpirationTimeDictionary.Remove(userId, out value);
+            });
+        }
+
+        public async Task<int> GetUserIdByToken(string token)
+        {
+            return await Task<int>.Factory.StartNew(() =>
+            {
+                foreach (var userIdToken in userChangePasswordTokenExpirationTimeDictionary)
+                {
+                    if(userIdToken.Value.Equals(token))
+                        return userIdToken.Key;
+                }
+                return -1;
             });
         }
     }

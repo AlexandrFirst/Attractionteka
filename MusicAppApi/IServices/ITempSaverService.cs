@@ -8,6 +8,7 @@ namespace MusicAppApi.IServices
     {
          Task<TempSavedEntity<UserChangePasswordToken>> GenerateUserToken(UserChangePasswordToken userToken);
          Task<bool> IsUserTokenValid(UserChangePasswordToken userToken);
-         Task<bool> RemoveToke(int userId);
+         Task<int> GetUserIdByToken(string token);
+         Task<bool> RemoveToken(int userId);
     }
 }

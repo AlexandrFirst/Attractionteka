@@ -11,7 +11,7 @@ namespace MusicAppApi.Services
     public class MailService : IMailService
     {
         private readonly EmailCreds emailCreds;
-     
+
         SmtpClient smtp = new SmtpClient();
 
         public MailService(IOptions<EmailCreds> emailCreds)
@@ -20,6 +20,7 @@ namespace MusicAppApi.Services
 
             smtp.Port = 587;
             smtp.EnableSsl = true;
+            smtp.Host = "smtp.gmail.com";
             smtp.UseDefaultCredentials = false;
             smtp.Credentials = new NetworkCredential(this.emailCreds.FromMailAddress, this.emailCreds.Password);
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
@@ -31,12 +32,12 @@ namespace MusicAppApi.Services
 
             message.From = new MailAddress(emailCreds.FromMailAddress);
             message.To.Add(new MailAddress(mailDto.Mail));
-            message.Subject ="Password change token";
+            message.Subject = "Password change token";
             message.IsBodyHtml = true;
             message.Body = mailDto.Content;
-            
+
             await smtp.SendMailAsync(message);
-            
+
             return mailDto;
         }
     }

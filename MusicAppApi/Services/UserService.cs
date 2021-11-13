@@ -28,29 +28,35 @@ namespace MusicAppApi.Services
             this.context = context;
         }
 
-
-
         public async Task<User> GetUserById(int userId)
         {
-            return await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            if(user == null)
+                throw new Exception("User not found");
+
+            return user;
         }
 
         public async Task<UserDto> UpdatePassword(int userId, UpdatePasswordDto updatePasswordDto, string token)
         {
             var user = await GetUserById(userId);
-            
+
             bool isUserTokenValid = await IsTokenValid(userId, token);
 
-            if(!isUserTokenValid){
+            if (!isUserTokenValid)
+            {
                 throw new Exception("Can't validate token");
             }
 
-            if(updatePasswordDto.OldPassword == user.Password){
+            if (updatePasswordDto.OldPassword == user.Password)
+            {
                 user.Password = updatePasswordDto.NewPassword;
             }
 
             context.Update(user);
             await context.SaveChangesAsync();
+
+            await tempSaverService.RemoveToken(userId);
 
             return mapper.Map<UserDto>(user);
         }
@@ -85,7 +91,8 @@ namespace MusicAppApi.Services
                 Token = tokenTempSaverReponse.SavedEntity.Token
             };
 
-            await mailService.SendMail(new MailDto(){
+            await mailService.SendMail(new MailDto()
+            {
                 Content = $"Token for updating password: {tokenGenerationResponse.Token}\n. You have time till {tokenGenerationResponse.ExpirationDate}",
                 Mail = user.Mail
             });
@@ -101,6 +108,26 @@ namespace MusicAppApi.Services
             await context.SaveChangesAsync();
 
             return mapper.Map<UserDto>(user);
+        }
+
+        public async Task<User> GetUserByMail(string mail)
+        {
+            var user = await context.Users.FirstOrDefaultAsync(u => u.Mail.Equals(mail));
+            return user;
+        }
+
+        public async Task<UserDto> RestorePassword(RestorePasswordDto restorePasswordDto, string token)
+        {
+            var userId = await tempSaverService.GetUserIdByToken(token);
+            var user = await GetUserById(userId);
+
+            user.Password = restorePasswordDto.NewPassword;
+            await context.SaveChangesAsync();
+
+            await tempSaverService.RemoveToken(userId);
+
+            return mapper.Map<UserDto>(user);
+
         }
     }
 }

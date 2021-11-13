@@ -212,12 +212,14 @@ namespace MusicAppApi.Services
         public async Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDtos filtersList)
         {
             var places = dataContext.PlaceDescriptions.Include(p => p.Photos)
-                                                             .Include(a => a.Audios)
-                                                             .Include(v => v.Videos);
+                                                       .Include(a => a.Audios)
+                                                       .Include(v => v.Videos);
             var pagedParams = filtersList as PageParams;
 
             return await PagedList<PlaceDescription>.CreateAsync(places, pagedParams.PageNumber, pagedParams.PageSize);
         }
+
+
 
         private int minimum(int a, int b, int c) => (a = a < b ? a : b) < c ? a : c;
 

@@ -18,10 +18,13 @@ namespace MusicAppApi.Controllers
     {
         private readonly IUserService userService;
         private readonly MyDataContext context;
+        private readonly IUserContextService userContext;
 
         public UserController(IUserService userService,
-                                MyDataContext context)
+                                MyDataContext context,
+                                IUserContextService userContext)
         {
+            this.userContext = userContext;
             this.userService = userService;
             this.context = context;
         }
@@ -111,12 +114,26 @@ namespace MusicAppApi.Controllers
             return Ok(user);
         }
 
-        [HttpGet("token/get/{userId}")]
-        public async Task<IActionResult> ReceiveTokenToUpdatePassword(int userId)
+        [Authorize]
+        [HttpGet("token/get")]
+        public async Task<IActionResult> ReceiveTokenToUpdatePassword()
         {
+            var userId = userContext.GetUserContext().Id;
+
             await userService.GenerateToken(userId);
             return Ok(new { Message = "Token is generated. Chack mail" });
         }
+
+        [HttpGet("token/get/{mail}")]
+        public async Task<IActionResult> ReceiveTokenToRestorePassword(string mail)
+        {
+            var user = await userService.GetUserByMail(mail);
+            var userId = user.Id;
+
+            await userService.GenerateToken(userId);
+            return Ok(new { Message = "Token is generated. Chack mail" });
+        }
+
 
         [HttpGet("token/validate/{userId}/{token}")]
         public async Task<IActionResult> ValidateTokenToUpdatePassword(int userId, string token)
@@ -132,11 +149,22 @@ namespace MusicAppApi.Controllers
             }
         }
 
-        [HttpPut("token/validate/{userId}/{token}")]
-        public async Task<IActionResult> UpdatePassword(int userId, string token, UpdatePasswordDto passwords)
+        [Authorize]
+        [HttpPut("password/update/{token}")]
+        public async Task<IActionResult> UpdatePassword(string token, UpdatePasswordDto passwords)
         {
-           var userDto = await userService.UpdatePassword(userId, passwords, token);
-           return Ok(userDto);
+            var userId = userContext.GetUserContext().Id;
+
+            var userDto = await userService.UpdatePassword(userId, passwords, token);
+            return Ok(userDto);
+        }
+
+
+        [HttpPut("password/restore/{token}")]
+        public async Task<IActionResult> RestorePassword(string token, RestorePasswordDto passwords)
+        {    
+            var userDto = await userService.RestorePassword(passwords, token);
+            return Ok(userDto);
         }
 
     }
