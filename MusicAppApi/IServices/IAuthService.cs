@@ -6,7 +6,7 @@ namespace MusicAppApi.IServices
 {
     public interface IAuthService
     {
-        Task<User> NativeRegister(NativeUserRegisterDto userData);
+        Task<User> NativeRegister(InputUserDto userData);
         Task<UserLoginOutputDto> NativeLogin(UserLoginInputDto model);
         HttpUserContext GetUserContext(int userId);
     }

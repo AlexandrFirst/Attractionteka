@@ -58,7 +58,7 @@ namespace MusicAppApi.Services
 
 
 
-        public async Task<User> NativeRegister(NativeUserRegisterDto userData)
+        public async Task<User> NativeRegister(InputUserDto userData)
         {
             var newUser = mapper.Map<User>(userData);
             newUser.Role = UserRoles.User;
@@ -84,8 +84,12 @@ namespace MusicAppApi.Services
 
             if (user == null)
                 throw new Exception("No user found");
+            if(user.IsBanned)
+                throw new Exception("This user is banned");
+
 
             var token = generateJwtToken(user);
+
 
             return new UserLoginOutputDto()
             {

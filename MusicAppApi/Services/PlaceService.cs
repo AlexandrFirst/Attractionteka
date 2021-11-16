@@ -1,10 +1,14 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
+using AutoMapper.Internal;
 using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
 using MusicAppApi.DTOs;
+using MusicAppApi.Helpers.Extensions.Pagination;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 
@@ -50,10 +54,10 @@ namespace MusicAppApi.Services
         {
             if (newPlaceDto.ListKeyWords == null)
                 newPlaceDto.ListKeyWords = new List<string>();
-                
+
             var filteredPlaceDto = await filterPlaceDescriptionMediaContent(newPlaceDto);
 
-            
+
             HashSet<VideoFile> VideoFiles = await GetMedia(dataContext.VideoFiles, filteredPlaceDto.Videos);
 
             HashSet<AudioFile> AudioFiles = await GetMedia(dataContext.AudioFiles, filteredPlaceDto.Audios);
@@ -85,10 +89,10 @@ namespace MusicAppApi.Services
             return mapper.Map<PlaceDto>(placeForInsertion);
         }
 
-        public async Task<HashSet<TEntity>> GetMedia<TEntity, TEntityDto>(IQueryable<TEntity> placeToSerach, 
-                                                                          HashSet<TEntityDto> filteredMedia) 
-                                            where TEntity: MediaFile
-                                            where TEntityDto: MediaFileDto
+        public async Task<HashSet<TEntity>> GetMedia<TEntity, TEntityDto>(IQueryable<TEntity> placeToSerach,
+                                                                          HashSet<TEntityDto> filteredMedia)
+                                            where TEntity : MediaFile
+                                            where TEntityDto : MediaFileDto
         {
             HashSet<TEntity> mediaFiles = (await placeToSerach.ToListAsync())
                                             .Where(v => filteredMedia.Any(m_v => m_v.Id == v.Id))
@@ -128,9 +132,9 @@ namespace MusicAppApi.Services
             oldPlaceDto.ShortDescription = updatedPlaceDto.ShortDescription;
             oldPlaceDto.Name = updatedPlaceDto.Name;
 
-            var filteredOldPlaceDto = filterPlaceDescriptionMediaContent(oldPlaceDto);
+            var filteredOldPlaceDto = await filterPlaceDescriptionMediaContent(oldPlaceDto);
 
-            oldPlace = mapper.Map<PlaceDescription>(filteredOldPlaceDto);
+            mapper.Map(oldPlace, filteredOldPlaceDto);
             await dataContext.SaveChangesAsync();
             return mapper.Map<PlaceDto>(oldPlace);
         }
@@ -204,6 +208,47 @@ namespace MusicAppApi.Services
 
         }
 
+
+        public async Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDtos filtersList)
+        {
+            var places = dataContext.PlaceDescriptions.Include(p => p.Photos)
+                                                       .Include(a => a.Audios)
+                                                       .Include(v => v.Videos);
+            var pagedParams = filtersList as PageParams;
+
+            return await PagedList<PlaceDescription>.CreateAsync(places, pagedParams.PageNumber, pagedParams.PageSize);
+        }
+
+
+
+        private int minimum(int a, int b, int c) => (a = a < b ? a : b) < c ? a : c;
+
+        int levenshteinDistance(string text1, int len1, string text2, int len2)
+        {
+            if (len1 == 0)
+            {
+                return len2;
+            }
+
+            if (len2 == 0)
+            {
+                return len1;
+            }
+
+            var substitutionCost = 0;
+            if (text1[len1 - 1] != text2[len2 - 1])
+            {
+                substitutionCost = 1;
+            }
+
+            var deletion = levenshteinDistance(text1, len1 - 1, text2, len2) + 1;
+            var insertion = levenshteinDistance(text1, len1, text2, len2 - 1) + 1;
+            var substitution = levenshteinDistance(text1, len1 - 1, text2, len2 - 1) + substitutionCost;
+
+            return minimum(deletion, insertion, substitution);
+        }
+
+        int levenshteinDistance(string word1, string word2) => levenshteinDistance(word1, word1.Length, word2, word2.Length);
 
     }
 }

@@ -1,8 +1,12 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MusicAppApi.DTOs;
 using MusicAppApi.Helpers;
+using MusicAppApi.Helpers.Extensions.Pagination;
 using MusicAppApi.IServices;
+using MusicAppApi.Models;
 
 namespace MusicAppApi.Controllers
 {
@@ -11,9 +15,12 @@ namespace MusicAppApi.Controllers
     public class PlaceController : ControllerBase
     {
         private readonly IPlaceService placeService;
+        private readonly IMapper mapper;
 
-        public PlaceController(IPlaceService placeService)
+        public PlaceController(IPlaceService placeService,
+                                IMapper mapper)
         {
+            this.mapper = mapper;
             this.placeService = placeService;
         }
 
@@ -46,6 +53,18 @@ namespace MusicAppApi.Controllers
         public async Task<IActionResult> UpdatePlace([FromBody] PlaceDto updatePlaceDto)
         {
             var response = await placeService.UpdatePlace(updatePlaceDto);
+            return Ok(response);
+        }
+
+        [HttpGet("getPlaces")]
+        public async Task<IActionResult> GetPlaces([FromQuery] PlaceFilterDtos placeFilter)
+        {
+            var places = await placeService.GetPlacesByFilter(placeFilter);
+
+            Response.AddPagination(places.CurrentPage, places.PageSize, places.TotalCount, places.TotalPages);
+
+            var response = mapper.Map<List<PlaceDto>>(places as List<PlaceDescription>);
+
             return Ok(response);
         }
     }
