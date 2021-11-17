@@ -34,12 +34,12 @@ export enum EditorActionsEnum {
     SET_IS_LOADING_PHOTOS="SET_IS_LOADING_PHOTOS",
     SET_IS_LOADING_AUDIOS="SET_IS_LOADING_AUDIOS",
     SET_IS_LOADING_VIDEOS="SET_IS_LOADING_VIDEOS",
-    SET_LOADING_ADD_NEW_PLACE="SET_LOADING_ADD_NEW_PLACE",
+    SET_LOADING_PLACE="SET_LOADING_PLACE",
 
     SET_ERROR_PHOTOS="SET_ERROR_PHOTOS",
     SET_ERROR_AUDIOS="SET_ERROR_AUDIOS",
     SET_ERROR_VIDEOS="SET_ERROR_VIDEOS",
-    SET_ERROR_ADD_NEW_PLACE="SET_ERROR_ADD_NEW_PLACE",
+    SET_PLACE="SET_PLACE",
 
     DELETE_AUDIO="DELETE_AUDIO",
     DELETE_VIDEO="DELETE_VIDEO",
@@ -95,13 +95,13 @@ export interface SetIsLoadingAction {
     payload: boolean;
 }
 
-export interface SetLoadingNewPlaceAction {
-    type: EditorActionsEnum.SET_LOADING_ADD_NEW_PLACE;
+export interface SetLoadingPlaceAction {
+    type: EditorActionsEnum.SET_LOADING_PLACE;
     payload: boolean;
 }
 
-export interface SetErrorNewPlaceAction {
-    type: EditorActionsEnum.SET_ERROR_ADD_NEW_PLACE;
+export interface SetErrorPlaceAction {
+    type: EditorActionsEnum.SET_PLACE;
     payload: string;
 }
 
@@ -122,6 +122,6 @@ export type EditorAction =
     DeleteAudioAction |
     DeleteVideoAction |
     SetIsLoadingAction |
-    SetLoadingNewPlaceAction |
-    SetErrorNewPlaceAction |
+    SetLoadingPlaceAction |
+    SetErrorPlaceAction |
     SetErrorAction;

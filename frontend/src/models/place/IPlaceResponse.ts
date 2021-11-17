@@ -7,7 +7,7 @@ export interface IPlaceResponse {
     content: string;
     name: string;
     shortDescription: string;
-    listKeyWords: idValueKeyWords;
+    listKeyWords: string[];
     uploadTime: Date;
     photos: IMediaResponse[];
     videos: IMediaResponse[];

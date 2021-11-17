@@ -31,7 +31,10 @@ const TextAreaWithVisibleError: React.FC<TextAreaProps> = (
         <>
             <textarea
                 value={valueToWrite}
-                onChange={event => setValueToWrite(event.target.value)}
+                onChange={event => {
+                    setValueToWrite(event.target.value);
+                    // console.log(event.target.value);
+                }}
                 placeholder={placeholderData}
                 className={cn(styles.text_area, {[styles.text_area_wrong]: conditionOfError}, classes)}
                 onBlur={onBlurFunc}

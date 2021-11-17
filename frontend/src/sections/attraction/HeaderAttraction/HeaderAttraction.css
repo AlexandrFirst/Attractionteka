@@ -1,5 +1,14 @@
-.block-header {
+.header_attraction_wrapper {
     margin-top: 23px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+}
+
+.block-header {
+    /*width: 95%;*/
     font-family: 'Nunito Sans', sans-serif;
     font-style: normal;
     font-weight: 900;
@@ -7,4 +16,11 @@
     line-height: 65px;
     color: #111C5A;
 
+}
+
+.attraction_edit {
+    margin-left: 50px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
 }

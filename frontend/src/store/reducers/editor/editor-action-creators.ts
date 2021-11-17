@@ -4,10 +4,10 @@ import {
     EditorActionsEnum, EditorState, SetAttractionNameAction,
     SetAudioAction,
     SetEditorContentAction,
-    SetErrorAction, SetErrorNewPlaceAction,
+    SetErrorAction, SetErrorPlaceAction,
     SetIsLoadingAction,
     SetKeywordsAction,
-    SetLoadingNewPlaceAction,
+    SetLoadingPlaceAction,
     SetPhotoAction,
     SetShortDescriptionAction,
     SetVideoAction
@@ -23,12 +23,12 @@ export const EditorActionCreators = {
     setIsLoadingPhotos: (payload: boolean): SetIsLoadingAction => ({ type:EditorActionsEnum.SET_IS_LOADING_PHOTOS, payload }),
     setIsLoadingAudios: (payload: boolean): SetIsLoadingAction => ({ type:EditorActionsEnum.SET_IS_LOADING_AUDIOS, payload }),
     setIsLoadingVideos: (payload: boolean): SetIsLoadingAction => ({ type:EditorActionsEnum.SET_IS_LOADING_VIDEOS, payload }),
-    setLoadingAddNewPlace: (payload: boolean): SetLoadingNewPlaceAction => ({ type: EditorActionsEnum.SET_LOADING_ADD_NEW_PLACE, payload }),
+    setLoadingAddNewPlace: (payload: boolean): SetLoadingPlaceAction => ({ type: EditorActionsEnum.SET_LOADING_PLACE, payload }),
 
     setErrorPhotos: (payload: string): SetErrorAction => ({ type:EditorActionsEnum.SET_ERROR_PHOTOS, payload }),
     setErrorAudios: (payload: string): SetErrorAction => ({ type:EditorActionsEnum.SET_ERROR_AUDIOS, payload }),
     setErrorVideos: (payload: string): SetErrorAction => ({ type:EditorActionsEnum.SET_ERROR_VIDEOS, payload }),
-    setErrorAddNewPlace: (payload: string): SetErrorNewPlaceAction => ({ type:EditorActionsEnum.SET_ERROR_ADD_NEW_PLACE, payload }),
+    setErrorPlace: (payload: string): SetErrorPlaceAction => ({ type:EditorActionsEnum.SET_PLACE, payload }),
 
     setPhoto: (payload: IMediaResponse): SetPhotoAction => ({ type: EditorActionsEnum.SET_PHOTOS, payload }),
     setAudio: (payload: IMediaResponse): SetAudioAction => ({ type: EditorActionsEnum.SET_AUDIOS, payload }),
@@ -105,7 +105,47 @@ export const EditorActionCreators = {
             console.log("ПОЛУЧЕН ОТВЕТ ПРИ СОЗДАНИИ ДОСТОПРИМЕЧАТЕЛЬНОСТИ...........", res.data);
 
         } catch (e) {
-            EditorActionCreators.setErrorAddNewPlace("An error occurred while adding a new attraction");
+            EditorActionCreators.setErrorPlace("An error occurred while adding a new attraction");
+        } finally {
+            dispatch(EditorActionCreators.setLoadingAddNewPlace(false));
+        }
+    },
+
+    updatePlace: (
+        id: number,
+        photos: IMediaFileDTO[],
+        videos: IMediaFileDTO[],
+        audios: IMediaFileDTO[],
+        {
+            editorContent,
+            keywords,
+            shortDescription,
+            attractionName
+        }: EditorState
+    ) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(EditorActionCreators.setLoadingAddNewPlace(true));
+            const nowDate = new Date();
+            const result = await EditorService.updateInfoPlace(
+                id, editorContent, attractionName, shortDescription,
+                keywords, nowDate,
+                photos, videos, audios
+            );
+            console.log("ПОЛУЧЕН ОТВЕТ ПРИ ОБНОВЛЕНИИ ДОСТОПРИМЕЧАТЕЛЬНОСТИ...........", result);
+        } catch (e) {
+            EditorActionCreators.setErrorPlace("An error occurred while adding a new attraction");
+        } finally {
+            dispatch(EditorActionCreators.setLoadingAddNewPlace(false));
+        }
+    },
+
+    deletePlace: (id: number) => async (dispatch: AppDispatch) => {
+        try {
+            dispatch(EditorActionCreators.setLoadingAddNewPlace(true));
+            const res = EditorService.deletePlace(id);
+            console.log("ОТВЕТ ПРИ УДАЛЕНИИ:",res);
+        } catch (e) {
+            EditorActionCreators.setErrorPlace("An error occurred while deleting attraction");
         } finally {
             dispatch(EditorActionCreators.setLoadingAddNewPlace(false));
         }

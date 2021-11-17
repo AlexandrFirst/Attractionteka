@@ -64,10 +64,10 @@ export default function editorReducer(state = initialValue, action: EditorAction
         case EditorActionsEnum.SET_IS_LOADING_AUDIOS:
             return { ...state, audios: { ...state.audios, isLoading: action.payload } }
 
-        case EditorActionsEnum.SET_LOADING_ADD_NEW_PLACE:
+        case EditorActionsEnum.SET_LOADING_PLACE:
             return {...state, loadingAddNewPlace: action.payload }
 
-        case EditorActionsEnum.SET_ERROR_ADD_NEW_PLACE:
+        case EditorActionsEnum.SET_PLACE:
             return {...state, errorAddNewPlace: action.payload }
 
         case EditorActionsEnum.SET_ERROR_PHOTOS:

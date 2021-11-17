@@ -13,7 +13,6 @@ export const PlaceActionCreators = {
         try {
             dispatch(PlaceActionCreators.setIsLoading(true));
             const response = await PlaceService.getPlace(id);
-            console.log("HERE WE GET RESPONSE FROM SERVER.....", response.data);
             dispatch(PlaceActionCreators.setPlace(response.data));
         } catch (e: any) {
             dispatch(PlaceActionCreators.setError("При загрузке достопримичательности произошла ошибка"))

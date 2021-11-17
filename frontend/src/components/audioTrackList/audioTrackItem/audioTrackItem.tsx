@@ -5,6 +5,7 @@ import styles from './audioTrackItem.module.scss';
 import {useActions} from "../../../hooks/useActions";
 
 import {trashBin} from './audioTrackItemData';
+import {createWriteStream} from "fs";
 
 export interface AudioTrackItemProps {
     audio: IMediaResponse;
@@ -14,8 +15,20 @@ export interface AudioTrackItemProps {
 const AudioTrackItem:React.FC<AudioTrackItemProps> = ({audio, num}) => {
     const { deleteAudio } = useActions();
 
+    const getDurationMock = () => {
+        const h = 0;
+        const m = Math.floor(Math.random() * 20);
+        const s = Math.floor(Math.random() * 60 + 1);
+
+        const hDisplay = h > 0 ? (h < 10 ? "0" : "") + `${h}:`  : "";
+        const mDisplay = m > 0 ? (m < 10 ? "0" : "") + `${m}:` : "00:";
+        const sDisplay = s > 0 ? (s < 10 ? "0" : "") + s : "";
+
+        return hDisplay + mDisplay + sDisplay;
+    }
 
     const getDuration = (duration: string) => {
+        // console.log("duration", duration);
         duration = duration.replace(',', '.');
         // console.log("duration",duration);
         const secs = Number(duration);
@@ -36,14 +49,15 @@ const AudioTrackItem:React.FC<AudioTrackItemProps> = ({audio, num}) => {
         const mDisplay = m > 0 ? `${m}:` : "00:";
         const sDisplay = s > 0 ? s : "";
         // console.log("hDisplay + mDisplay + sDisplay=", hDisplay + mDisplay + sDisplay);
+
         return hDisplay + mDisplay + sDisplay;
     }
 
     return (
         <div className={styles.wrapper}>
             <h5>{num}</h5>
-            <h5>{audio.name}</h5>
-            <h5>{getDuration(audio.duration)}</h5>
+            <h5>{`Информация ${num}`}</h5>
+            {/*<h5>{getDurationMock()}</h5>*/}
             {/*<h5>{"DURATION"}</h5>*/}
             <div
                 className={styles.delete_item}

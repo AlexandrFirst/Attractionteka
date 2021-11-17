@@ -5,20 +5,23 @@ import {useActions} from "../../../hooks/useActions";
 import ErrorMessage from "../../../components/errorMessage/errorMessage";
 import TextAreaWithVisibleError from "../../../components/textAreaWithVisibleError/textAreaWithVisibleError";
 import {useTypedSelector} from "../../../hooks/useTypedSelector";
+import {useSetDataUseEffect} from "../../../hooks/useSetDataUseEffect";
 
 export interface KeywordsSectionProps {
-
+    initialKeywords?: string[];
 }
 
-const KeywordsSection:React.FC<KeywordsSectionProps> = () => {
+const KeywordsSection:React.FC<KeywordsSectionProps> = ({initialKeywords}) => {
     const [keywordsData, setKeywordsData] = React.useState<string>('');
     const [isVisibleError, setIsVisibleError] = React.useState(false);
     const {setKeywords} = useActions();
-    const {keywords} = useTypedSelector(state => state.editor);
 
-    React.useEffect(()=>{
-        console.log(keywords);
-    },[keywords])
+    React.useEffect(() => {
+        if(initialKeywords) {
+            const keywordsStr = initialKeywords.join(' ');
+            setKeywordsData(keywordsStr)
+        }
+    }, [])
 
     const splitKeywords = (e: React.FocusEvent<HTMLTextAreaElement>) => {
         if(keywordsData === '') {
@@ -41,10 +44,7 @@ const KeywordsSection:React.FC<KeywordsSectionProps> = () => {
             setIsVisibleError(false);
         } catch (e) {
             setIsVisibleError(true);
-        } finally {
-            // console.log("keywordsData....", keywordsData);
         }
-
     }
 
     return (

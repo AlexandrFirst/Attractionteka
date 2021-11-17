@@ -1,0 +1,35 @@
+.modal {
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(0,0,0,0.4);
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: .3s;
+  z-index: 10000;
+
+  &__content {
+    width: 800px;
+    max-height: 500px;
+    //padding: 20px;
+    background-color: #FFF;
+    transform: scale(.5);
+    transition: .4s;
+    overflow-y: scroll;
+
+    &_active {
+      transform: scale(1);
+    }
+  }
+
+  &_active {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+}

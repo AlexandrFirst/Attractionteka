@@ -6,41 +6,46 @@ import {useActions} from "../../hooks/useActions";
 import Spinner from "../spinner/spinner";
 import VideoItem from "./videoItem/videoItem";
 import cn from "classnames";
+import {IMediaResponse} from "../../models/admin/IMediaResponse";
 
 export interface VideoGridProps {
     fileList: FileList | null;
+    initialVideos?: IMediaResponse[];
 }
 
-const VideoGrid:React.FC<VideoGridProps> = ({fileList}) => {
+const VideoGrid:React.FC<VideoGridProps> = ({fileList, initialVideos}) => {
     const {videos:  {data: videos, isLoading, error }} = useTypedSelector(state => state.editor);
-    const {uploadVideo, deleteVideo} = useActions();
+    const {uploadVideo, deleteVideo, setVideo} = useActions();
 
     const [state, setState] = React.useState<React.ReactNode>();
 
     React.useEffect(() => {
-        console.log("USE EFFECT -> fileList");
+        setInitialVideos();
+    }, [])
+
+    React.useEffect(() => {
         requestToServer();
     }, [fileList])
 
     React.useEffect(() => {
-        console.log("USE EFFECT -> videos");
-        console.log("videos use effect", videos);
         setState(setItemsToRender());
     }, [videos, isLoading, error])
 
     const requestToServer = async () => {
-        console.log("fileList......", fileList);
         if(fileList?.length) {
             for (let i = 0; i < fileList.length; ++i) {
                 const data = new FormData();
                 data.append("media", fileList[i]);
                 await uploadVideo(data);
             }
-            // for (const file of fileArray) {
-            //     const data = new FormData();
-            //     data.append("media", file);
-            //     await uploadMedia(data, "audio");
-            // }
+        }
+    }
+
+    const setInitialVideos = () => {
+        if(initialVideos) {
+            for (let i = 0; i < initialVideos.length; ++i) {
+                setVideo(initialVideos[i]);
+            }
         }
     }
 

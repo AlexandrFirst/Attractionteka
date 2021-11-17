@@ -2,21 +2,18 @@ import React from 'react'
 import {Link} from 'react-router-dom';
 import iconhome from './img/iconhome.png';
 import InformationAttraction from '../../sections/attraction/InformationAttraction/InformationAttraction'
-import AudioAttraction from '../../sections/attraction/AudioAttraction/AudioAttraction.js'
-import PhotoAttraction from '../../sections/attraction/PhotoAttraction/PhotoAttraction.js';
-import VideoAttraction from '../../sections/attraction/VideoAttraction/VideoAttraction.js';
-import RatingAttraction from '../../sections/attraction/RatingAttraction/RatingAttraction.js';
-import ReviewsAttraction from '../../sections/attraction/ReviewsAttraction/ReviewsAttraction.js';
-import KeyWordsAttraction from '../../sections/attraction/KeyWordsAttraction/KeyWordsAttraction.js';
-import MainPhotoAttracrtion from '../../sections/attraction/MainPhotoAttraction/MainPhotoAttraction.js';
-import HeaderAttraction from '../../sections/attraction/HeaderAttraction/HeaderAttraction.js';
-import GeneralRateAttraction from '../../sections/attraction/GeneralRateAttraction/GeneralRateAttraction.js';
+import AudioAttraction from '../../sections/attraction/AudioAttraction/AudioAttraction'
+import PhotoAttraction from '../../sections/attraction/PhotoAttraction/PhotoAttraction';
+import VideoAttraction from '../../sections/attraction/VideoAttraction/VideoAttraction';
+import RatingAttraction from '../../sections/attraction/RatingAttraction/RatingAttraction';
+import ReviewsAttraction from '../../sections/attraction/ReviewsAttraction/ReviewsAttraction';
+import KeyWordsAttraction from '../../sections/attraction/KeyWordsAttraction/KeyWordsAttraction';
+import MainPhotoAttracrtion from '../../sections/attraction/MainPhotoAttraction/MainPhotoAttraction';
+import HeaderAttraction from '../../sections/attraction/HeaderAttraction/HeaderAttraction';
+import GeneralRateAttraction from '../../sections/attraction/GeneralRateAttraction/GeneralRateAttraction';
 import {RouteNames} from "../../routes";
 import './attractionBox.css';
-import {useTypedSelector} from "../../hooks/useTypedSelector";
-import {useActions} from "../../hooks/useActions";
 import {IPlaceResponse} from "../../models/place/IPlaceResponse";
-import {mockPhotos, mockVideos} from "../../MOCKDATA/ATTRACTION_DATA";
 import Footer from "../footer/footer";
 import {ReactJkMusicPlayerInstance} from "react-jinke-music-player";
 
@@ -49,7 +46,6 @@ const AttractionBox:React.FC<AttractionBoxProps> = (
     const [currentAudio, setCurrentAudio] = React.useState(-1);
     const [currentAudioPlayerInstance, setCurrentAudioPlayerInstance] = React.useState<ReactJkMusicPlayerInstance | null>();
 
-
     return (
         <div>
             <div className="body-attraction">
@@ -59,7 +55,7 @@ const AttractionBox:React.FC<AttractionBoxProps> = (
                 </Link>
                 <GeneralRateAttraction />
                 {name && <HeaderAttraction name={name}/>}
-                {photos && <MainPhotoAttracrtion photo={photos[0].url}/>}
+                {photos?.length > 0 && <MainPhotoAttracrtion photo={photos[0].url}/>}
                 <InformationAttraction content={content}/>
                 <KeyWordsAttraction keywords={listKeyWords}/>
                 {audios && <AudioAttraction

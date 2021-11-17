@@ -39,8 +39,6 @@ export class EditorService extends Service {
             audios
         };
 
-        console.log(body);
-
         return axios.post<IPlaceResponse>(`${Service.serverHost}/place/newplace`,
             body,
         {
@@ -48,5 +46,46 @@ export class EditorService extends Service {
                 Authorization: `Bearer ${localStorage.getItem(LocalStorageKey.token)}`,
             }
         });
+    }
+
+    static async updateInfoPlace(
+        id: number,
+        content: string,
+        name: string,
+        shortDescription: string,
+        listKeywords: string[],
+        uploadTime: Date,
+        photos: IMediaFileDTO[],
+        videos: IMediaFileDTO[],
+        audios: IMediaFileDTO[]
+    ) {
+        const body = {
+            id,
+            content,
+            name,
+            shortDescription ,
+            listKeywords,
+            uploadTime,
+            photos,
+            videos,
+            audios
+        };
+
+        return axios.put(`${Service.serverHost}/place/${id}`,
+            body,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(LocalStorageKey.token)}`,
+                }
+            });
+    }
+
+    static async deletePlace(id: number): Promise<AxiosResponse> {
+        return axios.delete(`${Service.serverHost}/place/${id}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem(LocalStorageKey.token)}`,
+                }
+            });
     }
 }
