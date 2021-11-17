@@ -4,7 +4,7 @@ using MusicAppApi.Helpers.Extensions.Pagination;
 
 namespace MusicAppApi.DTOs
 {
-    public class PlaceFilterDtos: PageParams
+    public class PlaceFilterDto: PageParams
     {
         public string PlaceName { get; set; }
         public List<string> KeyWords { get; set; }
