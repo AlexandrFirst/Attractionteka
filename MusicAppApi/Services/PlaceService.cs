@@ -11,6 +11,7 @@ using MusicAppApi.DTOs;
 using MusicAppApi.Helpers.Extensions.Pagination;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
+using static MusicAppApi.Helpers.Extensions.ExpressionExtension.TreeExpression;
 
 namespace MusicAppApi.Services
 {
@@ -209,46 +210,33 @@ namespace MusicAppApi.Services
         }
 
 
-        public async Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDtos filtersList)
+        public async Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList)
         {
-            var places = dataContext.PlaceDescriptions.Include(p => p.Photos)
+            ExpressionTreeHelper<PlaceDescription> helper = new ExpressionTreeHelper<PlaceDescription>(filtersList);
+            var predicate = helper.GetFilterExpression();
+
+            var places = dataContext.PlaceDescriptions.AsQueryable().Where(predicate).Include(p => p.Photos)
                                                        .Include(a => a.Audios)
-                                                       .Include(v => v.Videos);
+                                                       .Include(v => v.Videos)
+                                                       .Include(au => au.Author);
+
             var pagedParams = filtersList as PageParams;
 
-            return await PagedList<PlaceDescription>.CreateAsync(places, pagedParams.PageNumber, pagedParams.PageSize);
+            var filteredList = await PagedList<PlaceDescription>.CreateAsync(places, pagedParams.PageNumber, pagedParams.PageSize);
+
+            if (filtersList.SortByPopularity)
+            {
+                if (filtersList.IsDescending)
+                {
+                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderByDescending(u => u.Rating);
+                }
+                else
+                {
+                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderBy(u => u.Rating);
+                }
+            }
+
+            return filteredList;
         }
-
-
-
-        private int minimum(int a, int b, int c) => (a = a < b ? a : b) < c ? a : c;
-
-        int levenshteinDistance(string text1, int len1, string text2, int len2)
-        {
-            if (len1 == 0)
-            {
-                return len2;
-            }
-
-            if (len2 == 0)
-            {
-                return len1;
-            }
-
-            var substitutionCost = 0;
-            if (text1[len1 - 1] != text2[len2 - 1])
-            {
-                substitutionCost = 1;
-            }
-
-            var deletion = levenshteinDistance(text1, len1 - 1, text2, len2) + 1;
-            var insertion = levenshteinDistance(text1, len1, text2, len2 - 1) + 1;
-            var substitution = levenshteinDistance(text1, len1 - 1, text2, len2 - 1) + substitutionCost;
-
-            return minimum(deletion, insertion, substitution);
-        }
-
-        int levenshteinDistance(string word1, string word2) => levenshteinDistance(word1, word1.Length, word2, word2.Length);
-
     }
 }

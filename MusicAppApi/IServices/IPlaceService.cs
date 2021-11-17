@@ -12,6 +12,6 @@ namespace MusicAppApi.IServices
          Task DeletePlace(int placeId);
          Task<PlaceDto> GetPlaceById (int placeId);
          Task<PlaceDto> UpdatePlace(PlaceDto updatedPlaceDto);
-         Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDtos filtersList);
+         Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList);
     }
 }

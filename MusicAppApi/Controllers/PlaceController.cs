@@ -57,7 +57,7 @@ namespace MusicAppApi.Controllers
         }
 
         [HttpGet("getPlaces")]
-        public async Task<IActionResult> GetPlaces([FromQuery] PlaceFilterDtos placeFilter)
+        public async Task<IActionResult> GetPlaces([FromQuery] PlaceFilterDto placeFilter)
         {
             var places = await placeService.GetPlacesByFilter(placeFilter);
 
