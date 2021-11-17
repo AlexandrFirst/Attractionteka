@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicAppApi.Models;
 
 namespace MusicAppApi.Migrations
 {
     [DbContext(typeof(MyDataContext))]
-    partial class MyDataContextModelSnapshot : ModelSnapshot
+    [Migration("20211117201136_Delete behaviour for place changed")]
+    partial class Deletebehaviourforplacechanged
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 11, 17, 22, 31, 45, 923, DateTimeKind.Local).AddTicks(2053));
+                        .HasDefaultValue(new DateTime(2021, 11, 17, 22, 11, 34, 815, DateTimeKind.Local).AddTicks(7138));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -105,7 +107,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 11, 17, 22, 31, 45, 965, DateTimeKind.Local).AddTicks(7303));
+                        .HasDefaultValue(new DateTime(2021, 11, 17, 22, 11, 34, 842, DateTimeKind.Local).AddTicks(903));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -208,7 +210,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 11, 17, 22, 31, 45, 965, DateTimeKind.Local).AddTicks(1817));
+                        .HasDefaultValue(new DateTime(2021, 11, 17, 22, 11, 34, 841, DateTimeKind.Local).AddTicks(7842));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -224,8 +226,7 @@ namespace MusicAppApi.Migrations
                 {
                     b.HasOne("MusicAppApi.Models.PlaceDescription", "PlaceDescription")
                         .WithMany("Audios")
-                        .HasForeignKey("PlaceDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PlaceDescriptionId");
 
                     b.Navigation("PlaceDescription");
                 });
@@ -255,8 +256,7 @@ namespace MusicAppApi.Migrations
                 {
                     b.HasOne("MusicAppApi.Models.PlaceDescription", "PlaceDescription")
                         .WithMany("Photos")
-                        .HasForeignKey("PlaceDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PlaceDescriptionId");
 
                     b.Navigation("PlaceDescription");
                 });
@@ -275,8 +275,7 @@ namespace MusicAppApi.Migrations
                 {
                     b.HasOne("MusicAppApi.Models.PlaceDescription", "PlaceDescription")
                         .WithMany("Videos")
-                        .HasForeignKey("PlaceDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PlaceDescriptionId");
 
                     b.Navigation("PlaceDescription");
                 });

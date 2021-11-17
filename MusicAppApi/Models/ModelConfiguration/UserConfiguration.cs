@@ -15,7 +15,7 @@ namespace MusicAppApi.Models.ModelConfiguration
                     .OnDelete(DeleteBehavior.SetNull);
 
             builder.HasMany(c => c.Comments)
-            .WithOne(u => u.Author);
+                    .WithOne(u => u.Author);
         }
     }
 }
