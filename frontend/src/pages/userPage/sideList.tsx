@@ -1,6 +1,6 @@
 import React from "react";
 import UserProfilePage from "./userProfilePage/userProfilePage";
-import UserChangePass from "./userChangePass/userChangePass";
+import UserChangePass from "./userChangePassPage/userChangePass";
 
 export const sideList = [
     "User profile",

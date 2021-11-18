@@ -15,7 +15,8 @@ export enum RouteNames {
     LOGIN = "/login",
     EDIT = "/edit",
     ATTRACTION="/attraction",
-    USER="/user"
+    USER="/user",
+    // USER_EDIT="/user/:id/edit",
 }
 
 export const publicRoutes: IRoute[] = [
@@ -23,7 +24,8 @@ export const publicRoutes: IRoute[] = [
     { path: RouteNames.LOGIN, component: LoginPage, exact: true },
     { path: RouteNames.EDIT, component: EditPage, exact: true },
     { path: RouteNames.ATTRACTION + "/:id", component: AttractionPage, exact: true },
-    { path: RouteNames.USER + "/:id", component: UserPage, exact: false },
+    { path: RouteNames.USER + "/:id", component: UserPage, exact: true },
+    // { path: RouteNames.USER_EDIT, component: LoginPage, exact: true },
 ]
 
 // export const privateRoutes: IRoute[] = [
