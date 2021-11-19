@@ -16,7 +16,7 @@ namespace MusicAppApi.Mapping
 
             CreateMap<PlaceDto, PlaceDescription>()
                     .ForMember(k => k.KeyWords,
-                    memberOptions => memberOptions.MapFrom(dto => string.Join(',', dto.ListKeyWords)));
+                    memberOptions => memberOptions.MapFrom(dto => string.Join(',', dto.ListKeyWords) + ","));
 
             CreateMap<PlaceDescription, PlaceReadOnlyDto>();
         }
