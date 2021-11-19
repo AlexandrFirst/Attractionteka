@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +25,30 @@ namespace MusicAppApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            var optionsBuilder = new DbContextOptionsBuilder<MyDataContext>();
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("MusicAppDB"));
+
+            using (MyDataContext dbContext
+                        = new MyDataContext(optionsBuilder.Options))
+            {
+                var adminUser = dbContext.Users.FirstOrDefault(u => u.Role.Equals(UserRoles.Admin));
+                if (adminUser == null)
+                {
+                    var newUser = new User()
+                    {
+                        Mail = "root@gmail.com",
+                        IsBanned = false,
+                        Name = "admin",
+                        Password = "1q2w3e",
+                        Role = UserRoles.Admin,
+                        Surname = "admin"
+                    };
+
+                    dbContext.Users.Add(newUser);
+                    dbContext.SaveChanges();
+                }
+            }
         }
 
         public IConfiguration Configuration { get; }
