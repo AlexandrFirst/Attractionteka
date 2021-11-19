@@ -8,10 +8,10 @@ using AutoMapper.Internal;
 using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
 using MusicAppApi.DTOs;
+using MusicAppApi.Helpers.Extensions.ExpressionExtension;
 using MusicAppApi.Helpers.Extensions.Pagination;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
-using static MusicAppApi.Helpers.Extensions.ExpressionExtension.TreeExpression;
 
 namespace MusicAppApi.Services
 {
@@ -73,8 +73,9 @@ namespace MusicAppApi.Services
             {
                 Content = newPlaceDto.Content,
                 Name = newPlaceDto.Name,
-                KeyWords = string.Join(",", newPlaceDto.ListKeyWords),
+                KeyWords = string.Join(",", newPlaceDto.ListKeyWords) + ",",
                 ShortDescription = newPlaceDto.ShortDescription,
+                UploadTime = DateTime.Now,
                 Audios = AudioFiles,
                 Videos = VideoFiles,
                 Photos = PhotoFiles,
@@ -212,30 +213,28 @@ namespace MusicAppApi.Services
 
         public async Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList)
         {
-            ExpressionTreeHelper<PlaceDescription> helper = new ExpressionTreeHelper<PlaceDescription>(filtersList);
-            var predicate = helper.GetFilterExpression();
-
-            var places = dataContext.PlaceDescriptions.AsQueryable().Where(predicate).Include(p => p.Photos)
+            var places = dataContext.PlaceDescriptions.Include(p => p.Photos)
                                                        .Include(a => a.Audios)
                                                        .Include(v => v.Videos)
-                                                       .Include(au => au.Author);
+                                                       .Include(au => au.Author)
+                                                       .Filter(filtersList);
 
             var pagedParams = filtersList as PageParams;
 
-            var filteredList = await PagedList<PlaceDescription>.CreateAsync(places, pagedParams.PageNumber, pagedParams.PageSize);
+
 
             if (filtersList.SortByPopularity)
             {
                 if (filtersList.IsDescending)
                 {
-                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderByDescending(u => u.Rating);
+                    places = places.OrderByDescending(u => u.Rating);
                 }
                 else
                 {
-                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderBy(u => u.Rating);
+                    places = places.OrderBy(u => u.Rating);
                 }
             }
-
+            var filteredList = await PagedList<PlaceDescription>.CreateAsync(places, pagedParams.PageNumber, pagedParams.PageSize);
             return filteredList;
         }
     }
