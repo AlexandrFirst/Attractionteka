@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MusicAppApi.DTOs;
 using MusicAppApi.Helpers;
 using MusicAppApi.IServices;
@@ -162,10 +163,27 @@ namespace MusicAppApi.Controllers
 
         [HttpPut("password/restore/{token}")]
         public async Task<IActionResult> RestorePassword(string token, RestorePasswordDto passwords)
-        {    
+        {
             var userDto = await userService.RestorePassword(passwords, token);
             return Ok(userDto);
         }
 
+        [Authorize]
+        [HttpGet("place/{placeId}/mark")]
+        public async Task<IActionResult> GetPlaceMark(int placeId)
+        {
+            var userId = userContext.GetUserContext().Id;
+            var rating = await context.Ratings.Include(u => u.User)
+                                                .Include(p => p.Place)
+                                                .FirstOrDefaultAsync(r => r.User.Id == userId && r.Place.Id == placeId);
+            if (rating == null)
+            {
+                return Ok(new { mark = 0 });
+            }
+            else
+            {
+                return Ok(new { mark = rating.Rating });
+            }
+        }
     }
 }

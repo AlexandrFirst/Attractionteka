@@ -8,10 +8,11 @@ namespace MusicAppApi.IServices
 {
     public interface IPlaceService
     {
-         Task<PlaceDto> CreateNewPlace(PlaceDto newPlaceDto);
-         Task DeletePlace(int placeId);
-         Task<PlaceDto> GetPlaceById (int placeId);
-         Task<PlaceDto> UpdatePlace(PlaceDto updatedPlaceDto);
-         Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList);
+        Task<PlaceDto> CreateNewPlace(PlaceDto newPlaceDto);
+        Task DeletePlace(int placeId);
+        Task<PlaceDto> GetPlaceById(int placeId, bool b = false);
+        Task<PlaceDto> UpdatePlace(PlaceDto updatedPlaceDto);
+        Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList);
+        Task<PlaceDto> UpdatePlaceRating(RatingInputDto ratingInput, int userId);
     }
 }

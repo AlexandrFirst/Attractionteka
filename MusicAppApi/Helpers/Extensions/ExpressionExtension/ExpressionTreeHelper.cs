@@ -37,7 +37,7 @@ namespace MusicAppApi.Helpers.Extensions.ExpressionExtension
         {
             Type baseType = typeof(T);
             expressionMethodPairs.Add(baseType.GetProperty("KeyWords"), MatchKeyWordsRefactored);
-            expressionMethodPairs.Add(baseType.GetProperty("Rating"), RatingBetween);
+            // expressionMethodPairs.Add(baseType.GetProperty("Rating"), RatingBetween);
             expressionMethodPairs.Add(baseType.GetProperty("UploadTime"), UploadDateBetween);
             expressionMethodPairs.Add(baseType.GetProperty("Name"), NameContains);
             expressionMethodPairs.Add(baseType.GetProperty("Author"), MatchAuthor);

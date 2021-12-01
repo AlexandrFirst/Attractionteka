@@ -28,9 +28,7 @@ namespace MusicAppApi.Models
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new PlaceDescribtionConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
+            modelBuilder.ApplyConfiguration(new RatingConfiguration());
         }
-
-
-
     }
 }

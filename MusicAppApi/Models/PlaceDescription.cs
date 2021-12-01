@@ -11,6 +11,7 @@ namespace MusicAppApi.Models
             Videos = new HashSet<VideoFile>();
             Audios = new HashSet<AudioFile>();
             Comments = new HashSet<Comment>();
+            Ratings = new HashSet<UserPlaceRating>();
         }
 
         public int Id { get; set; }
@@ -21,6 +22,7 @@ namespace MusicAppApi.Models
         public User Author { get; set; }
         public int ViewNumber { get; set; }
         public DateTime UploadTime { get; set; }
+        public HashSet<UserPlaceRating> Ratings { get; set; }
         public HashSet<PhotoFile> Photos { get; set; }
         public HashSet<VideoFile> Videos { get; set; }
         public HashSet<AudioFile> Audios { get; set; }

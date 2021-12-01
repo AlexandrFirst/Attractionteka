@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MusicAppApi.Models;
 
@@ -11,8 +13,11 @@ namespace MusicAppApi.Helpers.Extensions.RatingExtension
             dataContext = m_dataContext;
         }
 
-        public static double CalculatePlaceRating(this PlaceDescription place)
+        public async static Task<double> CalculatePlaceRating(this PlaceDescription place)
         {
+            var allPlaceMarks = await dataContext.Ratings.Include(p => p.Place).Where(r => r.Place.Id == place.Id).ToListAsync();
+            if(allPlaceMarks.Count > 0)
+                return allPlaceMarks.Average(p => p.Rating);
             return 0;
         }
     }
