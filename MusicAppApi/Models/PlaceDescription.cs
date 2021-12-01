@@ -19,7 +19,7 @@ namespace MusicAppApi.Models
         public string ShortDescription { get; set; }
         public string KeyWords { get; set; }
         public User Author { get; set; }
-        public double Rating { get; set; }
+        public int ViewNumber { get; set; }
         public DateTime UploadTime { get; set; }
         public HashSet<PhotoFile> Photos { get; set; }
         public HashSet<VideoFile> Videos { get; set; }

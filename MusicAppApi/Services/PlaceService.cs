@@ -9,6 +9,7 @@ using HtmlAgilityPack;
 using Microsoft.EntityFrameworkCore;
 using MusicAppApi.DTOs;
 using MusicAppApi.Helpers.Extensions.Pagination;
+using MusicAppApi.Helpers.Extensions.RatingExtension;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 using static MusicAppApi.Helpers.Extensions.ExpressionExtension.TreeExpression;
@@ -228,11 +229,12 @@ namespace MusicAppApi.Services
             {
                 if (filtersList.IsDescending)
                 {
-                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderByDescending(u => u.Rating);
+                    
+                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderByDescending(u => u.CalculatePlaceRating());
                 }
                 else
                 {
-                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderBy(u => u.Rating);
+                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderBy(u => u.CalculatePlaceRating());
                 }
             }
 
