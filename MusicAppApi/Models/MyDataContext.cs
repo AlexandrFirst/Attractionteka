@@ -26,7 +26,10 @@ namespace MusicAppApi.Models
             modelBuilder.ApplyConfiguration(new MediaFileConfiguration<VideoFile>());
             modelBuilder.ApplyConfiguration(new MediaFileConfiguration<PhotoFile>());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
+            modelBuilder.ApplyConfiguration(new PlaceDescribtionConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
         }
+
 
 
     }

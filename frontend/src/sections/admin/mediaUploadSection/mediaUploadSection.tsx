@@ -8,7 +8,7 @@ import styles from "./mediaUploadSection.module.scss";
 export interface MediaUploadSectionProps {
     caption: string;
     fileType: "audio/*" | "video/*";
-    setFile: Function;
+    setFileList: Function;
     buttonCaption: string;
 }
 
@@ -16,7 +16,7 @@ const MediaUploadSection:React.FC<MediaUploadSectionProps>= (
     {
         caption,
         fileType,
-        setFile,
+        setFileList,
         buttonCaption,
     }
 ) => {
@@ -24,7 +24,7 @@ const MediaUploadSection:React.FC<MediaUploadSectionProps>= (
         <div className={styles.file_wrapper}>
             <Caption classNames={styles.file_caption}>{caption}</Caption>
             <FileUpload
-                setFile={setFile}
+                setFile={setFileList}
                 accept={fileType}
             >
                 <Button classes={styles.button}>{buttonCaption}</Button>

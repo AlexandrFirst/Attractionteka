@@ -13,7 +13,11 @@ import {EditorActionCreators} from "../../../store/reducers/editor/editor-action
 import Spinner from "../../../components/spinner/spinner";
 import {IMediaFileDTO} from "../../../models/admin/IMediaFileDTO";
 
-const EditorSection = () => {
+export interface EditorSectionProps {
+    initialContent?: string;
+}
+
+const EditorSection:React.FC<EditorSectionProps> = ({initialContent}) => {
     const editor = React.useRef<SunEditorCore>();
     // const {uploadMedia} = useActions();
     const [currentPhoto, setCurrentPhoto] = React.useState<IMediaResponse>();
@@ -86,10 +90,11 @@ const EditorSection = () => {
                 getSunEditorInstance={getSunEditorInstance}
                 setOptions={{
                     buttonList: buttonList.complex ,
-                    height: '800px',
+                    height: '1000px',
                 }}
                 onImageUploadBefore={onImageUploadBefore}
                 onBlur={onBlur}
+                setContents={initialContent}
                 // onImageUpload={handleImageUpload}
 
                 // onLoad={handleLoad}

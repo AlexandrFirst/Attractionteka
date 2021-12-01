@@ -7,7 +7,6 @@ import {Link, useHistory} from "react-router-dom";
 import Container from "../../components/container/container";
 import KeywordsSection from "../../sections/admin/keywordsSection/keywordsSection";
 import Button from "../../components/button/button";
-
 import arrowBack from "../../sections/admin/editorSection/img/arrow_icon.svg";
 import styles from './editPage.module.scss';
 import ShortDescriptionSection from "../../sections/admin/shortDescriptionSection/shortDescriptionSection";
@@ -16,48 +15,92 @@ import {useActions} from "../../hooks/useActions";
 import {IMediaFileDTO} from "../../models/admin/IMediaFileDTO";
 import {IMediaResponse} from "../../models/admin/IMediaResponse";
 import AttractionNameSection from "../../sections/admin/attractionNameSection/attractionNameSection";
-import {RouteNames} from "../../routes";
 import Footer from "../../components/footer/footer";
 import Header from "../../components/header/header";
+import InfoMessage from "../../components/infoMessage/infoMessage";
+import {RouteNames} from "../../routes";
+import Modal from "../../components/modal/modal";
+import ModalDeleteSection from "../../sections/admin/modalDeleteSection/modalDeleteSection";
+import {IMediaData} from "../../store/reducers/editor/types";
 
 const EditPage = () => {
+    const {data: {
+        name, listKeyWords, content, shortDescription,
+        photos, videos, audios, id
+    }} = useTypedSelector(state => state.place);
+
     const filesToSend = useTypedSelector(state => state.editor);
     const [firstTime, setFirstTime] = React.useState(true);
-    const {addNewPlace} = useActions();
+    const [isVisibleMessage, setIsVisibleMessage] = React.useState(false);
+    const [isActiveDeleteModal, setIsActiveDeleteModal] = React.useState(false);
+    const {addNewPlace, updatePlace, deletePlace} = useActions();
     const history = useHistory();
 
     React.useEffect(() => {
         setFirstTime(false);
+        setIsVisibleMessage(false);
     }, [])
 
-    // React.useEffect(() => {
-    //     if(!filesToSend.loadingAddNewPlace && filesToSend.errorAddNewPlace === '' && !firstTime) {
-    //         history.push(RouteNames.MAIN);
-    //     }
-    // }, [filesToSend.loadingAddNewPlace, filesToSend.errorAddNewPlace])
+    React.useEffect(() => {
+        if(!filesToSend.loadingAddNewPlace && filesToSend.errorAddNewPlace === '' && !firstTime) {
+            displayMessage(5000);
+            setFirstTime(false);
+        }
+    }, [filesToSend.loadingAddNewPlace, filesToSend.errorAddNewPlace])
 
-    const TryAddNewPlace = () => {
-        // console.log(placeInfo);
-        const photosToSend: IMediaFileDTO[] = prepareMediaToSend(filesToSend.photos.data),
-              videosToSend: IMediaFileDTO[] = prepareMediaToSend(filesToSend.videos.data),
-              audiosToSend: IMediaFileDTO[] = prepareMediaToSend(filesToSend.audios.data);
+    const TryDoSomethingWithPlace = (isUpdating: boolean) => {
+        // console.log("filesToSend.photos.data", filesToSend.videos.data)
+        // console.log("filesToSend.photos.data", filesToSend.audios.data)
 
-        // console.log(photoUrls);
-        // console.log(audioUrls);
-        // console.log(videoUrls);
-        console.log("ТО ЧТО Я ОТПРАВЛЯЮ", filesToSend);
-        addNewPlace(photosToSend, videosToSend, audiosToSend, filesToSend);
+        let photosToSend: IMediaFileDTO[] = [],
+            videosToSend: IMediaFileDTO[] = [],
+            audiosToSend: IMediaFileDTO[] = []
+        if(filesToSend.photos.data) {
+            photosToSend = prepareMediaToSend(filesToSend.photos.data);
+            // console.log("filesToSend.photos.data", filesToSend.photos.data)
+            // console.log("photosToSend", photosToSend)
+        }
+        if(filesToSend.videos.data) {
+            videosToSend = prepareMediaToSend(filesToSend.videos.data);
+        }
+        if(filesToSend.audios.data) {
+            audiosToSend = prepareMediaToSend(filesToSend.audios.data);
+        }
+        // console.log("content............", filesToSend.editorContent);
+        if(!isUpdating) {
+            // return console.log("ТО, ЧТО Я ОТПРАВЛЯЮ.......", filesToSend);
+            addNewPlace(photosToSend, videosToSend, audiosToSend, filesToSend);
+            // history.push(RouteNames.MAIN);
+        } else {
+            // const rg = /^[a-z]{3}[=]{1}$/;
+            photosToSend = prepareMediaToSend(photos);
+            console.log("ТО, ЧТО Я ОТПРАВЛЯЮ.......", photosToSend, videosToSend, audiosToSend);
+            console.log("ТО, ЧТО Я ОТПРАВЛЯЮ.......", filesToSend);
+            updatePlace(id, photosToSend, videosToSend, audiosToSend, filesToSend);
+        }
+    }
+
+    const deleteExistingPlace = () => {
+        if(id) {
+            deletePlace(id);
+            // history.push(RouteNames.MAIN);
+        }
     }
 
     const prepareMediaToSend = (arr: IMediaResponse[]): IMediaFileDTO[] => {
-        return arr.map(({url,publicId,id}) => {
-            return {
-                url,
-                publicId,
-                id,
-                uploadTime: new Date(),
-            }
-        });
+            return arr.map(({url,publicId,id}) => {
+                return {
+                    url,
+                    publicId,
+                    id,
+                    uploadTime: new Date(),
+                }
+            });
+    }
+
+    const displayMessage = (milliseconds: number) => {
+        setIsVisibleMessage(true);
+        setTimeout(() => setIsVisibleMessage(false), milliseconds);
     }
 
     return (
@@ -65,6 +108,9 @@ const EditPage = () => {
             <Header/>
             <div className={styles.wrapper}>
                 <Container>
+                    {isVisibleMessage &&
+                        <InfoMessage>The attraction information has been successfully updated!</InfoMessage>
+                    }
                     <div className={styles.working_place}>
                         <Link to={"/"} className={styles.back_wrapper}>
                             <img src={arrowBack} alt="back"/>
@@ -73,25 +119,35 @@ const EditPage = () => {
                         <div className={styles.save_delete_top}>
                             <Button
                                 classes={cn(styles.btn_top, styles.save_top)}
-                                onClick={TryAddNewPlace}
+                                onClick={() => TryDoSomethingWithPlace(id !== undefined)}
                             >Save</Button>
-                            <Button classes={cn(styles.btn_top, styles.delete_top)}>Delete</Button>
+                            <Button
+                                classes={cn(styles.btn_top, styles.delete_top)}
+                                onClick={() => setIsActiveDeleteModal(true)}
+                            >Delete</Button>
                         </div>
-                        <AttractionNameSection/>
-                        <EditorSection/>
-                        <ShortDescriptionSection/>
-                        <KeywordsSection/>
-                        <AudioAdminSection/>
-                        <VideoAdminSection/>
+                        <AttractionNameSection name={name} />
+                        <EditorSection initialContent={content} />
+                        <ShortDescriptionSection shortDesc={shortDescription} />
+                        <KeywordsSection initialKeywords={listKeyWords} />
+                        <AudioAdminSection initialAudio={audios} />
+                        <VideoAdminSection initialVideo={videos} />
                         <div
                             className={styles.btn_container}
-                            onClick={TryAddNewPlace}
+                            onClick={() => TryDoSomethingWithPlace(id !== undefined)}
                         >
                             <Button classes={styles.save_btn}>Save</Button>
                         </div>
                     </div>
                 </Container>
             </div>
+            <Modal active={isActiveDeleteModal} setActive={setIsActiveDeleteModal}>
+                <ModalDeleteSection
+                    closeFunc={() => setIsActiveDeleteModal(false)}
+                    deleteAttractionFunc={deleteExistingPlace}
+                    id={id}
+                />
+            </Modal>
             <Footer/>
         </>
     );

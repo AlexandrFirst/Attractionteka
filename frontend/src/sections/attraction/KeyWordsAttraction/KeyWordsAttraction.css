@@ -1,9 +1,9 @@
 .block-key-words {
     display: flex;
-    justify-content: space-around;
-    margin-top: 50px;
+    justify-content: center;
+    margin-top: 100px;
     width: 90%;
-    height: 100px;
+    height: fit-content;
     /*background-color: cornflowerblue;*/
 }
 
@@ -17,4 +17,5 @@
     line-height: 30px;
     color: var(--main-text-color);
     cursor: default;
+    margin-left: 15px;
 }

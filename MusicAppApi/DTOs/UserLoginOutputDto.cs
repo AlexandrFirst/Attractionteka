@@ -6,5 +6,6 @@ namespace MusicAppApi.DTOs
         public string UserToken { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        public string Mail { get; set; }
     }
 }

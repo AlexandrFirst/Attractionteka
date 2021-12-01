@@ -7,10 +7,9 @@ import {useActions} from "../../hooks/useActions";
 import {useParams} from "react-router-dom";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Spinner from "../../components/spinner/spinner";
-import {IPlaceResponse} from "../../models/place/IPlaceResponse";
 
 export interface AttractionPageProps {
-    // id: number;
+
 }
 
 const AttractionPage:React.FC<AttractionPageProps> = () => {
@@ -22,11 +21,9 @@ const AttractionPage:React.FC<AttractionPageProps> = () => {
     React.useEffect(() => {
         const id = Number(params.id);
         getPlace(id);
-        console.log(".................",data);
     }, [])
 
     React.useEffect(() => {
-        console.log("DATA FROM SERVER......",data);
     }, [data])
 
     if(isLoading) {

@@ -41,7 +41,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 11, 2, 10, 36, 10, 905, DateTimeKind.Local).AddTicks(8277));
+                        .HasDefaultValue(new DateTime(2021, 11, 17, 22, 31, 45, 923, DateTimeKind.Local).AddTicks(2053));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -105,7 +105,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 11, 2, 10, 36, 10, 934, DateTimeKind.Local).AddTicks(6549));
+                        .HasDefaultValue(new DateTime(2021, 11, 17, 22, 31, 45, 965, DateTimeKind.Local).AddTicks(7303));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -208,7 +208,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 11, 2, 10, 36, 10, 934, DateTimeKind.Local).AddTicks(2514));
+                        .HasDefaultValue(new DateTime(2021, 11, 17, 22, 31, 45, 965, DateTimeKind.Local).AddTicks(1817));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -224,7 +224,8 @@ namespace MusicAppApi.Migrations
                 {
                     b.HasOne("MusicAppApi.Models.PlaceDescription", "PlaceDescription")
                         .WithMany("Audios")
-                        .HasForeignKey("PlaceDescriptionId");
+                        .HasForeignKey("PlaceDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("PlaceDescription");
                 });
@@ -254,7 +255,8 @@ namespace MusicAppApi.Migrations
                 {
                     b.HasOne("MusicAppApi.Models.PlaceDescription", "PlaceDescription")
                         .WithMany("Photos")
-                        .HasForeignKey("PlaceDescriptionId");
+                        .HasForeignKey("PlaceDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("PlaceDescription");
                 });
@@ -273,7 +275,8 @@ namespace MusicAppApi.Migrations
                 {
                     b.HasOne("MusicAppApi.Models.PlaceDescription", "PlaceDescription")
                         .WithMany("Videos")
-                        .HasForeignKey("PlaceDescriptionId");
+                        .HasForeignKey("PlaceDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("PlaceDescription");
                 });

@@ -10,13 +10,15 @@ namespace MusicAppApi.Models.ModelConfiguration
         public void Configure(EntityTypeBuilder<PlaceDescription> builder)
         {
             builder.HasMany(a => a.Audios)
-                    .WithOne(u => u.PlaceDescription);
+                    .WithOne(u => u.PlaceDescription)
+                    .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(a => a.Videos)
-                    .WithOne(u => u.PlaceDescription);
+                    .WithOne(u => u.PlaceDescription)
+                    .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(a => a.Photos)
-                    .WithOne(u => u.PlaceDescription);
-            builder.HasMany(c => c.Photos)
-            .WithOne(u => u.PlaceDescription);
+                    .WithOne(u => u.PlaceDescription)
+                    .OnDelete(DeleteBehavior.Cascade);
+        
         }
     }
 }

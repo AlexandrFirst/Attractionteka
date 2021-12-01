@@ -2,9 +2,14 @@ import React from 'react';
 import styles from "./shortDescriptionSection.module.scss";
 import {useActions} from "../../../hooks/useActions";
 import TextAreaWithVisibleError from "../../../components/textAreaWithVisibleError/textAreaWithVisibleError";
+import {useSetDataUseEffect} from "../../../hooks/useSetDataUseEffect";
 
-const ShortDescriptionSection = () => {
-    const [shortDescriptionData, setShortDescriptionData] = React.useState<string>('');
+export interface ShortDescriptionSectionProps {
+    shortDesc?: string;
+}
+
+const ShortDescriptionSection:React.FC<ShortDescriptionSectionProps> = ({shortDesc}) => {
+    const [shortDescriptionData, setShortDescriptionData] = React.useState<string>("");
     const [isVisibleError, setIsVisibleError] = React.useState(false);
     const {setShortDescription} = useActions();
 
@@ -16,6 +21,8 @@ const ShortDescriptionSection = () => {
         setShortDescription(shortDescriptionData);
         setIsVisibleError(false);
     }
+
+    useSetDataUseEffect(shortDesc, setShortDescriptionData);
 
     return (
         <div className={styles.wrapper}>
