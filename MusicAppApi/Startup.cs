@@ -13,6 +13,7 @@ using MusicAppApi.Entities;
 using MusicAppApi.Helpers;
 using MusicAppApi.Helpers.Email;
 using MusicAppApi.Helpers.ExceptionHandler;
+using MusicAppApi.Helpers.Extensions.RatingExtension;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 using MusicAppApi.Services;
@@ -94,6 +95,9 @@ namespace MusicAppApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicAppApi", Version = "v1" });
             });
+
+            var serviceProvider = services.BuildServiceProvider();
+            RatingExtension.Configure(serviceProvider.GetService<MyDataContext>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

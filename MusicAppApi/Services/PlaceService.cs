@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using MusicAppApi.DTOs;
 using MusicAppApi.Helpers.Extensions.ExpressionExtension;
 using MusicAppApi.Helpers.Extensions.Pagination;
+using MusicAppApi.Helpers.Extensions.RatingExtension;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 
@@ -141,7 +142,39 @@ namespace MusicAppApi.Services
             return mapper.Map<PlaceDto>(oldPlace);
         }
 
-        public async Task<PlaceDto> GetPlaceById(int placeId)
+        public async Task<PlaceDto> UpdatePlaceRating(RatingInputDto ratingInput, int userId)
+        {
+            var user = await dataContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
+            var place = await dataContext.PlaceDescriptions.FirstOrDefaultAsync(p => p.Id == ratingInput.PlaceId);
+
+            if (user == null || user.IsBanned || place == null)
+            {
+                throw new Exception("Can't excute operation");
+            }
+
+            var rating = await dataContext.Ratings.Include(u => u.User)
+                                                .Include(p => p.Place)
+                                                .FirstOrDefaultAsync(r => r.User.Id == userId && r.Place.Id == ratingInput.PlaceId);
+            if (rating != null)
+            {
+                rating.Rating = ratingInput.Rating;
+                dataContext.Update(rating);
+            }
+            else
+            {
+                await dataContext.Ratings.AddAsync(new UserPlaceRating()
+                {
+                    Place = place,
+                    User = user,
+                    Rating = ratingInput.Rating
+                });
+            }
+
+            await dataContext.SaveChangesAsync();
+            return await GetPlaceById(ratingInput.PlaceId);
+        }
+
+        public async Task<PlaceDto> GetPlaceById(int placeId, bool b = false)
         {
             var place = await dataContext.PlaceDescriptions.Include(p => p.Photos)
                                                             .Include(a => a.Audios)
@@ -150,7 +183,15 @@ namespace MusicAppApi.Services
             if (place == null)
                 throw new System.Exception("No proper place found");
 
+            if (b)
+            {
+                place.ViewNumber++;
+                dataContext.Update(place);
+                await dataContext.SaveChangesAsync();
+            }
+
             var readOnlyPlace = mapper.Map<PlaceDto>(place);
+            readOnlyPlace.AverageRating = await place.CalculatePlaceRating();
             return readOnlyPlace;
         }
 
@@ -210,7 +251,6 @@ namespace MusicAppApi.Services
 
         }
 
-
         public async Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList)
         {
             var places = dataContext.PlaceDescriptions.Include(p => p.Photos)
@@ -221,20 +261,20 @@ namespace MusicAppApi.Services
 
             var pagedParams = filtersList as PageParams;
 
-
+            var filteredList = await PagedList<PlaceDescription>.CreateAsync(places, pagedParams.PageNumber, pagedParams.PageSize);
 
             if (filtersList.SortByPopularity)
             {
                 if (filtersList.IsDescending)
                 {
-                    places = places.OrderByDescending(u => u.Rating);
+
+                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderByDescending(async u => await u.CalculatePlaceRating());
                 }
                 else
                 {
-                    places = places.OrderBy(u => u.Rating);
+                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderBy(async u => await u.CalculatePlaceRating());
                 }
             }
-            var filteredList = await PagedList<PlaceDescription>.CreateAsync(places, pagedParams.PageNumber, pagedParams.PageSize);
             return filteredList;
         }
     }
