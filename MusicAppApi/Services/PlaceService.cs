@@ -179,6 +179,7 @@ namespace MusicAppApi.Services
             var place = await dataContext.PlaceDescriptions.Include(p => p.Photos)
                                                             .Include(a => a.Audios)
                                                             .Include(v => v.Videos)
+                                                            .Include(r => r.Ratings)
                                                             .FirstOrDefaultAsync(p => p.Id == placeId);
             if (place == null)
                 throw new System.Exception("No proper place found");
@@ -257,6 +258,7 @@ namespace MusicAppApi.Services
                                                        .Include(a => a.Audios)
                                                        .Include(v => v.Videos)
                                                        .Include(au => au.Author)
+                                                       .Include(r => r.Ratings)
                                                        .Filter(filtersList);
 
             var pagedParams = filtersList as PageParams;
