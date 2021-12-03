@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using MusicAppApi.DTOs;
 using MusicAppApi.Helpers;
 using MusicAppApi.Helpers.Extensions.Pagination;
+using MusicAppApi.Helpers.Extensions.RatingExtension;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 
@@ -16,11 +17,14 @@ namespace MusicAppApi.Controllers
     {
         private readonly IPlaceService placeService;
         private readonly IMapper mapper;
+        private readonly IUserContextService userContext;
 
         public PlaceController(IPlaceService placeService,
-                                IMapper mapper)
+                                IMapper mapper,
+                                 IUserContextService userContext)
         {
             this.mapper = mapper;
+            this.userContext = userContext;
             this.placeService = placeService;
         }
 
@@ -45,7 +49,7 @@ namespace MusicAppApi.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> ReadPlace(int id)
         {
-            var response = await placeService.GetPlaceById(id);
+            var response = await placeService.GetPlaceById(id, true);
             return Ok(response);
         }
 
@@ -60,12 +64,24 @@ namespace MusicAppApi.Controllers
         public async Task<IActionResult> GetPlaces([FromQuery] PlaceFilterDto placeFilter)
         {
             var places = await placeService.GetPlacesByFilter(placeFilter);
-
+           
             Response.AddPagination(places.CurrentPage, places.PageSize, places.TotalCount, places.TotalPages);
 
             var response = mapper.Map<List<PlaceDto>>(places as List<PlaceDescription>);
+            for (int i = 0; i < places.Count; i++)
+            {
+                response[i].AverageRating = await places[i].CalculatePlaceRating();
+            }
 
             return Ok(response);
+        }
+
+        [Authorize]
+        [HttpPost("setRating")]
+        public async Task<IActionResult> SetRatingForPlace([FromBody] RatingInputDto ratingInput)
+        {
+            var updatedPlace = await placeService.UpdatePlaceRating(ratingInput, userContext.GetUserContext().Id);
+            return Ok(updatedPlace);
         }
     }
 }
