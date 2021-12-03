@@ -90,9 +90,9 @@ namespace MusicAppApi.Controllers
                 CommentTime = DateTime.Now
             };
 
-            await dataContext.Comments.AddAsync(replyComment);
-            replyComment.Place = place;
-            replyComment.Author = user;
+            // await dataContext.Comments.AddAsync(replyComment);
+            // replyComment.Place = place;
+            // replyComment.Author = user;
 
             parentComment.CommentReplies.Add(replyComment);
 
