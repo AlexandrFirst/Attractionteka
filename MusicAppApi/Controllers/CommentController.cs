@@ -167,15 +167,16 @@ namespace MusicAppApi.Controllers
             }
 
             var comments = mapper.Map<List<CommentDto>>(place.Comments);
+            var finalComments = new List<CommentDto>();
             comments.ForEach(c =>
             {
-                if (c.ParentComment != null)
+                if (c.ParentComment == null)
                 {
-                    c.Place = null;
+                    finalComments.Add(c);
                 }
             });
 
-            return Ok(comments);
+            return Ok(finalComments);
         }
 
 
