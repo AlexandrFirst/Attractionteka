@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -91,8 +92,8 @@ namespace MusicAppApi.Controllers
             };
 
             // await dataContext.Comments.AddAsync(replyComment);
-            // replyComment.Place = place;
-            // replyComment.Author = user;
+            replyComment.Place = place;
+            replyComment.Author = user;
 
             parentComment.CommentReplies.Add(replyComment);
 
@@ -166,7 +167,14 @@ namespace MusicAppApi.Controllers
             }
 
             var comments = mapper.Map<List<CommentDto>>(place.Comments);
-            
+            comments.ForEach(c =>
+            {
+                if (c.ParentComment != null)
+                {
+                    c.Place = null;
+                }
+            });
+
             return Ok(comments);
         }
 
