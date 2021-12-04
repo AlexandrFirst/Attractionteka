@@ -1,5 +1,4 @@
 # Astalavista
-The best place app ever
 
 
 
@@ -11,3 +10,5 @@ The best place app ever
 
 
 comments!
+Rating and some changes
+
