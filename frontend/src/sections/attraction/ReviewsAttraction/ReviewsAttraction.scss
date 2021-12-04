@@ -8,11 +8,16 @@
 }
 
 .list-reviews {
+    width: 100%;
     margin-top: 35px;
-    width:70%;
-    height: 600px;
-    background-color:darksalmon;
+    display: flex;
+    justify-content: space-around;
+}
 
+.message {
+    &-error {
+        background-color: #E41313;
+    }
 }
 
 .audio-header {
@@ -37,4 +42,34 @@
     font-weight: normal;
     font-size: 23px;
     color: #111C5A;
+}
+
+.leave-comment-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+    width: 600px;
+}
+
+.comment-text-area {
+    width: 100%;
+    min-height: 150px;
+    background: #bbbbbb;
+
+}
+
+.text_no_reviews {
+    padding-top: 50px;
+    font-size: 30px;
+}
+
+.comment-btn {
+    margin-top: 20px;
+    width: 500px;
+
+    &_disabled {
+        background: #9b9a9a;
+        cursor: default;
+     }
 }

@@ -3,6 +3,7 @@ import {AuthActionsEnum, SetAuthAction, SetErrorAction, SetIsLoadingAction, SetU
 import {AppDispatch} from "../../index";
 import {AuthService} from "../../../services/auth-service";
 import {LocalStorageKey} from "../../../types/LocalStorageKey";
+import * as util from "../../../util";
 
 
 export const AuthActionCreators = {
@@ -14,6 +15,8 @@ export const AuthActionCreators = {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
             const response = await AuthService.login(email, password);
+            const userDto = util.saveUserDTO(response.data);
+            localStorage.setItem(LocalStorageKey.user, JSON.stringify(userDto));
             localStorage.setItem(LocalStorageKey.token, response.data.userToken);
             dispatch(AuthActionCreators.setIsAuth(true));
         } catch (e: any) {
@@ -26,7 +29,12 @@ export const AuthActionCreators = {
         try {
             dispatch(AuthActionCreators.setIsLoading(true));
             const regResponse = await AuthService.registration(name, surname, email, password);
+            // console.log("regResponse......", regResponse.data);
+            const userDto = util.saveUserDTO(regResponse.data);
+            localStorage.setItem(LocalStorageKey.user, JSON.stringify(userDto));
             const loginResponse = await AuthService.login(regResponse.data.mail, regResponse.data.password);
+            // console.log("loginResponse......", loginResponse)
+
             localStorage.setItem(LocalStorageKey.token, loginResponse.data.userToken);
             dispatch(AuthActionCreators.setIsAuth(true));
         } catch (e: any) {

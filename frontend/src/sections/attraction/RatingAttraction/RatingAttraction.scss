@@ -1,0 +1,160 @@
+.block-rating {
+    margin-top: 50px;
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rating {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 85%;
+    margin-top: 35px;
+}
+
+.audio-header {
+    width: 135px;
+    height: 20px;
+    position: relative;
+}
+
+.icon-information-header {
+    height:100%;
+    margin-right: 15px;
+}
+
+.text-information-header {
+    display: inline-block;
+    position: absolute;
+    top: 50%; 
+    transform: translate(0, -50%);
+    text-decoration: underline;
+    font-family: 'Nunito Sans', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 23px;
+    color: #111C5A;
+}
+
+.total-rating {
+
+    &_wrapper {
+        display: flex;
+        flex-direction: column;
+        margin-left: 80px;
+    }
+
+    &_title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 140px;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 25px;
+    }
+    &_bold {
+        font-weight: 900;
+        font-size: 36px;
+        line-height: 49px;
+    }
+}
+
+.stars {
+
+    &_wrapper {
+        display: flex;
+        justify-content: space-between;
+        //align-items: center;
+        width: 85px;
+        padding-top: 10px;
+    }
+}
+
+.rating-based-on-total {
+
+    padding-top: 20px;
+
+    &_text {
+        font-size: 18px;
+        line-height: 25px;
+    }
+}
+
+.rating-based-on-reviews {
+    display: grid;
+    grid-template-columns: 2fr 3fr 1fr;
+    grid-auto-rows: 30px;
+}
+
+.rating_stars_list {
+    list-style: none;
+    height: fit-content;
+}
+
+.line_wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rating_lines_list {
+    height: fit-content;
+    display: grid;
+    grid-template-rows: repeat(5,19px);
+    align-items: center;
+    list-style: none;
+}
+
+.bg_line {
+    display: block;
+    background-color: #9b9a9a;
+    width: 100%;
+    height: 6px;
+}
+
+.fg_line {
+    position: absolute;
+    //width: 80%;
+    height: 6px;
+    top: 0;
+    left: 0;
+    background-color: var(--main-front-color);
+}
+
+.rating_marks {
+
+    &_list {
+        list-style: none;
+        height: fit-content;
+        display: grid;
+        grid-template-rows: repeat(5, 20px);
+        justify-content: center;
+    }
+
+    &_item {
+        font-size: 16px;
+        line-height: 16px;
+        color: var(--main-front-color);
+    }
+
+}
+
+
+.btn {
+    margin-top: 55px;
+    width: 30%;
+    height: fit-content;
+    font-size: 15px;
+    line-height: 25px;
+    transition: .3s all;
+
+    &_disabled {
+        background: #9b9a9a;
+        cursor: default;
+    }
+}

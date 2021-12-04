@@ -6,7 +6,7 @@ import logo from '../../img/Attractionteka.png';
 import iconmenu from './img/iconmenu.png'
 import iconprofile from './img/iconprofile.png'
 import header from './img/header.png'
-import Search from '../search/search.js'
+import Search from '../search/search.tsx'
 import {RouteNames} from "../../routes";
 
 
@@ -19,10 +19,14 @@ return (
             </Link>
             <Search flag_search={props.flag_search}/>
             <div className="icon-profile">
-                <a href="https://www.youtube.com"><img src={iconprofile} alt="error"/></a>
+                <Link to={RouteNames.USER}>
+                    <img src={iconprofile} alt="error"/>
+                </Link>
             </div>
             <div className="icon-menu">
-                <a href="https://www.youtube.com"><img src={iconmenu} alt="error"/></a>
+                <Link to={RouteNames.USER_EDIT}>
+                    <img src={iconmenu} alt="error"/>
+                </Link>
             </div>
 
         </header>

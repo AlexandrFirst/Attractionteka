@@ -9,8 +9,14 @@ const MainPage = () => {
     const history = useHistory();
     const [active, setActive] = React.useState(false);
 
-    const openAttraction = (path: string, id: number) => {
+    const openPageDynamicId = (path: string, id: number) => {
         history.push(`${path}/${id}`)
+    }
+
+    const goToUserCabinet = () => {
+        const userStr = localStorage.getItem("user");
+        const userObj = userStr && JSON.parse(userStr);
+        userObj ? openPageDynamicId(RouteNames.USER, userObj.id) : history.push(RouteNames.ERROR);
     }
 
     return (
@@ -21,9 +27,11 @@ const MainPage = () => {
                 <br/>
                 <li><Link to={RouteNames.EDIT}>To EDIT page</Link></li>
                 <br/>
-                <li><div className={styles.link} onClick={() => openAttraction(RouteNames.ATTRACTION,22)}>To ATTRACTION page</div></li>
+                <li><div className={styles.link} onClick={() => openPageDynamicId(RouteNames.ATTRACTION,21)}>To ATTRACTION page</div></li>
                 <br/>
-                <li><div className={styles.link} onClick={() => openAttraction(RouteNames.USER,1)}>To USER PERSONAL CABINET</div></li>
+                <li><div className={styles.link} onClick={goToUserCabinet}>To USER PERSONAL CABINET</div></li>
+                <br/>
+                <li><Link to={RouteNames.FILTERED_PLACES}>To Filtered Places</Link></li>
 
             </ul>
             {/*<Footer/>*/}

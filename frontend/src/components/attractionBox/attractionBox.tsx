@@ -1,5 +1,5 @@
-import React from 'react'
-import {Link} from 'react-router-dom';
+import React, {useEffect, useState} from 'react'
+import {Link, useParams} from 'react-router-dom';
 import iconhome from './img/iconhome.png';
 import InformationAttraction from '../../sections/attraction/InformationAttraction/InformationAttraction'
 import AudioAttraction from '../../sections/attraction/AudioAttraction/AudioAttraction'
@@ -12,13 +12,23 @@ import MainPhotoAttracrtion from '../../sections/attraction/MainPhotoAttraction/
 import HeaderAttraction from '../../sections/attraction/HeaderAttraction/HeaderAttraction';
 import GeneralRateAttraction from '../../sections/attraction/GeneralRateAttraction/GeneralRateAttraction';
 import {RouteNames} from "../../routes";
-import './attractionBox.css';
+import './attractionBox.scss';
 import {IPlaceResponse} from "../../models/place/IPlaceResponse";
 import Footer from "../footer/footer";
 import {ReactJkMusicPlayerInstance} from "react-jinke-music-player";
+import QrCode from 'react-qr-code';
+import { FaHeart } from "react-icons/fa";
+import cn from "classnames";
+import TotalRatingHeaderAttraction
+    from "../../sections/attraction/totalRatingHeaderAttraction/TotalRatingHeaderAttraction";
+import {useActions} from "../../hooks/useActions";
+import * as util from "../../util";
+import {CommentDTO} from "../../models/comment/CommentDTO";
 
 export interface AttractionBoxProps {
-    data: IPlaceResponse;
+    placeData: IPlaceResponse;
+    comments: CommentDTO[];
+    mark: number;
 }
 
 interface AudioListProps {
@@ -32,7 +42,7 @@ interface AudioListProps {
 }
 
 const AttractionBox:React.FC<AttractionBoxProps> = (
-    {data:{
+    {placeData:{
         shortDescription,
         content,
         name,
@@ -40,21 +50,43 @@ const AttractionBox:React.FC<AttractionBoxProps> = (
         listKeyWords,
         photos,
         videos,
-        audios
-    }}) => {
+        audios,
+        viewNumber,
+        ratings
+    },
+        mark,
+        comments
+    }) => {
 
-    const [currentAudio, setCurrentAudio] = React.useState(-1);
-    const [currentAudioPlayerInstance, setCurrentAudioPlayerInstance] = React.useState<ReactJkMusicPlayerInstance | null>();
+    const [currentAudio, setCurrentAudio] = useState(-1);
+    const [currentAudioPlayerInstance, setCurrentAudioPlayerInstance] = useState<ReactJkMusicPlayerInstance | null>();
+    const [visibleQrCode, setVisibleQrCode] = useState(false);
+    const [averageRating, setAverageRating] = useState(0);
+    const [isLeaveComment, setIsLeaveComment] = useState(false)
+
+    const {setRatingToDatabase} = useActions();
+    const {id} = useParams<{id: string}>();
+
+    useEffect(() => {
+        if(ratings) {
+            setAverageRating(util.calcAverage(ratings));
+        }
+    }, [ratings])
+
 
     return (
         <div>
             <div className="body-attraction">
                 <Link to={RouteNames.MAIN} className="block-back-home">
-                    <img src={iconhome} alt="" className="icon-home" />
+                    <img src={iconhome} alt="iconhome" className="icon-home" />
                     <div className="text-home">Home - Attractions</div>
                 </Link>
-                <GeneralRateAttraction />
-                {name && <HeaderAttraction name={name}/>}
+                <div onClick={() =>  setVisibleQrCode(prevState => !prevState)} className="qr-open">open QR-CODE</div>
+                <div className="rate-wrapper">
+                    <GeneralRateAttraction mark={mark} placeId={parseInt(id)} setRating={setRatingToDatabase}/>
+                    <TotalRatingHeaderAttraction totalMarks={ratings?.length} viewNumber={viewNumber} averageRating={averageRating}/>
+                </div>
+                {name && <HeaderAttraction setVisibleQrCode={setVisibleQrCode} isVisibleQrCode={!visibleQrCode} name={name}/>}
                 {photos?.length > 0 && <MainPhotoAttracrtion photo={photos[0].url}/>}
                 <InformationAttraction content={content}/>
                 <KeyWordsAttraction keywords={listKeyWords}/>
@@ -66,9 +98,18 @@ const AttractionBox:React.FC<AttractionBoxProps> = (
                 />}
                 {photos && <PhotoAttraction photos={photos}/>}
                 {videos && <VideoAttraction videos={videos}/>}
-                <RatingAttraction />
-                <ReviewsAttraction />
-                <div className="block-author">{uploadTime}-"author"</div>
+                {ratings && <RatingAttraction
+                    isLeaveComment={isLeaveComment}
+                    setIsLeaveComment={setIsLeaveComment}
+                    ratings={ratings}
+                    averageRating={averageRating}/>}
+                <ReviewsAttraction isLeaveComment={isLeaveComment} comments={comments} />
+                <div className="block-author">{uploadTime}</div>
+                <QrCode
+                    className={cn("qr-code", { "qr-code_active": visibleQrCode} )}
+                    value={window.location.href}
+                    // size={1000}
+                />
             </div>
             <Footer setCurrentAudioPlayerInstance={setCurrentAudioPlayerInstance} curAudio={currentAudio}/>
         </div>

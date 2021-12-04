@@ -83,7 +83,7 @@ const EditPage = () => {
     const deleteExistingPlace = () => {
         if(id) {
             deletePlace(id);
-            // history.push(RouteNames.MAIN);
+            history.push(RouteNames.MAIN);
         }
     }
 
@@ -121,10 +121,10 @@ const EditPage = () => {
                                 classes={cn(styles.btn_top, styles.save_top)}
                                 onClick={() => TryDoSomethingWithPlace(id !== undefined)}
                             >Save</Button>
-                            <Button
+                            {id !== undefined && <Button
                                 classes={cn(styles.btn_top, styles.delete_top)}
                                 onClick={() => setIsActiveDeleteModal(true)}
-                            >Delete</Button>
+                            >Delete</Button>}
                         </div>
                         <AttractionNameSection name={name} />
                         <EditorSection initialContent={content} />

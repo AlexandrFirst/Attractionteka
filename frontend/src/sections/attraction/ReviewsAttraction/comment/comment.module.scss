@@ -1,0 +1,64 @@
+.header {
+  max-width: 1000px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-top: 30px;
+}
+
+.author {
+  font-size: 20px;
+  line-height: 27px;
+}
+
+.date {
+  font-size: 18px;
+  line-height: 25px;
+  color:  rgba(0, 0, 0, 0.7);
+
+}
+
+.content {
+  position: relative;
+  width: 90%;
+  padding: 20px 50px;
+  border: 1px solid var(--main-front-color);
+  border-radius: 20px;
+  min-height: 100px;
+}
+
+
+.to_answer {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 27px;
+  color: var(--main-front-color);
+  cursor: pointer;
+  margin-right: auto;
+  padding: 15px 0 0 80px;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.reply {
+
+  &_wrapper {
+    margin-left: auto;
+    position: relative;
+    width: 80%;
+    padding-top: 0;
+  }
+  
+  &_comment {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+  }
+
+  &_section {
+    margin-left: 30px;
+    width: 70%;
+  }
+}
