@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -90,7 +91,7 @@ namespace MusicAppApi.Controllers
                 CommentTime = DateTime.Now
             };
 
-            await dataContext.Comments.AddAsync(replyComment);
+            // await dataContext.Comments.AddAsync(replyComment);
             replyComment.Place = place;
             replyComment.Author = user;
 
@@ -149,7 +150,14 @@ namespace MusicAppApi.Controllers
         [HttpGet("place/{placeId}")]
         public async Task<IActionResult> GetPlaceComments(int placeId)
         {
-            var place = await dataContext.PlaceDescriptions.Include(c => c.Comments).ThenInclude(c => c.CommentReplies).FirstOrDefaultAsync(u => u.Id == placeId);
+            var place = await dataContext.PlaceDescriptions
+                .Include(c => c.Comments)
+                .ThenInclude(c => c.CommentReplies)
+                .Include(c => c.Comments)
+                .ThenInclude(a => a.Author)
+                .FirstOrDefaultAsync(u => u.Id == placeId);
+
+
             if (place == null)
                 throw new System.Exception("No place found");
 
@@ -159,8 +167,16 @@ namespace MusicAppApi.Controllers
             }
 
             var comments = mapper.Map<List<CommentDto>>(place.Comments);
-            
-            return Ok(comments);
+            var finalComments = new List<CommentDto>();
+            comments.ForEach(c =>
+            {
+                if (c.ParentComment == null)
+                {
+                    finalComments.Add(c);
+                }
+            });
+
+            return Ok(finalComments);
         }
 
 
@@ -186,7 +202,7 @@ namespace MusicAppApi.Controllers
 
             foreach (var comment in replies)
             {
-                var commentWithReplies = await dataContext.Comments.Include(c => c.CommentReplies)
+                var commentWithReplies = await dataContext.Comments.Include(c => c.CommentReplies).Include(a => a.Author)
                                                         .FirstOrDefaultAsync(p => p.Id == comment.Id);
 
                 comment.CommentReplies = await GetReplies(commentWithReplies.CommentReplies);

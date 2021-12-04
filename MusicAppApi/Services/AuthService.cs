@@ -96,7 +96,8 @@ namespace MusicAppApi.Services
                 UserId = user.Id,
                 UserToken = token,
                 Name = user.Name,
-                Surname = user.Surname
+                Surname = user.Surname,
+                Mail = user.Mail
             };
         }
 

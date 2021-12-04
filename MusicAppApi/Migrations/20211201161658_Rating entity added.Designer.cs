@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MusicAppApi.Models;
 
 namespace MusicAppApi.Migrations
 {
     [DbContext(typeof(MyDataContext))]
-    partial class MyDataContextModelSnapshot : ModelSnapshot
+    [Migration("20211201161658_Rating entity added")]
+    partial class Ratingentityadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -41,7 +43,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 12, 1, 19, 39, 50, 454, DateTimeKind.Local).AddTicks(1503));
+                        .HasDefaultValue(new DateTime(2021, 12, 1, 18, 16, 53, 559, DateTimeKind.Local).AddTicks(6806));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -105,7 +107,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 12, 1, 19, 39, 50, 463, DateTimeKind.Local).AddTicks(4733));
+                        .HasDefaultValue(new DateTime(2021, 12, 1, 18, 16, 53, 568, DateTimeKind.Local).AddTicks(3810));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -194,19 +196,14 @@ namespace MusicAppApi.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("PlaceId")
-                        .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("float");
-
                     b.Property<int?>("UserId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("PlaceId", "UserId");
+                    b.HasIndex("PlaceId");
 
                     b.HasIndex("UserId");
 
@@ -235,7 +232,7 @@ namespace MusicAppApi.Migrations
                     b.Property<DateTime>("UploadTime")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2021, 12, 1, 19, 39, 50, 463, DateTimeKind.Local).AddTicks(3434));
+                        .HasDefaultValue(new DateTime(2021, 12, 1, 18, 16, 53, 568, DateTimeKind.Local).AddTicks(2449));
 
                     b.Property<string>("Url")
                         .HasColumnType("nvarchar(max)");
@@ -303,14 +300,12 @@ namespace MusicAppApi.Migrations
                     b.HasOne("MusicAppApi.Models.PlaceDescription", "Place")
                         .WithMany("Ratings")
                         .HasForeignKey("PlaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("MusicAppApi.Models.User", "User")
                         .WithMany("Ratings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Place");
 

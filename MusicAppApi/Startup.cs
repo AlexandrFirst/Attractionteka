@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +13,7 @@ using MusicAppApi.Entities;
 using MusicAppApi.Helpers;
 using MusicAppApi.Helpers.Email;
 using MusicAppApi.Helpers.ExceptionHandler;
+using MusicAppApi.Helpers.Extensions.RatingExtension;
 using MusicAppApi.IServices;
 using MusicAppApi.Models;
 using MusicAppApi.Services;
@@ -24,6 +26,30 @@ namespace MusicAppApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            var optionsBuilder = new DbContextOptionsBuilder<MyDataContext>();
+            optionsBuilder.UseSqlServer(Configuration.GetConnectionString("MusicAppDB"));
+
+            using (MyDataContext dbContext
+                        = new MyDataContext(optionsBuilder.Options))
+            {
+                var adminUser = dbContext.Users.FirstOrDefault(u => u.Role.Equals(UserRoles.Admin));
+                if (adminUser == null)
+                {
+                    var newUser = new User()
+                    {
+                        Mail = "root@gmail.com",
+                        IsBanned = false,
+                        Name = "admin",
+                        Password = "1q2w3e",
+                        Role = UserRoles.Admin,
+                        Surname = "admin"
+                    };
+
+                    dbContext.Users.Add(newUser);
+                    dbContext.SaveChanges();
+                }
+            }
         }
 
         public IConfiguration Configuration { get; }
@@ -69,6 +95,9 @@ namespace MusicAppApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MusicAppApi", Version = "v1" });
             });
+
+            var serviceProvider = services.BuildServiceProvider();
+            RatingExtension.Configure(serviceProvider.GetService<MyDataContext>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

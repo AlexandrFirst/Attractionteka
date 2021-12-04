@@ -19,5 +19,6 @@ namespace MusicAppApi.Models
         public bool IsBanned { get; set; }
         public HashSet<PlaceDescription> PlaceDescriptions { get; set; }
         public HashSet<Comment> Comments { get; set; }
+        public HashSet<UserPlaceRating> Ratings { get; set; }
     }
 }
