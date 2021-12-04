@@ -1,2 +1,2 @@
 # Astalavista
-The best place app ever
+Rating and some changes
