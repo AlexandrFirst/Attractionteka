@@ -81,6 +81,7 @@
 }
 
 .searchButton {
+    cursor: pointer;
   width: 16%;
   height: 38px;
   background: rgba(255, 255, 255, 0.8);

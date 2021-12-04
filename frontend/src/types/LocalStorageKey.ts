@@ -1,6 +1,7 @@
 
 
 export enum LocalStorageKey {
-    token="token",
-    nowLoginForm="nowLoginForm"
+    token="token_Attraction",
+    nowLoginForm="nowLoginForm_Attraction",
+    user="user_Attraction"
 }

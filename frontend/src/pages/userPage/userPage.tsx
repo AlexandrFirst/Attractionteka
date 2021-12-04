@@ -15,7 +15,7 @@ const UserPage = () => {
 
     return (
         <>
-            <Header/>
+            <Header />
             <div className={styles.wrapper}>
                 <Sidebar sideList={sideList} nowIndex={nowIndex} setNowIndex={setNowIndex}/>
                 {renderItem}

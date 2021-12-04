@@ -1,0 +1,29 @@
+.wrapper {
+  display: flex;
+  min-width: 280px;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.text {
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 25px;
+}
+
+.reviewNumber {
+  text-decoration: underline;
+}
+
+.star {
+
+  width: 16px;
+  height: 16px;
+
+  &_wrapper {
+    display: flex;
+    justify-content: space-between;
+    //align-items: center;
+    width: 85px;
+  }
+}

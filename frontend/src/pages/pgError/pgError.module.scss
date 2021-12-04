@@ -1,0 +1,18 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.mainMessage {
+  font-size: 72px;
+  color: var(--main-front-color);
+}
+
+.subMessage {
+  font-size: 54px;
+  color: var(--main-front-color);
+  padding-top: 30px;
+}

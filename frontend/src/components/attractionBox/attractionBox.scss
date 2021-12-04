@@ -1,4 +1,5 @@
 .body-attraction{
+    position: relative;
     width:84%;
     min-height: 3000px;
     display: flex;
@@ -11,10 +12,14 @@
 }
 
 .block-back-home{
+    display: flex;
+    justify-content: space-between;
     width: 91%;
     height: 27px;
     margin-top: 28px;
     position: relative;
+    text-decoration: none;
+    color: var(--additional-text-color);
 }
 
 .icon-home {
@@ -25,7 +30,8 @@
 .text-home {
     display: inline-block;
     position: absolute;
-    top: 50%; 
+    top: 50%;
+    left: 50px;
     transform: translate(0, -50%);
     font-family: 'Nunito Sans', sans-serif;
     font-style: normal;
@@ -35,12 +41,26 @@
     color: #656FAB;
 }
 
+
+.qr-open {
+    cursor: pointer;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.rate-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+}
+
 .block-author {
     margin-top: 40px;
     width:90%;
     height: 20px;
     margin-bottom: 140px;
-    background-color: firebrick;
+    //background-color: firebrick;
     text-align: right;
     font-family: 'Nunito Sans', sans-serif;
     font-style: normal;
@@ -49,4 +69,18 @@
     line-height: 25px;
     color: #000000;
     opacity: 0.5;
+}
+
+.qr-code {
+    visibility: hidden;
+    opacity: 0;
+    transition: .4s all;
+    position: absolute;
+    top: 250px;
+    right: 30px;
+
+    &_active {
+        opacity: 1;
+        visibility: visible;
+    }
 }

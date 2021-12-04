@@ -1,5 +1,7 @@
 import React from 'react';
 import styles from './personalInfoItem.module.scss';
+import Input from "../../input/input";
+import useInput from "../../../hooks/useInput";
 
 export interface PersonalInfoItemProps {
     criterion: string;
@@ -7,10 +9,13 @@ export interface PersonalInfoItemProps {
 }
 
 const PersonalInfoItem:React.FC<PersonalInfoItemProps>= ({criterion, value}) => {
+    const inputValue = useInput(value);
+
+
     return (
         <>
             <h5 className={styles.criterion}>{criterion}</h5>
-            <h5 className={styles.value}>{value}</h5>
+            <Input {...inputValue} classnames={styles.value} />
         </>
     );
 };

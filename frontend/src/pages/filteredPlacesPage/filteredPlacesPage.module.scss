@@ -1,0 +1,10 @@
+.wrapper {
+  //width: 1500px;
+  margin: 0 auto;
+  padding-top: 20px;
+  cursor: pointer;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  display: grid;
+  //justify-content: space-between;
+}

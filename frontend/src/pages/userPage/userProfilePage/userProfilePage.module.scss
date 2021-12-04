@@ -1,4 +1,5 @@
 .wrapper {
+  position: relative;
   width: 500px;
   margin: 0 auto;
   display: flex;
@@ -7,13 +8,13 @@
 }
 
 .caption {
-  padding: 50px 0 25px 0;
+  padding: 90px 0 25px 0;
   font-weight: 700;
   font-size: 26px;
   line-height: 35px;
 }
 
-.img {
+.img_wrapper {
   width: 100%;
   height: fit-content;
   border-radius: 15px;
@@ -21,9 +22,13 @@
 }
 
 .btn {
-  margin-top: 30px;
+  //margin-bottom: 25px;
 }
 
 .personal_info {
 
+}
+
+.error {
+  background-color: red;
 }

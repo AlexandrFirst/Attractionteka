@@ -1,0 +1,39 @@
+.block {
+  width: 100%;
+  min-height: 300px;
+  background: #9BA2CF;
+  /* Text Black/Black 20 */
+  display: block;
+
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.link {
+  text-decoration: none;
+  color: var(--additional-text-color);
+}
+
+.header {
+  text-align: center;
+  padding: 15px;
+  font-size: 36px;
+}
+
+.img_wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.shortDesc {
+  text-align: left;
+  padding: 35px;
+  font-size: 20px;
+}

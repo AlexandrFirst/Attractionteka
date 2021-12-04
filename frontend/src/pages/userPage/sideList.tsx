@@ -1,6 +1,10 @@
 import React from "react";
 import UserProfilePage from "./userProfilePage/userProfilePage";
 import UserChangePass from "./userChangePassPage/userChangePass";
+import BlockUsersPage from "../blockUsersPage/blockUsersPage";
+import EditUserProfilePage from "./editUserProfilePage/editUserProfilePage";
+
+
 
 export const sideList = [
     "User profile",
@@ -9,6 +13,7 @@ export const sideList = [
     "Change password",
     "Settings",
     "Log out",
+    "Block users",
 ];
 
 export const reactElements: React.ReactElement[] = [
@@ -18,4 +23,5 @@ export const reactElements: React.ReactElement[] = [
     <UserChangePass />,
     <></>,
     <></>,
+    <BlockUsersPage/>,
 ];

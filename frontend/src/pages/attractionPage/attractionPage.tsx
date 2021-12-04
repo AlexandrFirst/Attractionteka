@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './attractionPage.css'
 import AttractionBox from '../../components/attractionBox/attractionBox'
 import Header from "../../components/header/header";
@@ -7,6 +7,7 @@ import {useActions} from "../../hooks/useActions";
 import {useParams} from "react-router-dom";
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import Spinner from "../../components/spinner/spinner";
+import {UserService} from "../../services/user-service";
 
 export interface AttractionPageProps {
 
@@ -15,16 +16,24 @@ export interface AttractionPageProps {
 const AttractionPage:React.FC<AttractionPageProps> = () => {
 
     const {data, error, isLoading} = useTypedSelector(state => state.place);
-    const {getPlace} = useActions();
+    const {data: comments} = useTypedSelector(state => state.comment);
+    const {getPlace, getComments} = useActions();
     const params = useParams<{ id: string }>();
+
+    const [mark, setMark] = useState(0);
+
     //
-    React.useEffect(() => {
+    useEffect(() => {
         const id = Number(params.id);
         getPlace(id);
+        getComments(id);
+        UserService.getUserMarkOfPlace(id)
+            .then(res => setMark(res.data.mark))
     }, [])
 
     React.useEffect(() => {
-    }, [data])
+        console.log("COMMENTS....", comments);
+    }, [comments])
 
     if(isLoading) {
         return <Spinner classes="spinner"/>
@@ -36,7 +45,7 @@ const AttractionPage:React.FC<AttractionPageProps> = () => {
     return (
         <div className="boxContainer">
             <Header/>
-            <AttractionBox data={data}/>
+            <AttractionBox comments={comments} mark={mark} placeData={data}/>
             <Footer/>
         </div>
     );

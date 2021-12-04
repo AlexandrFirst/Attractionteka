@@ -1,5 +1,5 @@
-import {IMediaFileDTO} from "../admin/IMediaFileDTO";
 import {IMediaResponse} from "../admin/IMediaResponse";
+import {IRating} from "./IRating";
 
 
 export interface IPlaceResponse {
@@ -12,27 +12,21 @@ export interface IPlaceResponse {
     photos: IMediaResponse[];
     videos: IMediaResponse[];
     audios: IMediaResponse[];
-
-    // public int Id { get; set; }
-    // public string Content { get; set; }
-    // public string Name { get; set; }
-    // public string ShortDescription { get; set; }
-    // public List<string> ListKeyWords { get; set; }
-    // public DateTime UploadTime { get; set; }
-    // public HashSet<MediaFileDto> Photos { get; set; }
-    // public HashSet<MediaFileDto> Videos { get; set; }
-    // public HashSet<MediaFileDto> Audios { get; set; }
+    averageRating: number;
+    viewNumber: number;
+    ratings: IRating[];
 }
 
 
-export interface idValueKeyWords {
-    $id: number;
-    $values: string[];
-}
 
-export interface idValueMedia {
-    $id: number;
-    $values: IMediaResponse[];
-}
+// export interface idValueKeyWords {
+//     $id: number;
+//     $values: string[];
+// }
+//
+// export interface idValueMedia {
+//     $id: number;
+//     $values: IMediaResponse[];
+// }
 
 

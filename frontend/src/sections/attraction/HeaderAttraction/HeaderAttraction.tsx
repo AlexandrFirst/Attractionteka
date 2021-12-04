@@ -6,6 +6,8 @@ import {useTypedSelector} from "../../../hooks/useTypedSelector";
 
 export interface HeaderAttractionProps {
     name: string;
+    setVisibleQrCode: Function;
+    isVisibleQrCode: boolean
 }
 
 const HeaderAttraction:React.FC<HeaderAttractionProps> = (props) => {
