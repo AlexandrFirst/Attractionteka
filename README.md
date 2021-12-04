@@ -1,2 +1,2 @@
 # Astalavista
-Rating
+Rating and some changes
