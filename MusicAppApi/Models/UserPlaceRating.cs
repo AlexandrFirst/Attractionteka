@@ -1,3 +1,5 @@
+using System;
+
 namespace MusicAppApi.Models
 {
     public class UserPlaceRating
