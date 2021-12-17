@@ -11,6 +11,7 @@ namespace MusicAppApi.DTOProfile
             CreateMap<InputUserDto, User>();
             CreateMap<UpdateUserInfo, User>();
             CreateMap<User, UserDto>().ReverseMap();
+            CreateMap<UserVisitHistory, UserVisistHistoryDto>();
         }
     }
 }

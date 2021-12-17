@@ -155,6 +155,9 @@ namespace MusicAppApi.Services
             var rating = await dataContext.Ratings.Include(u => u.User)
                                                 .Include(p => p.Place)
                                                 .FirstOrDefaultAsync(r => r.User.Id == userId && r.Place.Id == ratingInput.PlaceId);
+            
+            await AddHistotyRecord(user, place);
+
             if (rating != null)
             {
                 rating.Rating = ratingInput.Rating;
@@ -172,6 +175,30 @@ namespace MusicAppApi.Services
 
             await dataContext.SaveChangesAsync();
             return await GetPlaceById(ratingInput.PlaceId);
+        }
+
+        private async Task AddHistotyRecord(User user, PlaceDescription place)
+        {
+            var currentPlaceUserVisitHistory = (await dataContext.UsersHistory
+                .Include(u => u.User)
+                .Include(p => p.VisitedPlace).ToListAsync())
+                .Where(h =>
+                    (DateTime.Now - h.VisitTime).Minutes > 10 &&
+                    h.User.Id == user.Id &&
+                    h.VisitedPlace.Id == place.Id).ToList();
+
+            if (currentPlaceUserVisitHistory.Count == 0)
+            {
+                var visitPlaceRecord = new UserVisitHistory()
+                {
+                    User = user,
+                    VisitedPlace = place,
+                    VisitTime = DateTime.Now
+                };
+                await dataContext.UsersHistory.AddAsync(visitPlaceRecord);
+            }
+
+            await dataContext.SaveChangesAsync();
         }
 
         public async Task<PlaceDto> GetPlaceById(int placeId, bool b = false)
@@ -254,16 +281,40 @@ namespace MusicAppApi.Services
 
         public async Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList)
         {
+            var placeToReturn = new List<PlaceDescription>();
+
             var places = dataContext.PlaceDescriptions.Include(p => p.Photos)
                                                        .Include(a => a.Audios)
                                                        .Include(v => v.Videos)
                                                        .Include(au => au.Author)
-                                                       .Include(r => r.Ratings)
-                                                       .Filter(filtersList);
+                                                       .Include(r => r.Ratings);
+            placeToReturn = await places.ToListAsync();
+
+            if (filtersList.SortByRating)
+            {
+                var filteredPLacesByRating = placeToReturn.OrderBy(p =>
+                {
+                    var allRatings = p.Ratings;
+                    if (allRatings.Count == 0)
+                        return 0;
+                    return allRatings.Select(r => r.Rating).Average();
+                });
+                placeToReturn = filteredPLacesByRating.ToList();
+            }
+
+            if (filtersList.SortByDateTime)
+            {
+                var filteredPLacesByTime = placeToReturn.OrderBy(p =>
+                {
+                    return p.UploadTime;
+                });
+                placeToReturn = filteredPLacesByTime.ToList();
+            }
+
 
             var pagedParams = filtersList as PageParams;
 
-            var filteredList = await PagedList<PlaceDescription>.CreateAsync(places, pagedParams.PageNumber, pagedParams.PageSize);
+            var filteredList = PagedList<PlaceDescription>.Create(placeToReturn, pagedParams.PageNumber, pagedParams.PageSize);
 
             if (filtersList.SortByPopularity)
             {

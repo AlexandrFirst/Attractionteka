@@ -53,6 +53,8 @@ namespace MusicAppApi.Controllers
                 CommentTime = DateTime.Now
             };
 
+            await AddHistotyRecord(user, place);
+
             await dataContext.Comments.AddAsync(comment);
             await dataContext.SaveChangesAsync();
 
@@ -63,6 +65,8 @@ namespace MusicAppApi.Controllers
 
             return Ok(mapper.Map<CommentDto>(comment));
         }
+
+
 
         [HttpPost("reply/{commentId}")]
         public async Task<IActionResult> ReplyComment(int commentId, [FromBody] CreateCommentDto commentData)
@@ -92,6 +96,8 @@ namespace MusicAppApi.Controllers
             };
 
             // await dataContext.Comments.AddAsync(replyComment);
+            await AddHistotyRecord(user, place);
+
             replyComment.Place = place;
             replyComment.Author = user;
 
@@ -212,5 +218,28 @@ namespace MusicAppApi.Controllers
 
         }
 
+        private async Task AddHistotyRecord(User user, PlaceDescription place)
+        {
+            var currentPlaceUserVisitHistory = (await dataContext.UsersHistory
+                .Include(u => u.User)
+                .Include(p => p.VisitedPlace).ToListAsync())
+                .Where(h =>
+                    (DateTime.Now - h.VisitTime).Minutes > 10 &&
+                    h.User.Id == user.Id &&
+                    h.VisitedPlace.Id == place.Id).ToList();
+
+            if (currentPlaceUserVisitHistory.Count == 0)
+            {
+                var visitPlaceRecord = new UserVisitHistory()
+                {
+                    User = user,
+                    VisitedPlace = place,
+                    VisitTime = DateTime.Now
+                };
+                await dataContext.UsersHistory.AddAsync(visitPlaceRecord);
+            }
+
+            await dataContext.SaveChangesAsync();
+        }
     }
 }

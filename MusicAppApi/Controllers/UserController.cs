@@ -185,5 +185,15 @@ namespace MusicAppApi.Controllers
                 return Ok(new { mark = rating.Rating });
             }
         }
+
+        [Authorize]
+        [HttpGet("history")]
+        public async Task<IActionResult> GetUserHistory()
+        {
+            var userId = userContext.GetUserContext().Id;
+            
+            var history = await userService.GetUserHistory(userId);
+            return Ok(history);
+        }
     }
 }

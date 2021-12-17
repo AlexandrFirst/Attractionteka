@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -128,6 +130,18 @@ namespace MusicAppApi.Services
 
             return mapper.Map<UserDto>(user);
 
+        }
+
+        public async Task<List<UserVisistHistoryDto>> GetUserHistory(int userId)
+        {
+            List<UserVisitHistory> history = await context.UsersHistory
+                .Include(u => u.User)
+                .Include(p => p.VisitedPlace)
+                .Where(u => u.User.Id == userId)
+                .OrderByDescending(t => t.VisitTime)
+                .ToListAsync();
+
+            return mapper.Map<List<UserVisistHistoryDto>>(history);
         }
     }
 }

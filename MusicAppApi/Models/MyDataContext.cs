@@ -13,6 +13,7 @@ namespace MusicAppApi.Models
         public virtual DbSet<PlaceDescription> PlaceDescriptions { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<UserPlaceRating> Ratings { get; set; }
+        public virtual DbSet<UserVisitHistory> UsersHistory { get; set; }
 
         public MyDataContext(DbContextOptions<MyDataContext> options) : base(options)
         {
@@ -29,6 +30,7 @@ namespace MusicAppApi.Models
             modelBuilder.ApplyConfiguration(new PlaceDescribtionConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
             modelBuilder.ApplyConfiguration(new RatingConfiguration());
+            modelBuilder.ApplyConfiguration(new UserHistoryConfiguration());
         }
     }
 }

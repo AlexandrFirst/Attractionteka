@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using MusicAppApi.DTOs;
 using MusicAppApi.Entities;
@@ -15,5 +16,6 @@ namespace MusicAppApi.IServices
         Task<UserDto> RestorePassword(RestorePasswordDto updatePasswordDto, string token);
         Task GenerateToken(int userId);
         Task<bool> IsTokenValid(int userId, string token);
+        Task<List<UserVisistHistoryDto>> GetUserHistory(int userId);
     }
 }

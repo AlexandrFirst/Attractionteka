@@ -7,6 +7,7 @@ namespace MusicAppApi.Models
         public User()
         {
             PlaceDescriptions = new HashSet<PlaceDescription>();
+            PlaceVisits = new HashSet<UserVisitHistory>();
             Comments = new HashSet<Comment>();
         }
 
@@ -20,5 +21,6 @@ namespace MusicAppApi.Models
         public HashSet<PlaceDescription> PlaceDescriptions { get; set; }
         public HashSet<Comment> Comments { get; set; }
         public HashSet<UserPlaceRating> Ratings { get; set; }
+        public HashSet<UserVisitHistory> PlaceVisits { get; set; }
     }
 }

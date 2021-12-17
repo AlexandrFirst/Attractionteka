@@ -22,10 +22,10 @@ namespace MusicAppApi.Helpers.Extensions.Pagination
             this.AddRange(items);
         }
 
-        public static async Task<PagedList<T>> CreateAsync(IQueryable<T> source, int pageNumber, int pageSize)
+        public static PagedList<T> Create(IEnumerable<T> source, int pageNumber, int pageSize)
         {
             var count = source.Count();
-            var items = await source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = source.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
             return new PagedList<T>(items, count, pageNumber, pageSize);
         }
     }
