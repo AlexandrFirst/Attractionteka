@@ -10,4 +10,6 @@ export interface PlaceFilterDto {
     toRating?: number;
     sortByPopularity?: boolean;
     isDescending?: boolean;
+    sortByRating?: boolean;
+    sortByDateTime?: boolean
 }

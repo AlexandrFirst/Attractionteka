@@ -4,6 +4,8 @@ import iconsearch from './img/iconsearch.png'
 import useInput from "../../hooks/useInput";
 import {useActions} from "../../hooks/useActions";
 import {PlaceFilterDto} from "../../models/place/PlaceFilterDto";
+import {useHistory} from "react-router-dom";
+import {RouteNames} from "../../routes";
 
 export interface SearchProps {
     flag_search: boolean;
@@ -12,6 +14,7 @@ export interface SearchProps {
 const Search:React.FC<SearchProps> = (props) => {
     const searchValue = useInput('');
     const {searchPlaces} = useActions();
+    const history = useHistory()
 
     const searchAttractions = () => {
         const filteredPlace: PlaceFilterDto = {
@@ -20,11 +23,14 @@ const Search:React.FC<SearchProps> = (props) => {
         searchPlaces(filteredPlace);
     }
 
+    const goToFilterPage = () => {
+        history.push(RouteNames.FILTERED_PLACES)
+    }
 
     if (props.flag_search) {
         return (
             <div className="search">
-                <input {...searchValue} type="text" className="searchTerm" placeholder="Search" />
+                <input {...searchValue} type="text" className="searchTerm" placeholder="Search" onFocus={goToFilterPage}/>
                 <button
                     onClick={searchAttractions}
                     type="submit"

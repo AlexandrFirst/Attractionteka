@@ -1,0 +1,48 @@
+.wrapper {
+  position: relative;
+  min-height: 100vh;
+}
+
+.img {
+  &_wrapper {
+    width: 100%;
+    height: 100vh;
+  }
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.intyre_text_wrapper {
+  position: absolute;
+  top: 30%;
+  left: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-weight: 900;
+  font-size: 72px;
+  line-height: 98px;
+  color: var(--main-text-color);
+}
+
+.subtitle {
+  margin-top: 30px;
+  font-weight: 500;
+  font-size: 36px;
+  line-height: 49px;
+  color: var(--main-text-color);
+}
+
+.slogan {
+  margin-top: 40px;
+  padding: 20px;
+  border: 1px solid var(--main-text-color);
+  font-weight: 500;
+  font-size: 30px;
+  line-height: 41px;
+  color: var(--main-text-color);
+}
