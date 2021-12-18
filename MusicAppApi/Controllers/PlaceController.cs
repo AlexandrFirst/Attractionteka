@@ -65,13 +65,8 @@ namespace MusicAppApi.Controllers
         {
             var places = await placeService.GetPlacesByFilter(placeFilter);
            
-            Response.AddPagination(places.CurrentPage, places.PageSize, places.TotalCount, places.TotalPages);
 
-            var response = mapper.Map<List<PlaceDto>>(places as List<PlaceDescription>);
-            for (int i = 0; i < places.Count; i++)
-            {
-                response[i].AverageRating = await places[i].CalculatePlaceRating();
-            }
+            var response = mapper.Map<List<PlaceDto>>(places);
 
             return Ok(response);
         }
