@@ -12,7 +12,7 @@ namespace MusicAppApi.IServices
         Task DeletePlace(int placeId);
         Task<PlaceDto> GetPlaceById(int placeId, bool b = false);
         Task<PlaceDto> UpdatePlace(PlaceDto updatedPlaceDto);
-        Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList);
+        Task<List<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList);
         Task<PlaceDto> UpdatePlaceRating(RatingInputDto ratingInput, int userId);
     }
 }

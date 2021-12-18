@@ -279,7 +279,7 @@ namespace MusicAppApi.Services
 
         }
 
-        public async Task<PagedList<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList)
+        public async Task<List<PlaceDescription>> GetPlacesByFilter(PlaceFilterDto filtersList)
         {
             var placeToReturn = new List<PlaceDescription>();
 
@@ -312,23 +312,8 @@ namespace MusicAppApi.Services
             }
 
 
-            var pagedParams = filtersList as PageParams;
-
-            var filteredList = PagedList<PlaceDescription>.Create(placeToReturn, pagedParams.PageNumber, pagedParams.PageSize);
-
-            if (filtersList.SortByPopularity)
-            {
-                if (filtersList.IsDescending)
-                {
-
-                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderByDescending(async u => await u.CalculatePlaceRating());
-                }
-                else
-                {
-                    filteredList = (PagedList<PlaceDescription>)filteredList.OrderBy(async u => await u.CalculatePlaceRating());
-                }
-            }
-            return filteredList;
+         
+            return placeToReturn;
         }
     }
 }
