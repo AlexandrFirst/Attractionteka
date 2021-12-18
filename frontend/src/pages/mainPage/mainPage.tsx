@@ -32,7 +32,7 @@ const MainPage = () => {
     //     Promise.resolve(PlaceService.getPlaces({ sortByRating: true }))
     //             .then((places) => {
     //                 console.log("PLACES",places)
-    //                 setPopularPlaces(places.data)
+    //                 setPopularPlaces(places.data.reverse())
     //             })
     //
     //         .then(() => {
