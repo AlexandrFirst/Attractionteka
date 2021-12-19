@@ -137,6 +137,7 @@ namespace MusicAppApi.Services
             List<UserVisitHistory> history = await context.UsersHistory
                 .Include(u => u.User)
                 .Include(p => p.VisitedPlace)
+                .ThenInclude(r => r.Ratings)
                 .Where(u => u.User.Id == userId)
                 .OrderByDescending(t => t.VisitTime)
                 .ToListAsync();
