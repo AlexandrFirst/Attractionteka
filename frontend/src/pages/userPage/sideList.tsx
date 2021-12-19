@@ -3,6 +3,8 @@ import UserProfilePage from "./userProfilePage/userProfilePage";
 import UserChangePass from "./userChangePassPage/userChangePass";
 import BlockUsersPage from "../blockUsersPage/blockUsersPage";
 import EditUserProfilePage from "./editUserProfilePage/editUserProfilePage";
+import VisitHistory from "../visitHistory/VisitHistory";
+
 
 
 
@@ -18,7 +20,7 @@ export const sideList = [
 
 export const reactElements: React.ReactElement[] = [
     <UserProfilePage />,
-    <></>,
+    <VisitHistory />,
     <></>,
     <UserChangePass />,
     <></>,

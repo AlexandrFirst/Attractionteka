@@ -10,7 +10,7 @@ import {RouteNames} from "../../routes";
 export interface PlaceCardProps {
     place: IPlaceResponse
     width?: number | string
-    viewRating: boolean
+    viewRating?: boolean
 }
 
 const PlaceCard:FC<PlaceCardProps> = ({ place, width, viewRating }):ReactElement => {

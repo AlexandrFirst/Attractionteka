@@ -5,6 +5,7 @@ import useInput from "../../hooks/useInput";
 import Input from "../input/input";
 import {useActions} from "../../hooks/useActions";
 import {useParams} from "react-router-dom";
+import {LocalStorageKey} from "../../types/LocalStorageKey";
 
 export interface PersonalInfoListProps {
     userInfo: UserDTO;
@@ -33,7 +34,7 @@ const PersonalInfoList:React.FC<PersonalInfoListProps> = (
     const {id} = useParams<{id: string}>();
 
     React.useEffect(() => {
-        const userStr = localStorage.getItem("user");
+        const userStr = localStorage.getItem(LocalStorageKey.user);
         const userObjFromLocalStorage = userStr && JSON.parse(userStr);
         console.log("userObj... 1 time", userObjFromLocalStorage);
 

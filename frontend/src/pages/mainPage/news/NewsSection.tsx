@@ -15,7 +15,7 @@ const NewsSection:FC<NewsSectionProps> = ({}):ReactElement => {
 
     useEffect(() => {
         Promise.resolve(PlaceService.getPlaces({ sortByDateTime: true }))
-            .then(places => setNewPlaces(places.data))
+            .then(places => setNewPlaces(places.data.slice(0, 10)))
     }, [])
 
     return (
@@ -24,7 +24,7 @@ const NewsSection:FC<NewsSectionProps> = ({}):ReactElement => {
             <ul className={styles.news_list_wrapper}>
                 {newPlaces.map(place =>
                     <li key={place.id}>
-                        <PlaceCard viewRating place={place} />
+                        <PlaceCard place={place} />
                     </li>
                 )}
             </ul>

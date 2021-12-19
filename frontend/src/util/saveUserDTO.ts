@@ -5,7 +5,7 @@ import {ILoginResponse} from "../models/auth/ILoginResponse";
 export const saveUserDTO = (userResponse: IRegisterResponse | ILoginResponse): UserDTO => {
     const newUser: UserDTO = {} as UserDTO;
 
-    newUser.id = userResponse.id || 22;
+    newUser.id = userResponse.id;
     newUser.name = userResponse.name;
     newUser.surname = userResponse.surname;
     newUser.mail = userResponse.mail;

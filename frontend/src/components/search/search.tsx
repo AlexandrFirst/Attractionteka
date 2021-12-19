@@ -8,7 +8,7 @@ import {useHistory} from "react-router-dom";
 import {RouteNames} from "../../routes";
 
 export interface SearchProps {
-    flag_search: boolean;
+    flag_search?: boolean;
 }
 
 const Search:React.FC<SearchProps> = (props) => {
