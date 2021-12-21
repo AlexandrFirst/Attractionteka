@@ -58,7 +58,7 @@ const AttractionBox:React.FC<AttractionBoxProps> = (
         comments
     }) => {
 
-    const [currentAudio, setCurrentAudio] = useState(-1);
+    const [currentAudio, setCurrentAudio] = useState('');
     const [currentAudioPlayerInstance, setCurrentAudioPlayerInstance] = useState<ReactJkMusicPlayerInstance | null>();
     const [visibleQrCode, setVisibleQrCode] = useState(false);
     const [averageRating, setAverageRating] = useState(0);
@@ -94,7 +94,7 @@ const AttractionBox:React.FC<AttractionBoxProps> = (
                     currentAudio={currentAudio}
                     setCurrentAudio={setCurrentAudio}
                     audios={audios}
-                    currentAudioPlayerInstance={currentAudioPlayerInstance}
+                    // currentAudioPlayerInstance={currentAudioPlayerInstance}
                 />}
                 {photos && <PhotoAttraction photos={photos}/>}
                 {videos && <VideoAttraction videos={videos}/>}

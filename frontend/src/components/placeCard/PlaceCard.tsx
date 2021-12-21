@@ -22,7 +22,7 @@ const PlaceCard:FC<PlaceCardProps> = ({ place, width, viewRating }):ReactElement
                     <li>
                         <p className={styles.star_img_wrapper}><img className={styles.star_img} src={star} alt="star"/></p>
                     </li>
-                    <li><p className={styles.rating}>{util.calcAverage(place.ratings)}</p></li>
+                    <li><p className={styles.rating}>{util.calcAverage(place.ratings).toString().substring(0, 4)}</p></li>
                     <li><p className={styles.view_number}>({place.viewNumber})</p></li>
                 </ul>}
             <p className={styles.img_wrapper}>

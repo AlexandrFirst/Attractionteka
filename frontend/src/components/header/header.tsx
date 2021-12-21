@@ -24,24 +24,18 @@ const Header:FC<HeaderProps> = (props) => {
 
 
     const {user} = useTypedSelector(state => state.auth)
-    console.log(user)
     const [userDataState, setUserDataState] = useState<UserDTO>({} as UserDTO)
 
     useEffect(() => {
         const userFromStorage = localStorage.getItem(LocalStorageKey.user);
         const user = userFromStorage && JSON.parse(userFromStorage)
-        console.log("riehfuireher", user)
         setUser(user)
     }, [])
 
     useEffect(() => {
         setUserDataState(user)
-        console.log("USER DATA NAHUI",user)
     }, [user])
 
-    useEffect(() => {
-        console.log("USER STATE NAHUI",userDataState)
-    }, [userDataState])
 
 
     return (
@@ -52,7 +46,7 @@ const Header:FC<HeaderProps> = (props) => {
             </Link>
             <Search flag_search={props.flag_search}/>
             <div className="icon-profile">
-                <Link to={RouteNames.USER}>
+                <Link to={RouteNames.LOGIN}>
                     <img src={iconprofile} alt="error"/>
                 </Link>
             </div>

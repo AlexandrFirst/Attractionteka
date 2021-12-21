@@ -26,7 +26,7 @@ const TotalRatingHeaderAttraction:FC<TotalRatingHeaderAttractionProps> = (
     return (
         <div className={styles.wrapper}>
             <img src={starIcon} alt="star-rating"/>
-            <p className={styles.text}>{averageRating}</p>
+            <p className={styles.text}>{averageRating.toFixed(1)}</p>
             <div className={styles.star_wrapper}>
                 {util.renderRatingStars(possibleRatings, averageRating)}
             </div>

@@ -50,18 +50,18 @@ const MainPage = () => {
                     <PopularAttractions popularPlaces={popularPlaces} />
                     <NewsSection newPlaces={newPlaces} />
 
-                    <ul>
-                        <li><Link to={RouteNames.LOGIN}>To Login page</Link></li>
-                        <br/>
-                        <li><Link to={RouteNames.EDIT}>To EDIT page</Link></li>
-                        <br/>
-                        <li><div className={styles.link} onClick={() => openPageDynamicId(RouteNames.ATTRACTION,21)}>To ATTRACTION page</div></li>
-                        <br/>
-                        <li><div className={styles.link} onClick={goToUserCabinet}>To USER PERSONAL CABINET</div></li>
-                        <br/>
-                        <li><Link to={RouteNames.FILTERED_PLACES}>To Filtered Places</Link></li>
+                    {/*<ul>*/}
+                    {/*    <li><Link to={RouteNames.LOGIN}>To Login page</Link></li>*/}
+                    {/*    <br/>*/}
+                    {/*    <li><Link to={RouteNames.EDIT}>To EDIT page</Link></li>*/}
+                    {/*    <br/>*/}
+                    {/*    <li><div className={styles.link} onClick={() => openPageDynamicId(RouteNames.ATTRACTION,21)}>To ATTRACTION page</div></li>*/}
+                    {/*    <br/>*/}
+                    {/*    <li><div className={styles.link} onClick={goToUserCabinet}>To USER PERSONAL CABINET</div></li>*/}
+                    {/*    <br/>*/}
+                    {/*    <li><Link to={RouteNames.FILTERED_PLACES}>To Filtered Places</Link></li>*/}
 
-                    </ul>
+                    {/*</ul>*/}
                 </Container>
             </main>
             {/*<Footer/>*/}

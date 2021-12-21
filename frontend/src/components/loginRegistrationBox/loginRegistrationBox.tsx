@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 import {AccountContext} from "../accountContext";
 import { motion } from "framer-motion";
 
@@ -10,6 +11,7 @@ import {LocalStorageKey} from "../../types/LocalStorageKey";
 
 import logo from '../../img/Attractionteka.png';
 import {useActions} from "../../hooks/useActions";
+import {RouteNames} from "../../routes";
 
 export const enum SignPageList {
     LOGIN="login",
@@ -80,11 +82,13 @@ const LoginRegistrationBox:React.FC = () => {
 
     return (
         <AccountContext.Provider value={contextValue}>
-            <img
-                src={logo}
-                alt="Logo"
-                className={styles.logo}
-            />
+            <Link to={RouteNames.MAIN}>
+                <img
+                    src={logo}
+                    alt="Logo"
+                    className={styles.logo}
+                />
+            </Link>
             <div className={styles.boxContainer}>
                 <div className={styles.topContainer}>
                     <motion.div

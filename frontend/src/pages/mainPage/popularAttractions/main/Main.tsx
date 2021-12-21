@@ -23,8 +23,8 @@ const Main:FC<MainProps> = ({}):ReactElement => {
     return (
         <ul className={styles.wrapper}>
             {popularPlaces.map(place =>
-                <li key={place.id} >
-                    <PlaceCard viewRating place={place} />
+                <li key={place.id} className={styles.card} >
+                    <PlaceCard width={220} viewRating place={place} />
                 </li>
             )}
         </ul>

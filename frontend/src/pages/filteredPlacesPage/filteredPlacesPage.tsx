@@ -12,7 +12,7 @@ const FilteredPlacesPage = () => {
         <>
             <Header flag_search/>
             <div className={styles.wrapper}>
-                {filteredPlaces.length === 0 ? <h1>NO SEARCH NAME AVAILABLE</h1>
+                {filteredPlaces.length === 0 ? <h1 className={styles.not_found}>NO SEARCH NAME AVAILABLE</h1>
                 : filteredPlaces.map(place => <FilteredPlaces key={place.id} filteredPlace={place}/>)}
             </div>
         </>

@@ -29,11 +29,11 @@ const NewsSection:FC<NewsSectionProps> = ({}):ReactElement => {
                 )}
             </ul>
 
-            <div className={styles.btn_wrapper}>
-                <button className={styles.btn}>
-                    View all
-                </button>
-            </div>
+            {/*<div className={styles.btn_wrapper}>*/}
+            {/*    <button className={styles.btn}>*/}
+            {/*        View all*/}
+            {/*    </button>*/}
+            {/*</div>*/}
         </section>
     );
 };
