@@ -183,7 +183,7 @@ namespace MusicAppApi.Services
                 .Include(u => u.User)
                 .Include(p => p.VisitedPlace).ToListAsync())
                 .Where(h =>
-                    (DateTime.Now - h.VisitTime).Minutes > 10 &&
+                    (DateTime.Now - h.VisitTime).Minutes < 10 &&
                     h.User.Id == user.Id &&
                     h.VisitedPlace.Id == place.Id).ToList();
 
