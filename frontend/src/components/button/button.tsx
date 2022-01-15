@@ -8,7 +8,7 @@ export interface ButtonPops extends React.DetailedHTMLProps<React.ButtonHTMLAttr
     color?: "green" | "red" | "light-blue";
 }
 
-const Button:React.FC<ButtonPops> = (props,) => {
+const Button:React.FC<ButtonPops> = (props, {classes}) => {
     return (
         <button className={cn(styles.button, props.classes, {
             [styles.green]: props.color === "green",

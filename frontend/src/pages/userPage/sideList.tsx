@@ -11,19 +11,13 @@ import VisitHistory from "../visitHistory/VisitHistory";
 export const sideList = [
     "User profile",
     "Attraction visit history",
-    "My reviews",
     "Change password",
-    "Settings",
-    "Log out",
     "Block users",
 ];
 
 export const reactElements: React.ReactElement[] = [
     <UserProfilePage />,
     <VisitHistory />,
-    <></>,
     <UserChangePass />,
-    <></>,
-    <></>,
     <BlockUsersPage/>,
 ];

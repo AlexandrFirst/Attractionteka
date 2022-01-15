@@ -15,7 +15,7 @@ const NewsSection:FC<NewsSectionProps> = ({}):ReactElement => {
 
     useEffect(() => {
         Promise.resolve(PlaceService.getPlaces({ sortByDateTime: true }))
-            .then(places => setNewPlaces(places.data.slice(0, 10)))
+            .then(places => setNewPlaces(places.data.reverse().slice(0, 10)))
     }, [])
 
     return (
