@@ -32,7 +32,7 @@ namespace Astalavista.IntegrationTests
         public async Task RegisterUser()
         {
             //Given
-            var registerInput = new NativeUserRegisterDto()
+            var registerInput = new InputUserDto()
             {
                 Mail = "test2@mail.com",
                 Name = "Alex2",

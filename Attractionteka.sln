@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33122.133
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Attractionteka.Backend", "Attractionteka.Backend\Attractionteka.Backend.csproj", "{2A2B669C-43C5-4919-B41E-49882D7D218A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Attractionteka.IntegrationTests", "Attractionteka.IntegrationTests\Attractionteka.IntegrationTests.csproj", "{E6291D86-77BF-429C-AE46-A6584F60F0BC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A2B669C-43C5-4919-B41E-49882D7D218A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A2B669C-43C5-4919-B41E-49882D7D218A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A2B669C-43C5-4919-B41E-49882D7D218A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A2B669C-43C5-4919-B41E-49882D7D218A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6291D86-77BF-429C-AE46-A6584F60F0BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6291D86-77BF-429C-AE46-A6584F60F0BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6291D86-77BF-429C-AE46-A6584F60F0BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6291D86-77BF-429C-AE46-A6584F60F0BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {23519973-2025-4255-9824-DEAC1104525A}
+	EndGlobalSection
+EndGlobal
