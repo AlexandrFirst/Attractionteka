@@ -7,7 +7,7 @@
 /.vscode
 /.idea
 .env
-
+/.vs
 # testing
 /coverage
 

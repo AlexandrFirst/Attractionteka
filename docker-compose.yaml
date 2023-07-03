@@ -1,0 +1,40 @@
+version: '3.9'
+services:
+  sqldb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      - SA_PASSWORD=MySecurePassword
+      - ACCEPT_EULA=Y
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-Usa", "-PMySecurePassword", "-Q", "select 1"]
+      interval: 20s
+      retries: 20
+    volumes:
+      - './db_volume/_data:/var/opt/mssql/data'
+      - './db_volume/_log:/var/opt/mssql/log'
+      - './db_volume/_log:/var/opt/mssql/secrets'
+    ports:
+      - "1450:1433"
+  attractionteka_server:
+    image: 12345flex402/attractiontekaserver
+    build:
+      context: ./Attractionteka.Backend
+      dockerfile: ../deploy/backend.dockerfile
+    depends_on:
+      sqldb:
+        condition: service_healthy
+    restart: on-failure
+    ports:
+      - "5000:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  attractionteka_client:
+    image: 12345flex402/attractiontekaclient
+    build:
+      context: ./Attractionteka.Frontend
+      dockerfile: ../deploy/frontend.dockerfile
+    environment:
+      NODE_OPTIONS: --openssl-legacy-provider
+    ports:
+      - "3000:3000"
+  
